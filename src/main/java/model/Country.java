@@ -1,12 +1,16 @@
 package model;
 
-public class Country {
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+
+public class Country extends Date {
     private int countryId;
     private String countryName;
 
-    public Country(int id, String country) {
-        this.countryId = id;
-        this.countryName = country;
+    public Country(int countryId, String countryName, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+        super(createDate, createdBy, lastUpdate, lastUpdatedBy);
+        this.countryId = countryId;
+        this.countryName = countryName;
     }
 
     public int getCountryId() {
