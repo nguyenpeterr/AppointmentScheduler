@@ -91,7 +91,7 @@
                         <Font size="14.0" />
                     </font>
                 </Label>
-                <Label fx:id="timeZone" layoutX="280.0" layoutY="244.0" text="String Time Zone">
+                <Label fx:id="timeZone" layoutX="280.0" layoutY="244.0" text="Local Time Zone">
                     <font>
                         <Font size="14.0" />
                     </font>

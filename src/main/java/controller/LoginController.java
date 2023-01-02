@@ -13,6 +13,7 @@ import model.Country;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZoneId;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -68,7 +69,7 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         rButtonEng.setSelected(true);
-
+        timeZone.setText(String.valueOf(ZoneId.systemDefault()));
     }
 
 }

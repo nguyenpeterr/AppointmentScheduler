@@ -1,14 +1,88 @@
 package controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 public class AppointmentController {
-    @FXML
-    private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private TextField appointmentIdField;
+    @FXML
+    private Label appointmentIdLabel;
+    @FXML
+    private Button cancelButton;
+    @FXML
+    private ComboBox<?> contactComboBox;
+    @FXML
+    private Label contactLabel;
+    @FXML
+    private TextField customerIdField;
+    @FXML
+    private Label customerIdLabel;
+    @FXML
+    private TextField descriptionField;
+    @FXML
+    private Label descriptionLabel;
+    @FXML
+    private Label endDateLabel;
+    @FXML
+    private DatePicker endDatePicker;
+    @FXML
+    private Label endTimeLabel;
+    @FXML
+    private Spinner<?> endTimeSpinner;
+    @FXML
+    private TextField locationField;
+    @FXML
+    private Label locationLabel;
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Label startDateLabel;
+    @FXML
+    private DatePicker startDatePicker;
+    @FXML
+    private Label startTimeLabel;
+    @FXML
+    private Spinner<?> startTimeSpinner;
+    @FXML
+    private TextField titleField;
+    @FXML
+    private Label titleLabel;
+    @FXML
+    private TextField typeField;
+    @FXML
+    private Label typeLabel;
+    @FXML
+    private TextField userIdField;
+    @FXML
+    private Label userIdLabel;
+
+    @FXML
+    void onCancelButton(ActionEvent event) {
+
     }
+
+    @FXML
+    void onEndSpinnerClick(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onSaveButton(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onStartSpinnerClick(MouseEvent event) {
+
+    }
+
 }
