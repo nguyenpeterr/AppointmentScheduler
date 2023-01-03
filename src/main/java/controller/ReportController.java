@@ -3,10 +3,7 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,52 +11,23 @@ import java.util.ResourceBundle;
 public class ReportController implements Initializable {
 
     @FXML
-    private TextField addressField;
+    private TableColumn<?, ?> column1;
     @FXML
-    private Label addressLabel;
+    private TableColumn<?, ?> column2;
     @FXML
-    private Button cancelButton;
+    private TableColumn<?, ?> column3;
     @FXML
-    private ComboBox<?> countryComboBox;
+    private TableColumn<?, ?> column4;
     @FXML
-    private Label countryLabel;
+    private TableColumn<?, ?> column5;
     @FXML
-    private TextField customerIdField;
+    private TableColumn<?, ?> column6;
     @FXML
-    private Label customerIdLabel;
+    private TableColumn<?, ?> column7;
     @FXML
-    private ComboBox<?> divisionComboBox;
+    private TableColumn<?, ?> column8;
     @FXML
-    private TextField nameField;
-    @FXML
-    private Label nameLabel;
-    @FXML
-    private TextField phoneField;
-    @FXML
-    private Label phoneLabel;
-    @FXML
-    private TextField postalCodeField;
-    @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Button saveButton;
-    @FXML
-    private Label stateLabel;
-
-    @FXML
-    void onCancelButton(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onCountryComboBox(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onSaveButton(ActionEvent event) {
-
-    }
+    private TableColumn<?, ?> column9;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

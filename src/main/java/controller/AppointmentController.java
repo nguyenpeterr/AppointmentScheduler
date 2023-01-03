@@ -2,6 +2,7 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -10,7 +11,10 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
-public class AppointmentController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AppointmentController implements Initializable {
 
     @FXML
     private TextField appointmentIdField;
@@ -85,4 +89,8 @@ public class AppointmentController {
 
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
 }
