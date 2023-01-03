@@ -7,10 +7,11 @@ import model.Country;
 
 import javax.xml.transform.Result;
 import java.sql.*;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class DBCountries {
-    public static ObservableList<String> getAllCountries() throws SQLException {
+    public static ObservableList<String> getAllUserNames() throws SQLException {
         ObservableList<String> clist = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM COUNTRIES";

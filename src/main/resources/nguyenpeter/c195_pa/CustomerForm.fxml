@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="429.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CustomerController">
+<AnchorPane prefHeight="429.0" prefWidth="320.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nguyenpeter.c195_pa.CustomerController">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d3eaff" height="522.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="699.0" />
         <GridPane layoutX="42.0" layoutY="56.0" prefHeight="410.0" prefWidth="389.0">

@@ -1,9 +1,10 @@
-package controller;
+package nguyenpeter.c195_pa;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;

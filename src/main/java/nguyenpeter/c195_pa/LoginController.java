@@ -1,5 +1,8 @@
-package controller;
+package nguyenpeter.c195_pa;
 
+import database.DBCountries;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.Node;
+import model.Country;
+import nguyenpeter.c195_pa.MainApplication;
 
 import java.io.IOException;
 import java.net.URL;
@@ -57,15 +63,25 @@ public class LoginController implements Initializable {
 
     @FXML
     void onLoginButton(ActionEvent event) throws SQLException, IOException {
-//        if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
-//            Alert alert = new Alert(Alert.AlertType.WARNING);
-//            alert.setContentText("Please enter a username or password");
-//            alert.show();
-//        }
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        if (rButtonEng.isSelected()) {
+            if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Please enter a username or password");
+                alert.show();
+            }
+            if (usernameTextField.getText().equals("test") && passwordField.getText().equals("test") ||
+                    usernameTextField.getText().equals("admin") && passwordField.getText().equals("admin")){
+                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Incorrect username or password");
+                alert.show();
+            }
+        }
+
     }
 
     @Override

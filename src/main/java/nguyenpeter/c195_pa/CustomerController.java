@@ -1,4 +1,4 @@
-package controller;
+package nguyenpeter.c195_pa;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
