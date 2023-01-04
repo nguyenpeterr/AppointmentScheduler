@@ -6,12 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -90,7 +85,7 @@ public class MainController implements Initializable {
     private Button logOutButton;
 
     @FXML
-    private ToggleGroup mainviewTG;
+    private ToggleGroup apptcustTG;
 
     @FXML
     private TableColumn<?, ?> phoneCol_c;
@@ -108,10 +103,10 @@ public class MainController implements Initializable {
     private RadioButton radioApptByWeek;
 
     @FXML
-    private RadioButton radioViewAppt;
+    private ToggleButton toggleAppointmentButton;
 
     @FXML
-    private RadioButton radioViewcustomer;
+    private ToggleButton toggleCustomerButton;
 
     @FXML
     private Label rectangleLabel;
@@ -202,18 +197,32 @@ public class MainController implements Initializable {
 
     }
 
-    @FXML
-    void onViewCustomerToggle(ActionEvent event) {
 
-    }
 
     @FXML
     void onWeekToggle(ActionEvent event) {
 
     }
 
+    @FXML
+    void onAppointmentToggle(ActionEvent event) {
+        appointmentTableView.setVisible(true);
+        appointmentTableView.setDisable(false);
+        customerTableView.setVisible(false);
+        customerTableView.setDisable(true);
+    }
+
+    @FXML
+    void onCustomerToggle(ActionEvent event) {
+        appointmentTableView.setVisible(false);
+        appointmentTableView.setDisable(true);
+        customerTableView.setVisible(true);
+        customerTableView.setDisable(false);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        toggleAppointmentButton.isSelected();
         timeZone.setText(String.valueOf(ZoneId.systemDefault()));
     }
 }

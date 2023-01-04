@@ -36,6 +36,9 @@ public class LoginController implements Initializable {
     private Button loginButton;
 
     @FXML
+    private Button exitButton;
+
+    @FXML
     private PasswordField passwordField;
 
     @FXML
@@ -69,19 +72,19 @@ public class LoginController implements Initializable {
                 alert.setContentText("Please enter a username or password");
                 alert.show();
             }
-            if (usernameTextField.getText().equals("test") && passwordField.getText().equals("test") ||
-                    usernameTextField.getText().equals("admin") && passwordField.getText().equals("admin")){
+//            if (usernameTextField.getText().equals("test") && passwordField.getText().equals("test") ||
+//                    usernameTextField.getText().equals("admin") && passwordField.getText().equals("admin")){
                 stage = (Stage)((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
                 stage.setScene(new Scene(scene));
                 stage.show();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText("Incorrect username or password");
-                alert.show();
-            }
+//            }
         }
+    }
 
+    @FXML
+    void onExitButton(ActionEvent event) {
+        System.exit(0);
     }
 
     @Override

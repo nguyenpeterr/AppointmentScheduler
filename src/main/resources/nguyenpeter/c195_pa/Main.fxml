@@ -8,13 +8,14 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="601.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nguyenpeter.c195_pa.MainController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nguyenpeter.c195_pa.MainController">
     <children>
         <Group>
             <children>
@@ -69,46 +70,46 @@
                         <Label fx:id="serverTimeZone" text="Server Time Zone string" />
                     </children>
                 </HBox>
-              <TableView fx:id="appointmentTableView" layoutX="2.0" layoutY="114.0" onMouseClicked="#onAppointmentTableViewClicked" prefHeight="365.0" prefWidth="981.0">
+              <TableView fx:id="appointmentTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onAppointmentTableViewClicked" prefHeight="365.0" prefWidth="982.0">
                   <columns>
-                      <TableColumn fx:id="appointmentIdCol_a" editable="false" prefWidth="105.0" sortable="false" text="Appointment_ID" />
-                      <TableColumn fx:id="titleCol_a" editable="false" prefWidth="70.0" sortable="false" text="Title" />
-                      <TableColumn fx:id="descriptionCol_a" editable="false" prefWidth="130.0" sortable="false" text="Description" />
-                      <TableColumn fx:id="locationCol_a" editable="false" prefWidth="81.0" sortable="false" text="Location" />
-                      <TableColumn fx:id="contactCol_a" editable="false" prefWidth="78.0" sortable="false" text="Contact" />
-                      <TableColumn fx:id="typeCol_a" editable="false" prefWidth="71.0" sortable="false" text="Type" />
-                      <TableColumn fx:id="startCol_a" editable="false" minWidth="9.0" prefWidth="129.0" sortable="false" text="Start" />
-                      <TableColumn fx:id="endCol_a" editable="false" prefWidth="128.0" sortable="false" text="End" />
-                      <TableColumn fx:id="customerIdCol_a" editable="false" minWidth="0.0" prefWidth="82.0" sortable="false" text="Customer_ID" />
-                      <TableColumn fx:id="userIdCol_a" editable="false" prefWidth="77.0" sortable="false" text="User_ID" />
+                      <TableColumn fx:id="appointmentIdCol_a" editable="false" prefWidth="97.16667175292969" sortable="false" text="Appointment ID" />
+                      <TableColumn fx:id="titleCol_a" editable="false" prefWidth="91.83332824707031" sortable="false" text="Title" />
+                      <TableColumn fx:id="descriptionCol_a" editable="false" prefWidth="98.33334350585938" sortable="false" text="Type" />
+                      <TableColumn fx:id="locationCol_a" editable="false" prefWidth="106.66665649414062" sortable="false" text="Location" />
+                      <TableColumn fx:id="contactCol_a" editable="false" prefWidth="92.83334350585938" sortable="false" text="Contact" />
+                      <TableColumn fx:id="typeCol_a" editable="false" prefWidth="124.66668701171875" sortable="false" text="Description" />
+                      <TableColumn fx:id="startCol_a" editable="false" minWidth="9.0" prefWidth="106.0" sortable="false" text="Start" />
+                      <TableColumn fx:id="endCol_a" editable="false" prefWidth="107.16668701171875" sortable="false" text="End" />
+                      <TableColumn fx:id="customerIdCol_a" editable="false" minWidth="0.0" prefWidth="85.0" sortable="false" text="Customer_ID" />
+                      <TableColumn fx:id="userIdCol_a" editable="false" prefWidth="70.5" sortable="false" text="User_ID" />
                   </columns>
               </TableView>
-            <HBox layoutX="49.0" layoutY="66.0" prefHeight="19.0" prefWidth="272.0" spacing="25.0">
+              <TableView fx:id="customerTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onCustomerTableViewClicked" prefHeight="365.0" prefWidth="982.0" visible="false">
+                  <columns>
+                      <TableColumn fx:id="customerIdCol_c" editable="false" prefWidth="78.66666412353516" sortable="false" text="Customer ID" />
+                      <TableColumn fx:id="customerNameCol_c" editable="false" prefWidth="116.83332824707031" sortable="false" text="Customer Name" />
+                      <TableColumn fx:id="addressCol_c" editable="false" prefWidth="120.5" sortable="false" text="Address" />
+                      <TableColumn fx:id="postalCodeCol_c" editable="false" prefWidth="78.33334350585938" sortable="false" text="Postal_Code" />
+                      <TableColumn fx:id="phoneCol_c" editable="false" prefWidth="96.16665649414062" sortable="false" text="Phone" />
+                      <TableColumn fx:id="createDateCol_c" editable="false" prefWidth="105.83331298828125" sortable="false" text="Create Date" />
+                      <TableColumn fx:id="createdByCol_c" editable="false" minWidth="0.0" prefWidth="106.66668701171875" sortable="false" text="Created By" />
+                      <TableColumn fx:id="lastUpdateCol_c" editable="false" prefWidth="103.83331298828125" sortable="false" text="Last Update" />
+                      <TableColumn fx:id="lastUpdatedByCol_c" editable="false" prefWidth="98.16668701171875" sortable="false" text="Last Updated By" />
+                      <TableColumn fx:id="divisionIdCol_c" editable="false" prefWidth="78.6666259765625" sortable="false" text="Division ID" />
+                  </columns>
+              </TableView>
+            <HBox layoutX="49.0" layoutY="66.0" prefHeight="19.0" prefWidth="272.0" spacing="10.0">
                <children>
-                  <RadioButton fx:id="radioViewAppt" mnemonicParsing="false" selected="true" text="View Appointments">
+                  <ToggleButton fx:id="toggleAppointmentButton" mnemonicParsing="false" onAction="#onAppointmentToggle" selected="true" text="Viet Appointments">
                      <toggleGroup>
-                        <ToggleGroup fx:id="mainviewTG" />
+                        <ToggleGroup fx:id="apptcustTG" />
                      </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="radioViewcustomer" mnemonicParsing="false" onAction="#onViewCustomerToggle" text="View Customers" toggleGroup="$mainviewTG" />
+                  </ToggleButton>
+                  <ToggleButton fx:id="toggleCustomerButton" mnemonicParsing="false" onAction="#onCustomerToggle" text="View Customers" toggleGroup="$apptcustTG" />
                </children>
             </HBox>
             </children>
         </Group>
-        <TableView fx:id="customerTableView" disable="true" layoutX="4.0" layoutY="50.0" onMouseClicked="#onCustomerTableViewClicked" prefHeight="365.0" prefWidth="952.0" visible="false">
-            <columns>
-                <TableColumn fx:id="customerIdCol_c" editable="false" sortable="false" text="Customer_ID" />
-                <TableColumn fx:id="customerNameCol_c" editable="false" prefWidth="130.0" sortable="false" text="Customer_Name" />
-                <TableColumn fx:id="addressCol_c" editable="false" prefWidth="160.0" sortable="false" text="Address" />
-                <TableColumn fx:id="postalCodeCol_c" editable="false" prefWidth="91.0" sortable="false" text="Postal_Code" />
-                <TableColumn fx:id="phoneCol_c" editable="false" prefWidth="98.0" sortable="false" text="Phone" />
-                <TableColumn fx:id="createDateCol_c" editable="false" sortable="false" text="Create_Date" />
-                <TableColumn fx:id="createdByCol_c" editable="false" minWidth="0.0" prefWidth="61.0" sortable="false" text="Created_By" />
-                <TableColumn fx:id="lastUpdateCol_c" editable="false" prefWidth="65.0" sortable="false" text="Last_Update" />
-                <TableColumn fx:id="lastUpdatedByCol_c" editable="false" prefWidth="103.0" sortable="false" text="Last_Updated_By" />
-                <TableColumn fx:id="divisionIdCol_c" editable="false" prefWidth="83.0" sortable="false" text="Division_ID" />
-            </columns>
-        </TableView>
         <Group layoutX="4.0" layoutY="4.0" visible="false">
             <children>
                 <Rectangle fx:id="appointmentRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="952.0" />
