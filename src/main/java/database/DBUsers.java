@@ -10,7 +10,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public class DBUsers {
-    public static ObservableList<String> getAllCountries() throws SQLException {
+    public static ObservableList<String> getAllUsers() throws SQLException {
         ObservableList<String> userNameList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM USERS";
@@ -20,7 +20,7 @@ public class DBUsers {
             int userId = rs.getInt("User_ID");
             String userName = rs.getString("User_Name");
             String userPassword = rs.getString("Password");
-            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+//            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
 
         }
         return userNameList;
