@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 
 import java.sql.*;
 
-public class DBCountries {
+public abstract class DBCountries {
     public static ObservableList<String> getAllUserNames() throws SQLException {
         ObservableList<String> clist = FXCollections.observableArrayList();
 

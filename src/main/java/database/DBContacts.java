@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBContacts {
+public abstract class DBContacts {
     public static ObservableList<String> getAllContacts() throws SQLException {
         ObservableList<String> contactsList = FXCollections.observableArrayList();
 

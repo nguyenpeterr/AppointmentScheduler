@@ -145,8 +145,18 @@ public class MainController implements Initializable {
     private ToggleGroup viewTG;
 
     @FXML
-    void onAddButton(ActionEvent event) {
-
+    void onAddButton(ActionEvent event) throws IOException{
+        if(toggleAppointmentButton.isSelected()) {
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } else {
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
     @FXML

@@ -1,5 +1,6 @@
 package nguyenpeter.c195_pa;
 
+import database.DBUsers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,14 +66,14 @@ public class LoginController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("Please enter a username or password");
                 alert.show();
+            } else {
+                if (DBUsers.login(usernameTextField.getText(), passwordField.getText())) {
+                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                    scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
+                    stage.setScene(new Scene(scene));
+                    stage.show();
+                }
             }
-//            if (usernameTextField.getText().equals("test") && passwordField.getText().equals("test") ||
-//                    usernameTextField.getText().equals("admin") && passwordField.getText().equals("admin")){
-                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.show();
-//            }
         }
     }
 

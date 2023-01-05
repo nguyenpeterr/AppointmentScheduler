@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-public class DBCustomers {
+public abstract class DBCustomers {
     public static ObservableList<String> getAllCustomers() throws SQLException {
         ObservableList<String> customerList = FXCollections.observableArrayList();
 

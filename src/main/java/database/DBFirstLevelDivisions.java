@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBFirstLevelDivisions {
+public abstract class DBFirstLevelDivisions {
     public static ObservableList<String> getAllDivisions() throws SQLException {
         ObservableList<String> divisionsList = FXCollections.observableArrayList();
 

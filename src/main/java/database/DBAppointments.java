@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBAppointments {
+public abstract class DBAppointments {
     public static ObservableList<String> getAllAppointments() throws SQLException {
         ObservableList<String> appointmentsList = FXCollections.observableArrayList();
 
