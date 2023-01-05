@@ -1,8 +1,5 @@
 package nguyenpeter.c195_pa;
 
-import database.DBCountries;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.Node;
-import model.Country;
-import nguyenpeter.c195_pa.MainApplication;
 
 import java.io.IOException;
 import java.net.URL;

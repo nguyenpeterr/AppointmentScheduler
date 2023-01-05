@@ -3,11 +3,11 @@ package model;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
-public class Country extends Date {
+public class Countries extends Date {
     private int countryId;
     private String countryName;
 
-    public Country(int countryId, String countryName, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Countries(int countryId, String countryName, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.countryId = countryId;
         this.countryName = countryName;
