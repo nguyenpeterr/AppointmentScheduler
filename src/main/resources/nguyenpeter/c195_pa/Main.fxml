@@ -55,7 +55,7 @@
                         <ToggleGroup fx:id="viewTG" />
                      </toggleGroup></RadioButton>
                         <RadioButton fx:id="radioApptByWeek" mnemonicParsing="false" onAction="#onWeekToggle" prefHeight="18.0" prefWidth="109.0" text="View by Week" toggleGroup="$viewTG" />
-                        <RadioButton fx:id="radioAllAppt" mnemonicParsing="false" onAction="#onAllAppointmentsRadio" prefHeight="17.0" prefWidth="94.0" text="View All" toggleGroup="$viewTG" />
+                        <RadioButton fx:id="radioAllAppt" mnemonicParsing="false" onAction="#onViewAllRadio" prefHeight="17.0" prefWidth="94.0" text="View All" toggleGroup="$viewTG" />
                     </children>
                     <opaqueInsets>
                         <Insets />
