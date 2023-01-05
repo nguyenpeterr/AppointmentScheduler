@@ -74,7 +74,7 @@
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding></Button>
-      <Label layoutX="275.0" layoutY="28.0" text="Add Appointments">
+      <Label fx:id="addApptLabel" layoutX="275.0" layoutY="28.0" text="Add Appointments">
          <font>
             <Font size="25.0" />
          </font>

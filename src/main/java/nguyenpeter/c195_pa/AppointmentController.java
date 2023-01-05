@@ -25,6 +25,8 @@ public class AppointmentController implements Initializable {
     Parent scene;
 
     @FXML
+    private Label addApptLabel;
+    @FXML
     private TextField appointmentIdField;
     @FXML
     private Label appointmentIdLabel;

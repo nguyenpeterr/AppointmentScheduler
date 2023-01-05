@@ -62,7 +62,7 @@
             <Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
          </padding>
       </Button>
-      <Label layoutX="289.0" layoutY="30.0" text="Add Customer">
+      <Label fx:id="addCustomerLabel" layoutX="289.0" layoutY="30.0" text="Add Customer">
          <font>
             <Font size="20.0" />
          </font>

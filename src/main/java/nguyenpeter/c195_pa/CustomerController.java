@@ -21,6 +21,9 @@ public class CustomerController implements Initializable {
     Stage stage;
     Parent scene;
 
+
+    @FXML
+    private Label addCustomerLabel;
     @FXML
     private TextField addressField;
     @FXML

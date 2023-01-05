@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.Appointments;
 
 import java.io.IOException;
 import java.net.URL;
@@ -198,8 +199,11 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void onReportsButton(ActionEvent event) {
-
+    void onReportsButton(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(MainController.class.getResource("Report.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
@@ -229,6 +233,10 @@ public class MainController implements Initializable {
         customerTableView.setVisible(true);
         customerTableView.setDisable(false);
     }
+
+//    public void sendAppointment(Appointments appointments) {
+//        appointments
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
