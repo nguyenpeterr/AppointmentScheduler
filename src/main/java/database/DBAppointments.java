@@ -3,12 +3,14 @@ package database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableFloatArray;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import model.Appointments;
 import util.TimeZones;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -101,6 +103,54 @@ public abstract class DBAppointments {
             catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void updateAppointment(Appointments appointment) {
+        try{
+            String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " + "" +
+                    "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
+                    appointment.getAppointmentId();
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ps.setString(1, appointment.getTitle());
+            ps.setString(2, appointment.getDescription());
+            ps.setString(3, appointment.getLocation());
+            ps.setString(4, appointment.getType());
+            ps.setTimestamp(5, TimeZones.timestamp(appointment.getStart()));
+            ps.setTimestamp(6, TimeZones.timestamp(appointment.getEnd()));
+            ps.setTimestamp(7, TimeZones.timestamp(appointment.getCreateDate()));
+            ps.setString(8, appointment.getCreatedBy());
+            ps.setTimestamp(9, TimeZones.timestamp(appointment.getLastUpdate()));
+            ps.setString(10, appointment.getLastUpdatedBy());
+            ps.setInt(11, appointment.getCustomerId());
+            ps.setInt(12, appointment.getUserId());
+            ps.setInt(13, appointment.getContactId());
+            ps.execute();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void removeCustomerAppts(ObservableList<Appointments> appointment, int customerId) {
+        try {
+            for (Appointments a : appointment) {
+                if(a.getCustomerId() == customerId) {
+                    removeAppointment(a.getCustomerId());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Successful");
+                    alert.setContentText("Successfully removed!");
+                    alert.show();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Failed");
+                    alert.setContentText("Unable to remove!");
+                    alert.show();
+                }
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
