@@ -1,5 +1,6 @@
 package util;
 
+import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -53,6 +54,10 @@ public class TimeZones {
     public static String convertToLocal() {
         myZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), localZoneId);
         return myZDT.format(zonedDateFormatter);
+    }
+
+    public static Timestamp timestamp(ZonedDateTime timestamp) {
+        return Timestamp.valueOf(dateTimeFormatter.format(timestamp));
     }
 
 

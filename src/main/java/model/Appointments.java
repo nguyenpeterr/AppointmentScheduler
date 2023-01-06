@@ -15,6 +15,7 @@ public class Appointments extends Date {
     private int customerId;
     private int contactId;
 
+
     public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
                         ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int customerId, int userid, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
@@ -64,4 +65,45 @@ public class Appointments extends Date {
     public void setType(String type) {
         this.type = type;
     }
+
+    public ZonedDateTime getStart() {
+        return start;
+    }
+
+    public void setStart(ZonedDateTime start) {
+        this.start = start;
+    }
+
+    public ZonedDateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(ZonedDateTime end) {
+        this.end = end;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
 }
+

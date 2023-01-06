@@ -3,14 +3,17 @@ package database;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import model.Users;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public abstract class DBUsers {
-    public static ObservableList<String> getAllUsers() throws SQLException {
-        ObservableList<String> userNameList = FXCollections.observableArrayList();
+    public static ObservableList<Users> getAllUsers() throws SQLException {
+        ObservableList<Users> userNameList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM USERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -19,7 +22,12 @@ public abstract class DBUsers {
             int userId = rs.getInt("User_ID");
             String userName = rs.getString("User_Name");
             String userPassword = rs.getString("Password");
-//            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            String createdBy = rs.getString("Created_By");
+            ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            Users users = new Users(userId, userName, userPassword, createDate, createdBy, lastUpdate, lastUpdatedBy);
+            userNameList.add(users);
 
         }
         return userNameList;

@@ -3,13 +3,12 @@ package model;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
-public class Contacts extends Date {
+public class Contacts {
     private int contactId;
     private String contactName;
     private String contactEmail;
 
-    public Contacts(int contactId, String contactName, String contactEmail, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
-        super(createDate, createdBy, lastUpdate, lastUpdatedBy);
+    public Contacts(int contactId, String contactName, String contactEmail) {
         this.contactId = contactId;
         this.contactName = contactName;
         this.contactEmail = contactEmail;

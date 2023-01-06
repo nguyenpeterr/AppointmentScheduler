@@ -2,14 +2,15 @@ package database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Contacts;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public abstract class DBContacts {
-    public static ObservableList<String> getAllContacts() throws SQLException {
-        ObservableList<String> contactsList = FXCollections.observableArrayList();
+    public static ObservableList<Contacts> getAllContacts() throws SQLException {
+        ObservableList<Contacts> contactsList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM CONTACTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -18,7 +19,8 @@ public abstract class DBContacts {
             int contactId = rs.getInt("Contact_ID");
             String contactName = rs.getString("Contact_Name");
             String contactEmail = rs.getString("Email");
-//            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            Contacts contact = new Contacts(contactId, contactName, contactEmail);
+            contactsList.add(contact);
 
         }
         return contactsList;

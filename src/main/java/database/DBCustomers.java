@@ -23,8 +23,14 @@ public abstract class DBCustomers {
             String customerAddress = rs.getString("Address");
             String customerPostalCode = rs.getString("Postal_Code");
             String customerPhoneNumber = rs.getString("Phone");
-//            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
-
+            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            String createdBy = rs.getString("Created_By");
+            ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
+            int divisionId = rs.getInt("Division_ID");
+            Customers customer = new Customers(customerId, customerName, customerAddress, customerPostalCode, customerPhoneNumber,
+                    createDate, createdBy, lastUpdate, lastUpdatedBy, divisionId);
+            customerList.add(customer);
         }
         return customerList;
     }

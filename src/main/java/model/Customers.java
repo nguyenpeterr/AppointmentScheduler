@@ -9,14 +9,24 @@ public class Customers extends Date {
     private String customerAddress;
     private String customerPostalCode;
     private String customerPhoneNumber;
+    private int divisonId;
 
-    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
+    public int getDivisonId() {
+        return divisonId;
+    }
+
+    public void setDivisonId(int divisonId) {
+        this.divisonId = divisonId;
+    }
+
+    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
             this.customerId = customerId;
             this.customerName = customerName;
             this.customerAddress = customerAddress;
             this.customerPostalCode = customerPostalCode;
             this.customerPhoneNumber = customerPhoneNumber;
+            this.divisonId = divisionId;
     }
 
     public int getCustomerId() {

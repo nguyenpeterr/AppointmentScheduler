@@ -1,6 +1,7 @@
 package nguyenpeter.c195_pa;
 
 import database.DBAppointments;
+import database.DBCustomers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Appointments;
+import model.Customers;
 import util.TimeZones;
 
 import java.io.IOException;
@@ -39,6 +41,7 @@ public class MainController implements Initializable {
     Stage stage;
     Parent scene;
     public ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+    public ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
     /**
      * Table columns are labeled representing data from the database.
@@ -68,7 +71,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<?, ?> customerNameCol_c;
     @FXML
-    private TableView<?> customerTableView;
+    private TableView<Customers> customerTableView;
     @FXML
     private Button deleteButton;
     @FXML
@@ -240,6 +243,14 @@ public class MainController implements Initializable {
             }
             appointmentTableView.setItems(appointmentsList);
         }
+        if(toggleCustomerButton.isSelected()) {
+            try {
+                customersList = DBCustomers.getAllCustomers();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            customerTableView.setItems(customersList);
+        }
     }
 
 
@@ -250,6 +261,7 @@ public class MainController implements Initializable {
         serverTimeZone.setText(TimeZones.getUTCTime() + " - " + TimeZones.getUTCZone());
 
         tableViewSetup();
+
 
 //        appointmentIdCol_a.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
 //        titleCol_a.setCellValueFactory(new PropertyValueFactory<>("title"));
