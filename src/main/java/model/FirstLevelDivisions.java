@@ -8,7 +8,7 @@ public class FirstLevelDivisions extends Date {
     private String division;
 
 
-    public FirstLevelDivisions(int divisionId, String division, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public FirstLevelDivisions(int divisionId, String division, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.divisionId = divisionId;
         this.division = division;

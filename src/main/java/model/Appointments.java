@@ -9,8 +9,14 @@ public class Appointments extends Date {
     private String description;
     private String location;
     private String type;
+    private ZonedDateTime start;
+    private ZonedDateTime end;
+    private int userId;
+    private int customerId;
+    private int contactId;
 
-    public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
+                        ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int customerId, int userid, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.appointmentId = appointmentId;
         this.title = title;

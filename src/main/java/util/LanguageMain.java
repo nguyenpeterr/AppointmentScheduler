@@ -1,4 +1,4 @@
-package langproperty;
+package util;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

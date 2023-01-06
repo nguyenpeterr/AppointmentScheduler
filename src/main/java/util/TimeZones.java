@@ -39,8 +39,6 @@ public class TimeZones {
     }
 
     public static String convertToUTC() {
-//        ZoneId utcZoneId = ZoneId.of("UTC");
-//        ZonedDateTime utcZDT = ZonedDateTime.ofInstant(myZDT.toInstant(), utcZoneId);
         return utcZDT.format(zonedDateFormatter);
     }
 
@@ -53,8 +51,6 @@ public class TimeZones {
     }
 
     public static String convertToLocal() {
-//        ZoneId utcZoneId = ZoneId.of("UTC");
-//        ZonedDateTime utcZDT = ZonedDateTime.ofInstant(myZDT.toInstant(), utcZoneId);
         myZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), localZoneId);
         return myZDT.format(zonedDateFormatter);
     }

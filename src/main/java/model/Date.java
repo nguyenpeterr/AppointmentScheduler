@@ -2,15 +2,14 @@ package model;
 
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
-import java.time.LocalDateTime;
 
 public class Date {
     private ZonedDateTime createDate;
-    private Timestamp lastUpdate;
+    private ZonedDateTime lastUpdate;
     private String createdBy;
     private String lastUpdatedBy;
 
-    public Date (ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Date (ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
@@ -25,11 +24,11 @@ public class Date {
         this.createDate = createDate;
     }
 
-    public Timestamp getLastUpdate() {
+    public ZonedDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(ZonedDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

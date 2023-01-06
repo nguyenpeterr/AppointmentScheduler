@@ -8,7 +8,7 @@ public class Users extends Date {
     private String userName;
     private String userPassword;
 
-    public Users(int userId, String userName, String userPassword, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Users(int userId, String userName, String userPassword, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.userId = userId;
         this.userName = userName;

@@ -8,7 +8,7 @@ public class Contacts extends Date {
     private String contactName;
     private String contactEmail;
 
-    public Contacts(int contactId, String contactName, String contactEmail, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Contacts(int contactId, String contactName, String contactEmail, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.contactId = contactId;
         this.contactName = contactName;

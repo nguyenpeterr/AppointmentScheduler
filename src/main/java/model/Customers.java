@@ -10,7 +10,7 @@ public class Customers extends Date {
     private String customerPostalCode;
     private String customerPhoneNumber;
 
-    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
             this.customerId = customerId;
             this.customerName = customerName;

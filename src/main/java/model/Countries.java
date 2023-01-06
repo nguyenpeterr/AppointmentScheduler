@@ -7,7 +7,7 @@ public class Countries extends Date {
     private int countryId;
     private String countryName;
 
-    public Countries(int countryId, String countryName, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
+    public Countries(int countryId, String countryName, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.countryId = countryId;
         this.countryName = countryName;
