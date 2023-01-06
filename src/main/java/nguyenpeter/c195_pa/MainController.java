@@ -1,5 +1,10 @@
 package nguyenpeter.c195_pa;
 
+import controller.AppointmentController;
+import database.DBAppointments;
+import database.DBCustomers;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,14 +12,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Appointments;
+import model.Customers;
+import util.TimeZones;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.ZoneId;
+import java.sql.SQLException;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -33,6 +43,8 @@ public class MainController implements Initializable {
      */
     Stage stage;
     Parent scene;
+    public ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
+    public ObservableList<Customers> allCustomers = FXCollections.observableArrayList();
     /**
      * Table columns are labeled representing data from the database.
      * Radio buttons are for users to select for viewing certain data
@@ -187,8 +199,18 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void onUpdateButton(ActionEvent event) {
-
+    void onUpdateButton(ActionEvent event) throws IOException{
+        if(toggleAppointmentButton.isSelected()) {
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        } else {
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+        }
     }
 
 
@@ -214,13 +236,23 @@ public class MainController implements Initializable {
         customerTableView.setDisable(false);
     }
 
-//    public void sendAppointment(Appointments appointments) {
-//        appointments
+//    public void tableView() {
+//        try {
+//            allAppointments = DBAppointments.getAllAppointments();
+//            allCustomers = DBCustomers.getAllCustomers();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
 //    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        toggleAppointmentButton.isSelected();
-        timeZone.setText(String.valueOf(ZoneId.systemDefault()));
+        timeZone.setText(TimeZones.getLocalTime() + " - " + TimeZones.getLocalTimeZone());
+        serverTimeZone.setText(TimeZones.getUTCTime() + " - " + TimeZones.getUTCZone());
+        if(toggleAppointmentButton.isSelected()) {
+        }
+
     }
 }

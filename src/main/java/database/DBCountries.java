@@ -7,17 +7,17 @@ import javafx.collections.FXCollections;
 import java.sql.*;
 
 public abstract class DBCountries {
-    public static ObservableList<String> getAllUserNames() throws SQLException {
-        ObservableList<String> clist = FXCollections.observableArrayList();
+    public static ObservableList<String> getAllCountries() throws SQLException {
+        ObservableList<String> countryList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM COUNTRIES";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         while(rs.next()) {
             String countryName = rs.getString("Country");
-            clist.add(countryName);
+            countryList.add(countryName);
         }
-        return clist;
+        return countryList;
     }
 
 

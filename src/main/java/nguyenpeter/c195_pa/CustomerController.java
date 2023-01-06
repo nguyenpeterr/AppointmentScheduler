@@ -23,8 +23,6 @@ public class CustomerController implements Initializable {
 
 
     @FXML
-    private Label addCustomerLabel;
-    @FXML
     private TextField addressField;
     @FXML
     private Label addressLabel;

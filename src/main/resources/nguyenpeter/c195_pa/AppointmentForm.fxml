@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="648.0" prefWidth="742.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nguyenpeter.c195_pa.AppointmentController">
     <children>
@@ -74,10 +73,5 @@
          <padding>
             <Insets bottom="10.0" left="40.0" right="40.0" top="10.0" />
          </padding></Button>
-      <Label fx:id="addApptLabel" layoutX="275.0" layoutY="28.0" text="Add Appointments">
-         <font>
-            <Font size="25.0" />
-         </font>
-      </Label>
     </children>
 </AnchorPane>

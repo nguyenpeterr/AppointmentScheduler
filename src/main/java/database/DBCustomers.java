@@ -2,6 +2,7 @@ package database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.Customers;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +11,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 public abstract class DBCustomers {
-    public static ObservableList<String> getAllCustomers() throws SQLException {
-        ObservableList<String> customerList = FXCollections.observableArrayList();
+    public static ObservableList<Customers> getAllCustomers() throws SQLException {
+        ObservableList<Customers> customerList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

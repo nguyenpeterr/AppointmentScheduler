@@ -2,14 +2,16 @@ package database;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+import model.Appointments;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 public abstract class DBAppointments {
-    public static ObservableList<String> getAllAppointments() throws SQLException {
-        ObservableList<String> appointmentsList = FXCollections.observableArrayList();
+    public static ObservableList<Appointments> getAllAppointments() throws SQLException {
+        ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
 
         String sql = "SELECT * FROM APPOINTMENTS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -23,7 +25,10 @@ public abstract class DBAppointments {
             int customerId = rs.getInt("Customer_ID");
             int userId = rs.getInt("User_ID");
             int contactId = rs.getInt("Contact_ID");
-//            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
+            String createdBy = rs.getString("Created_By");
+            ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+            String lastUpdatedBy = rs.getString("Last_Updated_By");
 
         }
         return appointmentsList;
