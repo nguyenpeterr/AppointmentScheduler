@@ -68,7 +68,7 @@ public abstract class DBCustomers {
                 ps.setString(7, customer.getCreatedBy());
                 ps.setTimestamp(8, TimeZones.timestamp(customer.getLastUpdate()));
                 ps.setString(9, customer.getLastUpdatedBy());
-                ps.setInt(10, customer.getDivisonId());
+                ps.setInt(10, customer.getDivisionId());
                 ps.execute();
             }
             catch (SQLException e) {
@@ -101,7 +101,7 @@ public abstract class DBCustomers {
             ps.setString(6, customer.getCreatedBy());
             ps.setTimestamp(7, TimeZones.timestamp(customer.getLastUpdate()));
             ps.setString(8, customer.getLastUpdatedBy());
-            ps.setInt(9, customer.getDivisonId());
+            ps.setInt(9, customer.getDivisionId());
             ps.execute();
         }
         catch (SQLException e) {

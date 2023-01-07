@@ -1,5 +1,8 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
@@ -11,19 +14,35 @@ public class Appointments extends Date {
     private String type;
     private ZonedDateTime start;
     private ZonedDateTime end;
+    private ZonedDateTime createDate;
+    private String createdBy;
+    private ZonedDateTime lastUpdate;
+    private String lastUpdatedBy;
     private int userId;
     private int customerId;
     private int contactId;
 
+    public static ObservableList<Appointments> thAppointmentsList = FXCollections.observableArrayList();
+
 
     public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
-                        ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int customerId, int userid, int contactId) {
+                        ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.appointmentId = appointmentId;
         this.title = title;
         this.description = description;
         this.location = location;
         this.type = type;
+        this.start = start;
+        this.end = end;
+        this.createDate = createDate;
+        this.createdBy = createdBy;
+        this.lastUpdate = lastUpdate;
+        this.lastUpdatedBy = lastUpdatedBy;
+        this.customerId = customerId;
+        this.userId = userId;
+        this.contactId = contactId;
+
     }
 
     public int getAppointmentId() {
@@ -80,6 +99,46 @@ public class Appointments extends Date {
 
     public void setEnd(ZonedDateTime end) {
         this.end = end;
+    }
+
+    @Override
+    public ZonedDateTime getCreateDate() {
+        return createDate;
+    }
+
+    @Override
+    public void setCreateDate(ZonedDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    @Override
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @Override
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Override
+    public ZonedDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    @Override
+    public void setLastUpdate(ZonedDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String getLastUpdatedBy() {
+        return lastUpdatedBy;
+    }
+
+    @Override
+    public void setLastUpdatedBy(String lastUpdatedBy) {
+        this.lastUpdatedBy = lastUpdatedBy;
     }
 
     public int getUserId() {

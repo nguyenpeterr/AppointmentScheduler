@@ -9,15 +9,7 @@ public class Customers extends Date {
     private String customerAddress;
     private String customerPostalCode;
     private String customerPhoneNumber;
-    private int divisonId;
-
-    public int getDivisonId() {
-        return divisonId;
-    }
-
-    public void setDivisonId(int divisonId) {
-        this.divisonId = divisonId;
-    }
+    private int divisionId;
 
     public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
@@ -26,7 +18,7 @@ public class Customers extends Date {
             this.customerAddress = customerAddress;
             this.customerPostalCode = customerPostalCode;
             this.customerPhoneNumber = customerPhoneNumber;
-            this.divisonId = divisionId;
+            this.divisionId = divisionId;
     }
 
     public int getCustomerId() {
@@ -68,4 +60,14 @@ public class Customers extends Date {
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
         this.customerPhoneNumber = customerPhoneNumber;
     }
+
+
+    public int getDivisionId() {
+        return divisionId;
+    }
+
+    public void setDivisionId(int divisionId) {
+        this.divisionId = divisionId;
+    }
+
 }

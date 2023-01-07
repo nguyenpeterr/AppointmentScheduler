@@ -40,8 +40,6 @@ public class MainController implements Initializable {
      */
     Stage stage;
     Parent scene;
-    public ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
-    public ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
     /**
      * Table columns are labeled representing data from the database.
@@ -51,7 +49,7 @@ public class MainController implements Initializable {
     @FXML
     private Button addButton;
     @FXML
-    private TableColumn<?, ?> addressCol_c;
+    private TableColumn<?, ?> addressCol;
     @FXML
     private TableColumn<?, ?> appointmentIdCol_a;
     @FXML
@@ -61,15 +59,15 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<?, ?> contactCol_a;
     @FXML
-    private TableColumn<?, ?> createDateCol_c;
+    private TableColumn<?, ?> custCreateDateCol;
     @FXML
-    private TableColumn<?, ?> createdByCol_c;
+    private TableColumn<?, ?> custCreatedByCol;
+    @FXML
+    private TableColumn<?, ?> customerIdCol;
     @FXML
     private TableColumn<?, ?> customerIdCol_a;
     @FXML
-    private TableColumn<?, ?> customerIdCol_c;
-    @FXML
-    private TableColumn<?, ?> customerNameCol_c;
+    private TableColumn<?, ?> customerNameCol;
     @FXML
     private TableView<Customers> customerTableView;
     @FXML
@@ -79,13 +77,13 @@ public class MainController implements Initializable {
     @FXML
     private Button dismissRectangleButton;
     @FXML
-    private TableColumn<?, ?> divisionIdCol_c;
+    private TableColumn<?, ?> custDivisionIdCol;
     @FXML
     private TableColumn<?, ?> endCol_a;
     @FXML
-    private TableColumn<?, ?> lastUpdateCol_c;
+    private TableColumn<?, ?> custLastUpdateCol;
     @FXML
-    private TableColumn<?, ?> lastUpdatedByCol_c;
+    private TableColumn<?, ?> custLastUpdatedByCol;
     @FXML
     private TableColumn<?, ?> locationCol_a;
     @FXML
@@ -93,9 +91,9 @@ public class MainController implements Initializable {
     @FXML
     private ToggleGroup apptcustTG;
     @FXML
-    private TableColumn<?, ?> phoneCol_c;
+    private TableColumn<?, ?> phoneCol;
     @FXML
-    private TableColumn<?, ?> postalCodeCol_c;
+    private TableColumn<?, ?> postalCodeCol;
     @FXML
     private RadioButton radioAllAppt;
     @FXML
@@ -130,6 +128,9 @@ public class MainController implements Initializable {
     private TableColumn<?, ?> userIdCol_a;
     @FXML
     private ToggleGroup viewTG;
+
+    public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+    public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
 
     @FXML
     void onAddButton(ActionEvent event) throws IOException{
@@ -193,6 +194,7 @@ public class MainController implements Initializable {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(MainController.class.getResource("Report.fxml"));
         stage.setScene(new Scene(scene));
+        stage.setTitle("Reports");
         stage.show();
     }
 
@@ -202,11 +204,20 @@ public class MainController implements Initializable {
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
             stage.setScene(new Scene(scene));
+            stage.setTitle("Appointment Form");
             stage.show();
-        } else {
+        }
+//        else {
+//            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+//            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
+//            stage.setScene(new Scene(scene));
+//            stage.show();
+//        }
+        if (toggleCustomerButton.isSelected()) {
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
             stage.setScene(new Scene(scene));
+            stage.setTitle("Customer Form");
             stage.show();
         }
     }
@@ -224,6 +235,13 @@ public class MainController implements Initializable {
         appointmentTableView.setDisable(false);
         customerTableView.setVisible(false);
         customerTableView.setDisable(true);
+
+        try {
+            appointmentsList = DBAppointments.getAllAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        appointmentTableView.setItems(appointmentsList);
     }
 
     @FXML
@@ -235,22 +253,16 @@ public class MainController implements Initializable {
     }
 
     public void tableViewSetup() {
-        if(toggleAppointmentButton.isSelected()) {
-            try {
-                appointmentsList = DBAppointments.getAllAppointments();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            appointmentTableView.setItems(appointmentsList);
+        appointmentTableView.setVisible(true);
+        customerTableView.setVisible(false);
+        try {
+            appointmentsList = DBAppointments.getAllAppointments();
+            customersList = DBCustomers.getAllCustomers();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        if(toggleCustomerButton.isSelected()) {
-            try {
-                customersList = DBCustomers.getAllCustomers();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            customerTableView.setItems(customersList);
-        }
+        appointmentTableView.setItems(appointmentsList);
+        customerTableView.setItems(customersList);
     }
 
 
@@ -262,13 +274,27 @@ public class MainController implements Initializable {
 
         tableViewSetup();
 
+        appointmentIdCol_a.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
+        titleCol_a.setCellValueFactory(new PropertyValueFactory<>("title"));
+        descriptionCol_a.setCellValueFactory(new PropertyValueFactory<>("description"));
+        locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
+        typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
+        startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
+        endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
+        customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        contactCol_a.setCellValueFactory(new PropertyValueFactory<>("contactId"));
 
-//        appointmentIdCol_a.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
-//        titleCol_a.setCellValueFactory(new PropertyValueFactory<>("title"));
-//        descriptionCol_a.setCellValueFactory(new PropertyValueFactory<>("description"));
-//        locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
-//        typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
-//        startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
+        customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        addressCol.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
+        postalCodeCol.setCellValueFactory(new PropertyValueFactory<>("customerPostalCode"));
+        phoneCol.setCellValueFactory(new PropertyValueFactory<>("customerPhoneNumber"));
+        custCreateDateCol.setCellValueFactory(new PropertyValueFactory<>("createDate"));
+        custCreatedByCol.setCellValueFactory(new PropertyValueFactory<>("createdBy"));
+        custLastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
+        custLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
+        custDivisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
 
     }
 }
