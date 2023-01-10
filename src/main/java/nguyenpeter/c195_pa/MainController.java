@@ -22,6 +22,7 @@ import util.TimeZones;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 /**
@@ -131,6 +132,10 @@ public class MainController implements Initializable {
 
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+    public static Appointments selectedAppointment = null;
+    public static Customers selectedCustomer = null;
+    public static ZonedDateTime selectedDate = null;
+
 
     @FXML
     void onAddButton(ActionEvent event) throws IOException{
@@ -158,12 +163,26 @@ public class MainController implements Initializable {
 
     @FXML
     void onAppointmentTableViewClicked(MouseEvent event) {
+        setSelectedAppointment();
+    }
 
+    public void setSelectedAppointment() {
+        selectedCustomer = null;
+        selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
+        if(selectedDate != null) {
+            selectedDate = selectedAppointment.getStart();
+        }
+    }
+
+    public void setSelectedCustomer() {
+        selectedAppointment = null;
+        selectedDate = null;
+        selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void onCustomerTableViewClicked(MouseEvent event) {
-
+        setSelectedCustomer();
     }
 
     @FXML
@@ -200,25 +219,32 @@ public class MainController implements Initializable {
 
     @FXML
     void onUpdateButton(ActionEvent event) throws IOException{
-        if(toggleAppointmentButton.isSelected()) {
+        if(selectedAppointment != null || selectedCustomer != null) {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("AppointmentForm.fxml"));
+            loader.load();
+
+            AppointmentController AController = loader.getController();
+            AController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
+
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
+            Parent scene = loader.getRoot();
             stage.setScene(new Scene(scene));
-            stage.setTitle("Appointment Form");
             stage.show();
-        }
-//        else {
-//            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-//            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
-//            stage.setScene(new Scene(scene));
-//            stage.show();
-//        }
-        if (toggleCustomerButton.isSelected()) {
-            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.setTitle("Customer Form");
-            stage.show();
+//            if (toggleAppointmentButton.isSelected()) {
+//                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+//                scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
+//                stage.setScene(new Scene(scene));
+//                stage.setTitle("Appointment Form");
+//                stage.show();
+            }
+            else if (toggleCustomerButton.isSelected()) {
+//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+//                scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
+//                stage.setScene(new Scene(scene));
+//                stage.setTitle("Customer Form");
+//                stage.show();
+//            }
         }
     }
 
@@ -298,3 +324,10 @@ public class MainController implements Initializable {
 
     }
 }
+
+/**
+ * Make unique IDs for Appointments and Customers.
+ * Filter search results (radio buttons)
+ * MouseClick event for selecting appointment/customer for updating
+ * Button event for adding/removing appointment/customer
+ */

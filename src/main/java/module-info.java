@@ -13,4 +13,6 @@ module nguyenpeter.c195_pa {
     exports model;
     opens controller to javafx.fxml;
     opens model to javafx.base, javafx.fxml;
+    exports util;
+    opens util to javafx.fxml;
 }

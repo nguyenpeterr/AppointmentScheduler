@@ -9,11 +9,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import util.LanguageMain;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -54,27 +56,20 @@ public class LoginController implements Initializable {
     @FXML
     private TextField usernameTextField;
 
-    @FXML
-    void onRadioSelect(ActionEvent event) {
-
-    }
 
     @FXML
     void onLoginButton(ActionEvent event) throws SQLException, IOException {
-        if (rButtonEng.isSelected()) {
-            if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText("Please enter a username or password");
-                alert.show();
-            } else {
-                if (DBUsers.login(usernameTextField.getText(), passwordField.getText())) {
-                    stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                    scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
-                    stage.setScene(new Scene(scene));
-                    stage.setTitle("Appointment Management System");
-                    stage.show();
-                }
-            }
+        if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Please enter a valid username or password");
+            alert.show();
+        }
+        else if (DBUsers.login(usernameTextField.getText(), passwordField.getText())) {
+            stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle(LanguageMain.translate("Appointment Management System"));
+            stage.show();
         }
     }
 
@@ -85,7 +80,14 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        rButtonEng.setSelected(true);
+        usernameLabel.setText(LanguageMain.translate("username"));
+        passwordLabel.setText(LanguageMain.translate("password"));
+        loginButton.setText(LanguageMain.translate("login"));
+        exitButton.setText(LanguageMain.translate("exit"));
+        timeZoneLabel.setText(LanguageMain.translate("timezone"));
+
+
+
         timeZone.setText(String.valueOf(ZoneId.systemDefault()));
     }
 

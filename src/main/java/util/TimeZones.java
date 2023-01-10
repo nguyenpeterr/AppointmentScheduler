@@ -60,6 +60,18 @@ public class TimeZones {
         return Timestamp.valueOf(dateTimeFormatter.format(timestamp));
     }
 
+    public static ZonedDateTime toLocal(ZonedDateTime time) {
+        return ZonedDateTime.of(time.toLocalDateTime(), ZoneId.systemDefault());
+    }
+
+    public static ZonedDateTime toLocal(Timestamp time) {
+        return ZonedDateTime.of(time.toLocalDateTime(), ZoneId.systemDefault());
+    }
+
+    public static LocalTime setLocalTime(int hour, int min) {
+        return LocalTime.of(hour, min, 0);
+    }
+
 
 
 }
