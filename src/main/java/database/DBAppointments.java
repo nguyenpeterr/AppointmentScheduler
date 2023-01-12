@@ -55,6 +55,13 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    public static ObservableList<Appointments> getSortedAppointments() throws SQLException {
+        String sql = "SELECT * FROM APPOINTMENTS ORDER BY Type ASC";
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return resultSet(rs);
+    }
+
     public static ObservableList<Appointments> getContactAppts(int id) throws SQLException {
         String sql = "SELECT * APPOINTMENTS WHERE Contact_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);

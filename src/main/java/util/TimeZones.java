@@ -20,11 +20,11 @@ public class TimeZones {
 
 
 
-    public static String getLocalTime() {
+    public static String getLocalTime(ZonedDateTime time) {
         return localTime.format(timeFormatter);
     }
 
-    public static String getLocalDate() {
+    public static String getLocalDate(ZonedDateTime time) {
         return localDate.format(dateFormatter);
     }
 
@@ -97,5 +97,9 @@ public class TimeZones {
 
     public static Timestamp timestampUTC() {
         return Timestamp.valueOf(sqlFormat.format(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))));
+    }
+
+    public static String reportEST(ZonedDateTime time) {
+        return zonedDateFormatter.format(ZonedDateTime.of(time.toLocalDateTime(), ZoneId.of("America/New_York")));
     }
 }

@@ -4,6 +4,7 @@ import database.DBAppointments;
 import database.DBCustomers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Appointments;
@@ -26,7 +28,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
 import java.util.ResourceBundle;
+import java.util.logging.Filter;
 
 /**
  * @author Peter Nguyen
@@ -57,7 +61,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<?, ?> appointmentIdCol_a;
     @FXML
-    private Rectangle appointmentRectangle;
+    private Rectangle appointmentAlertWindow;
     @FXML
     private TableView<Appointments> appointmentTableView;
     @FXML
@@ -79,7 +83,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<?, ?> descriptionCol_a;
     @FXML
-    private Button dismissRectangleButton;
+    private Button confirmAlertButton;
     @FXML
     private TableColumn<?, ?> custDivisionIdCol;
     @FXML
@@ -109,7 +113,7 @@ public class MainController implements Initializable {
     @FXML
     private ToggleButton toggleCustomerButton;
     @FXML
-    private Label rectangleLabel;
+    private Label alertWindowText;
     @FXML
     private Button reportsButton;
     @FXML
@@ -139,6 +143,8 @@ public class MainController implements Initializable {
     public static Customers selectedCustomer = null;
     public static ZonedDateTime selectedDate = null;
     public boolean viewAppointments = true;
+    public boolean monthSort = true;
+    public boolean viewAll = true;
 
 
     @FXML
@@ -164,7 +170,8 @@ public class MainController implements Initializable {
      */
     @FXML
     void onViewAllRadio(ActionEvent event) {
-
+        viewAll = true;
+        tableViewSetup();
     }
 
     @FXML
@@ -228,8 +235,8 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void onDismissRectangleButton(ActionEvent event) {
-
+    void onConfirmAlertButton(ActionEvent event) {
+        hideAppointmentAlert();
     }
 
     @FXML
@@ -242,7 +249,7 @@ public class MainController implements Initializable {
 
     @FXML
     void onMonthToggle(ActionEvent event) {
-
+        viewToggle();
     }
 
     @FXML
@@ -290,7 +297,7 @@ public class MainController implements Initializable {
 
     @FXML
     void onWeekToggle(ActionEvent event) {
-
+        viewToggle();
     }
 
     @FXML
@@ -323,10 +330,60 @@ public class MainController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        appointmentTableView.setItems(appointmentsList);
         customerTableView.setItems(customersList);
+        if (monthSort) {
+            appointmentTableView.setItems(monthFilter());
+        } else {
+            appointmentTableView.setItems(weekFilter());
+        }
+        if (viewAll) {
+            appointmentTableView.setItems(appointmentsList);
+        }
+    }
+    private FilteredList<Appointments> weekFilter() {
+        return new FilteredList<>(appointmentsList, p -> p.getStart().get(ChronoField.ALIGNED_WEEK_OF_YEAR) ==
+                ZonedDateTime.now(ZoneId.systemDefault()).get(ChronoField.ALIGNED_WEEK_OF_YEAR));
     }
 
+    private FilteredList<Appointments> monthFilter() {
+        return new FilteredList<>(appointmentsList, p -> p.getStart().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
+    }
+    public void viewToggle() {
+        viewAll = false;
+        if(monthSort) {
+            monthSort = false;
+        } else {
+            monthSort = true;
+        }
+        tableViewSetup();
+    }
+
+    private void showAppointmentAlert(boolean imminent, int id, String title, ZonedDateTime start) {
+        appointmentAlertWindow.setFill(Paint.valueOf("#828282"));
+        if(imminent) {
+            String alert = "The appointment below is scheduled to start within 15 minutes: \n\n" +
+                    "Appointment ID: " + id + "\n" + "Title: " + title + "\n" +
+                    "Start: " + TimeZones.getLocalDate(start) + " @ " + TimeZones.getLocalTime(start);
+            alertWindowText.setText(alert);
+        } else {
+            alertWindowText.setText("There are no appointments scheduled within 15 minutes.");
+        }
+        alertWindowText.setVisible(true);
+        alertWindowText.setDisable(false);
+        appointmentAlertWindow.setVisible(true);
+        appointmentAlertWindow.setDisable(false);
+        confirmAlertButton.setVisible(true);
+        confirmAlertButton.setDisable(false);
+    }
+
+    private void hideAppointmentAlert() {
+        alertWindowText.setVisible(false);
+        alertWindowText.setDisable(true);
+        appointmentAlertWindow.setVisible(false);
+        appointmentAlertWindow.setDisable(true);
+        confirmAlertButton.setVisible(false);
+        confirmAlertButton.setDisable(true);
+    }
 
 
     @Override
@@ -365,7 +422,8 @@ public class MainController implements Initializable {
 }
 
 /**
- * Filter search results (radio buttons)
- * Button event for adding/removing appointment
+ * Fix timezone display
+ * 15min alert window (DONE) - Need to call the function
+ * Reports page
  * Javadocs
  */

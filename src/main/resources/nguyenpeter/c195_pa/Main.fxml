@@ -125,9 +125,12 @@
         </Group>
         <Group layoutX="4.0" layoutY="4.0" visible="false">
             <children>
-                <Rectangle fx:id="appointmentRectangle" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="BLACK" strokeType="INSIDE" width="952.0" />
-                <Button fx:id="dismissRectangleButton" layoutX="852.0" layoutY="13.0" mnemonicParsing="false" onAction="#onDismissRectangleButton" text="Acknowledge" />
-                <Label fx:id="rectangleLabel" blendMode="DARKEN" layoutX="14.0" layoutY="4.0" prefHeight="43.0" prefWidth="866.0" text="Label">
+                <Rectangle fx:id="appointmentAlertWindow" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="456.0" layoutX="49.0" layoutY="69.0" stroke="BLACK" strokeType="INSIDE" width="952.0" />
+                <Button fx:id="confirmAlertButton" layoutX="455.0" layoutY="407.0" mnemonicParsing="false" onAction="#onConfirmAlertButton" text="Confirm">
+               <padding>
+                  <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+               </padding></Button>
+                <Label fx:id="alertWindowText" blendMode="DARKEN" layoutX="78.0" layoutY="165.0" prefHeight="174.0" prefWidth="866.0" text="Label">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font>

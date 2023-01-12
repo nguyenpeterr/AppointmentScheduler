@@ -1,5 +1,8 @@
 package nguyenpeter.c195_pa;
 
+import database.DBContacts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,12 +11,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import database.DBAppointments;
+import model.Appointments;
+import model.Contacts;
+import util.TimeZones;
 
+import java.time.Month;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class ReportController implements Initializable {
+public abstract class ReportController implements Initializable {
 
     Stage stage;
     Parent scene;
@@ -113,4 +122,31 @@ public class ReportController implements Initializable {
         totalCustLabel.setText("");
         intTotalCustLabel.setText("");
     }
+
+//    public static String contactSchedule() throws SQLException {
+//        int appt = 1;
+//        StringBuilder schedule = new StringBuilder("");
+//        ObservableList<Appointments> contactAppointments;
+//        ObservableList<Contacts> contacts = FXCollections.observableArrayList();
+//        try {
+//            contacts = DBContacts.getAllContacts();
+//        }
+//        catch(SQLException sqlE) {}
+//        for (Contacts c : contacts) {
+//            appt = 1;
+//            contactAppointments = DBAppointments.getContactAppts(c.getContactId());
+//            schedule.append("Contact: ").append(c.getContactName()).append("\n");
+//            for (Appointments a : contactAppointments) {
+//                schedule.append("|Appointment ").append(appt).append("|\nAppointment_ID: ")
+//                        .append(a.getAppointmentId()).append("\nTitle: ").append(a.getTitle()).append("\nType: ")
+//                        .append(a.getType()).append("\nDescription: ").append(a.getDescription()).append("\nStart: ")
+//                        .append(TimeZones.reportEST(a.getStart())).append("\nEnd: ")
+//                        .append(TimeZones.reportEST(a.getEnd())).append("\nCustomer ID: ")
+//                        .append(a.getCustomerId()).append("\n\n");
+//                appt +=1;
+//            }
+//        }
+//        return schedule.toString();
+//    }
+
 }
