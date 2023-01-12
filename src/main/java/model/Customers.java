@@ -70,4 +70,9 @@ public class Customers extends Date {
         this.divisionId = divisionId;
     }
 
+    @Override
+    public String toString() {
+        return (Integer.toString(customerId));
+    }
+
 }

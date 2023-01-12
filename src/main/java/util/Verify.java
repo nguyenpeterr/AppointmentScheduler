@@ -5,6 +5,7 @@ import exception.AppointmentOverlapException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import model.*;
 
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
 
 
 public abstract class Verify {
-    private static String name = "[a-zA-Z]+\\s[a-zA-Z]+";
+    private static String name = "[a-zA-Z.-]+\\s[a-zA-Z.-]+";
     private static String address = "^(\\d+) ?([A-Za-z](?= ))? (.*?) ([^ ]+?) ?((?<= )APT)? ?((?<= )\\d*)?$";
     private static String intTen = "[0-9]{1,10}";
     private static String email = "\"(^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$){3,50}\"";
@@ -181,11 +182,11 @@ public abstract class Verify {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("Input must be a positive integer.");
-            alert.show();
             return false;
         }
         return true;
     }
+
 
     public static boolean validUserId(int verify) {
         ObservableList<Users> user = FXCollections.observableArrayList();
@@ -246,7 +247,7 @@ public abstract class Verify {
         else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
-            alert.setContentText("Start time must be before end time.");
+            alert.setContentText("Start date/time must be before end date/time.");
             alert.show();
         }
         return false;

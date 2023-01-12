@@ -51,8 +51,6 @@
                 <TextField fx:id="descriptionField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <ComboBox fx:id="contactComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                 <TextField fx:id="typeField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <TextField fx:id="userIdField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                <TextField fx:id="customerIdField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                 <TextField fx:id="appointmentIdField" disable="true" editable="false" focusTraversable="false" prefHeight="26.0" prefWidth="88.0" GridPane.columnIndex="1" />
                 <TextField fx:id="locationField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <DatePicker fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="8" />
@@ -60,6 +58,8 @@
                 <DatePicker fx:id="endDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="8" />
                 <Spinner fx:id="endTimeSpinner" onMouseClicked="#onEndSpinnerClick" GridPane.columnIndex="3" GridPane.rowIndex="9" />
                 <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="customerIdComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="userIdComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             </children>
             <padding>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

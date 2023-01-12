@@ -38,4 +38,9 @@ public class Users extends Date {
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
+
+    @Override
+    public String toString() {
+        return (Integer.toString(userId));
+    }
 }

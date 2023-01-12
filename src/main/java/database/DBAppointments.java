@@ -7,10 +7,7 @@ import javafx.scene.control.Alert;
 import model.Appointments;
 import util.TimeZones;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -51,13 +48,6 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
-//    public static ObservableList<Appointments> getAllAppointments(int id) throws SQLException {
-//        String sql = "SELECT * APPOINTMENTS WHERE Customer_ID = " + id;
-//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-//        ResultSet rs = ps.executeQuery();
-//        return resultSet(rs);
-//    }
-
     public static ObservableList<Appointments> getCustomerAppts(int id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -82,7 +72,7 @@ public abstract class DBAppointments {
     public static void addAppointment(Appointments appointment) {
         if(appointment != null) {
             try {
-                String sql = "INSERT INTO APPOINTMENTS (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date " +
+                String sql = "INSERT INTO APPOINTMENTS (Appointment_ID, Title, Description, Location, Type, Start, End, Create_Date, " +
                         "Created_By, Last_Update, Last_Updated_By, Customer_ID, User_ID, Contact_ID) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = JDBC.connection.prepareStatement(sql);
                 ps.setInt(1, appointment.getAppointmentId());
@@ -110,7 +100,7 @@ public abstract class DBAppointments {
     public static void updateAppointment(Appointments appointment) {
         try{
             String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " + "" +
-                    "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? " +
+                    "Create_Date = ?, Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Customer_ID = ?, User_ID = ?, Contact_ID = ? WHERE Appointment_ID = " +
                     appointment.getAppointmentId();
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setString(1, appointment.getTitle());

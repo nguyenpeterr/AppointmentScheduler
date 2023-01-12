@@ -3,6 +3,7 @@ package nguyenpeter.c195_pa;
 import database.DBAppointments;
 import database.DBContacts;
 import database.DBCustomers;
+import database.DBUsers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointments;
 import model.Contacts;
+import model.Customers;
+import model.Users;
 import util.TimeZones;
 import util.Verify;
 
@@ -23,6 +26,7 @@ import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
@@ -44,6 +48,10 @@ public class AppointmentController implements Initializable {
     private Label contactLabel;
     @FXML
     private TextField customerIdField;
+    @FXML
+    private ComboBox<Customers> customerIdComboBox;
+    @FXML
+    private ComboBox<Users> userIdComboBox;
     @FXML
     private Label customerIdLabel;
     @FXML
@@ -112,14 +120,19 @@ public class AppointmentController implements Initializable {
     }
 
     @FXML
-    void onSaveButton(ActionEvent event) {
+    void onSaveButton(ActionEvent event) throws IOException {
         if(validInput()) {
             if(MainController.selectedAppointment != null) {
                 DBAppointments.updateAppointment(createAppointment());
+                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(MainController.class.getResource("Main.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.setTitle("Appointment Management System");
+                stage.show();
             }
         } else {
-            addAppointment();
-        }
+                addAppointment();
+            }
     }
 
     public void addAppointment() {
@@ -134,8 +147,8 @@ public class AppointmentController implements Initializable {
         String type = typeField.getText();
         ZonedDateTime start = datePickerValue(0);
         ZonedDateTime end = datePickerValue(1);
-        int customerId = Integer.parseInt(customerIdField.getText());
-        int userId = Integer.parseInt(userIdField.getText());
+        int customerId = customerIdComboBox.getSelectionModel().getSelectedIndex() + 1;
+        int userId = userIdComboBox.getSelectionModel().getSelectedIndex() + 1;
         int contactId = contactComboBox.getSelectionModel().getSelectedIndex() + 1;
         ZonedDateTime createDate = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"));
         String createdBy = "admin";
@@ -167,8 +180,10 @@ public class AppointmentController implements Initializable {
         endTimeVF.setValue(endTime);
         contactComboBox.getSelectionModel().selectFirst();
         contactComboBox.getSelectionModel().select(MainController.selectedAppointment.getContactId() - 1);
-        userIdField.setText(String.valueOf(appointment.getUserId()));
-        customerIdField.setText(String.valueOf(appointment.getCustomerId()));
+        userIdComboBox.getSelectionModel().selectFirst();
+        userIdComboBox.getSelectionModel().select(MainController.selectedAppointment.getCustomerId() - 1);
+        customerIdComboBox.getSelectionModel().selectFirst();
+        customerIdComboBox.getSelectionModel().select(MainController.selectedAppointment.getCustomerId() - 1);
 
     }
 
@@ -178,22 +193,25 @@ public class AppointmentController implements Initializable {
         boolean descriptionInput = Verify.isVarCharFifty("Description", descriptionField.getText());
         boolean locationInput = Verify.isVarCharFifty("Location", locationField.getText());
         boolean typeInput = Verify.isVarCharFifty("Type", typeField.getText());
-        boolean userIdInput = Verify.validInt(userIdField.getText());
+        boolean userIdInput = Verify.validInt(String.valueOf(userIdComboBox.getValue()));
         boolean userId = false;
         if (userIdInput) {
-            userId = Verify.validUserId(Integer.parseInt(userIdField.getText()));
+            userId = Verify.validUserId(Integer.parseInt(String.valueOf(userIdComboBox.getValue())));
         }
-        boolean customerIdInput = Verify.validInt(customerIdField.getText());
+        boolean customerIdInput = Verify.validInt(String.valueOf(customerIdComboBox.getValue()));
         boolean customerId = false;
         if (customerIdInput) {
-            customerId = Verify.validCustomer(Integer.parseInt(customerIdField.getText()));
+            customerId = Verify.validCustomer(Integer.parseInt(String.valueOf(customerIdComboBox.getValue())));
         }
-        boolean dateInput = Verify.validTime(datePickerValue(0), datePickerValue(1), TimeZones.EST(startTimeSpinner.getValue()), TimeZones.EST(endTimeSpinner.getValue()));
+        boolean datesInput = Verify.validTime(datePickerValue(0), datePickerValue(1),
+                TimeZones.EST(startTimeSpinner.getValue()), TimeZones.EST(endTimeSpinner.getValue()));
         boolean dateAvailable = false;
-        if(customerId) {
-            dateAvailable = Verify.isAvailableDate(datePickerValue(0), datePickerValue(1), Integer.parseInt(appointmentIdField.getText()));
+        if (customerId) {
+            dateAvailable = Verify.isAvailableDate(datePickerValue(0), datePickerValue(1),
+                    Integer.parseInt(appointmentIdField.getText()));
         }
-        boolean[] inputs = {titleInput, descriptionInput, locationInput, typeInput, userIdInput, userId, customerIdInput, customerId, dateInput, dateAvailable};
+        boolean[] inputs = {titleInput, descriptionInput, locationInput, typeInput, userIdInput, userId,
+                customerIdInput, customerId, datesInput, dateAvailable};
         for(boolean b : inputs) {
             if(!b) {
                 return false;
@@ -222,6 +240,8 @@ public class AppointmentController implements Initializable {
         endTimeSpinner.setValueFactory(endTimeVF);
         try {
             contactComboBox.setItems(DBContacts.getAllContacts());
+            customerIdComboBox.setItems(DBCustomers.getAllCustomers());
+            userIdComboBox.setItems(DBUsers.getAllUsers());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
