@@ -9,7 +9,8 @@ public class TimeZones {
     private static LocalDate localDate = LocalDate.now();
     private static LocalTime localTime = LocalTime.now();
     private static LocalDateTime localDateTime = LocalDateTime.now();
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private static DateTimeFormatter sqlFormat = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static DateTimeFormatter zonedDateFormatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm z");
@@ -57,7 +58,7 @@ public class TimeZones {
     }
 
     public static Timestamp timestamp(ZonedDateTime timestamp) {
-        return Timestamp.valueOf(dateTimeFormatter.format(timestamp));
+        return Timestamp.valueOf(sqlFormat.format(timestamp));
     }
 
     public static ZonedDateTime toLocal(ZonedDateTime time) {
@@ -72,6 +73,29 @@ public class TimeZones {
         return LocalTime.of(hour, min, 0);
     }
 
+    public static ZonedDateTime EST(ZonedDateTime time) {
+        return ZonedDateTime.of(time.toLocalDateTime(), ZoneId.of("America/New_York"));
+    }
 
+    public static LocalTime EST(LocalTime time) {
+        ZoneId system = ZoneId.systemDefault();
+        ZoneId est = ZoneId.of("America/New_York");
+        LocalDateTime today = LocalDateTime.of(LocalDate.now(), time);
+        ZonedDateTime systemDateTime = ZonedDateTime.of(today, system);
+        ZonedDateTime estDateTime = systemDateTime.withZoneSameInstant(est);
+        return estDateTime.toLocalTime();
+    }
 
+    public static ZonedDateTime combinedDateTime(LocalDate date, LocalTime time) {
+        if (date != null && time != null) {
+            LocalDateTime combinedTime = LocalDateTime.of(date, time);
+            ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.of("America/New_York"));
+            return ZonedDateTime.of(combinedLocalTime.toLocalDateTime(), ZoneId.of("UTC"));
+        }
+        return ZonedDateTime.now();
+    }
+
+    public static Timestamp timestampUTC() {
+        return Timestamp.valueOf(sqlFormat.format(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))));
+    }
 }

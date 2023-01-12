@@ -1,7 +1,8 @@
 package nguyenpeter.c195_pa;
 
-import com.dlsc.formsfx.model.validators.StringLengthValidator;
-import javafx.beans.Observable;
+import database.DBAppointments;
+import database.DBContacts;
+import database.DBCustomers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,14 +14,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import model.Appointments;
+import model.Contacts;
 import util.TimeZones;
+import util.Verify;
 
+import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.*;
 import java.util.ResourceBundle;
 
 public class AppointmentController implements Initializable {
@@ -35,7 +39,7 @@ public class AppointmentController implements Initializable {
     @FXML
     private Button cancelButton;
     @FXML
-    private ComboBox<?> contactComboBox;
+    private ComboBox<Contacts> contactComboBox;
     @FXML
     private Label contactLabel;
     @FXML
@@ -53,7 +57,7 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label endTimeLabel;
     @FXML
-    private Spinner<?> endTimeSpinner;
+    private Spinner<LocalTime> endTimeSpinner;
     @FXML
     private TextField locationField;
     @FXML
@@ -67,7 +71,7 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label startTimeLabel;
     @FXML
-    private Spinner<?> startTimeSpinner;
+    private Spinner<LocalTime> startTimeSpinner;
     @FXML
     private TextField titleField;
     @FXML
@@ -88,9 +92,10 @@ public class AppointmentController implements Initializable {
             }
         } return hours;
     }
-    ObservableList<LocalTime> hours = genHours();
-    SpinnerValueFactory startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
-    SpinnerValueFactory endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
+    public ObservableList<LocalTime> hours = genHours();
+    public SpinnerValueFactory<LocalTime> startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
+    public SpinnerValueFactory<LocalTime> endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
+
 
     @FXML
     void onCancelButton(ActionEvent event) throws IOException {
@@ -108,7 +113,36 @@ public class AppointmentController implements Initializable {
 
     @FXML
     void onSaveButton(ActionEvent event) {
+        if(validInput()) {
+            if(MainController.selectedAppointment != null) {
+                DBAppointments.updateAppointment(createAppointment());
+            }
+        } else {
+            addAppointment();
+        }
+    }
 
+    public void addAppointment() {
+        DBAppointments.addAppointment(createAppointment());
+    }
+
+    public Appointments createAppointment() {
+        int appointmentId = Integer.parseInt(appointmentIdField.getText());
+        String title = titleField.getText();
+        String description = descriptionField.getText();
+        String location = locationField.getText();
+        String type = typeField.getText();
+        ZonedDateTime start = datePickerValue(0);
+        ZonedDateTime end = datePickerValue(1);
+        int customerId = Integer.parseInt(customerIdField.getText());
+        int userId = Integer.parseInt(userIdField.getText());
+        int contactId = contactComboBox.getSelectionModel().getSelectedIndex() + 1;
+        ZonedDateTime createDate = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"));
+        String createdBy = "admin";
+        Timestamp lastUpdate = TimeZones.timestampUTC();
+        String lastUpdatedBy = "admin";
+        return new Appointments(appointmentId, title, description, location, type, start, end,
+                createDate, createdBy, lastUpdate, lastUpdatedBy, customerId, userId, contactId);
     }
 
     @FXML
@@ -116,7 +150,8 @@ public class AppointmentController implements Initializable {
 
     }
 
-    public void sendAppointment(Appointments appointment) {
+
+    public void sendAppointment(Appointments appointment) throws SQLException {
         appointmentIdField.setText(String.valueOf(appointment.getAppointmentId()));
         titleField.setText(String.valueOf(appointment.getTitle()));
         descriptionField.setText(String.valueOf(appointment.getDescription()));
@@ -129,30 +164,65 @@ public class AppointmentController implements Initializable {
         LocalDate endDate = TimeZones.toLocal(MainController.selectedAppointment.getEnd()).toLocalDate();
         LocalTime endTime = TimeZones.toLocal(MainController.selectedAppointment.getEnd()).toLocalTime();
         endDatePicker.setValue(endDate);
-        endTimeVF.setValue(endDate);
-
-//        contactComboBox.getSelectionModel().selectFirst();
-//        contactComboBox.getSelectionModel().select(appointment.getContactId() - 1);
+        endTimeVF.setValue(endTime);
+        contactComboBox.getSelectionModel().selectFirst();
+        contactComboBox.getSelectionModel().select(MainController.selectedAppointment.getContactId() - 1);
         userIdField.setText(String.valueOf(appointment.getUserId()));
         customerIdField.setText(String.valueOf(appointment.getCustomerId()));
-//        this.appointmentId = appointmentId;
-//        this.title = title;
-//        this.description = description;
-//        this.location = location;
-//        this.type = type;
-//        this.start = start;
-//        this.end = end;
-//        this.createDate = createDate;
-//        this.createdBy = createdBy;
-//        this.lastUpdate = lastUpdate;
-//        this.lastUpdatedBy = lastUpdatedBy;
-//        this.customerId = customerId;
-//        this.userId = userId;
-//        this.contactId = contactId;
+
+    }
+
+
+    public boolean validInput() {
+        boolean titleInput = Verify.isVarCharFifty("Title", titleField.getText());
+        boolean descriptionInput = Verify.isVarCharFifty("Description", descriptionField.getText());
+        boolean locationInput = Verify.isVarCharFifty("Location", locationField.getText());
+        boolean typeInput = Verify.isVarCharFifty("Type", typeField.getText());
+        boolean userIdInput = Verify.validInt(userIdField.getText());
+        boolean userId = false;
+        if (userIdInput) {
+            userId = Verify.validUserId(Integer.parseInt(userIdField.getText()));
+        }
+        boolean customerIdInput = Verify.validInt(customerIdField.getText());
+        boolean customerId = false;
+        if (customerIdInput) {
+            customerId = Verify.validCustomer(Integer.parseInt(customerIdField.getText()));
+        }
+        boolean dateInput = Verify.validTime(datePickerValue(0), datePickerValue(1), TimeZones.EST(startTimeSpinner.getValue()), TimeZones.EST(endTimeSpinner.getValue()));
+        boolean dateAvailable = false;
+        if(customerId) {
+            dateAvailable = Verify.isAvailableDate(datePickerValue(0), datePickerValue(1), Integer.parseInt(appointmentIdField.getText()));
+        }
+        boolean[] inputs = {titleInput, descriptionInput, locationInput, typeInput, userIdInput, userId, customerIdInput, customerId, dateInput, dateAvailable};
+        for(boolean b : inputs) {
+            if(!b) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private ZonedDateTime datePickerValue(int datePicker){
+        LocalDate date;
+        LocalTime time;
+        if(datePicker == 0) {
+            date = startDatePicker.getValue();
+            time = startTimeSpinner.getValue();
+        } else {
+            date = endDatePicker.getValue();
+            time = endTimeSpinner.getValue();
+        }
+        return TimeZones.combinedDateTime(date, time);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        startTimeSpinner.setValueFactory(startTImeVF);
+        endTimeSpinner.setValueFactory(endTimeVF);
+        try {
+            contactComboBox.setItems(DBContacts.getAllContacts());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

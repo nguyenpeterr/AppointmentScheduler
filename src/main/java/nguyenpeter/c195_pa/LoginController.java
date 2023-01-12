@@ -68,7 +68,7 @@ public class LoginController implements Initializable {
             stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(getClass().getResource("Main.fxml"));
             stage.setScene(new Scene(scene));
-            stage.setTitle(LanguageMain.translate("Appointment Management System"));
+            stage.setTitle("Appointment Management System");
             stage.show();
         }
     }

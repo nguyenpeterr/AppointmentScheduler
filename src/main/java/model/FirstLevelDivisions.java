@@ -9,7 +9,7 @@ public class FirstLevelDivisions extends Date {
     private int countryId;
 
 
-    public FirstLevelDivisions(int divisionId, String division, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int countryId) {
+    public FirstLevelDivisions(int divisionId, String division, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int countryId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.divisionId = divisionId;
         this.division = division;
@@ -30,5 +30,10 @@ public class FirstLevelDivisions extends Date {
 
     public void setDivision(String division) {
         this.division = division;
+    }
+
+    @Override
+    public String toString() {
+        return (" [" + Integer.toString(divisionId) + "] " + division + " ");
     }
 }

@@ -1,5 +1,8 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
@@ -7,6 +10,7 @@ public class Contacts {
     private int contactId;
     private String contactName;
     private String contactEmail;
+
 
     public Contacts(int contactId, String contactName, String contactEmail) {
         this.contactId = contactId;
@@ -37,4 +41,10 @@ public class Contacts {
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail;
     }
+
+    @Override
+    public String toString() {
+        return (" [" + Integer.toString(contactId) + "] " + contactName + " ");
+    }
+
 }

@@ -25,11 +25,11 @@ public abstract class DBAppointments {
                 String description = rs.getString("Description");
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
-                ZonedDateTime start = ZonedDateTime.of(rs.getTimestamp("Start").toLocalDateTime(), ZoneId.systemDefault());
-                ZonedDateTime end = ZonedDateTime.of(rs.getTimestamp("End").toLocalDateTime(), ZoneId.systemDefault());
+                ZonedDateTime start = TimeZones.toLocal(rs.getTimestamp("Start"));
+                ZonedDateTime end = TimeZones.toLocal(rs.getTimestamp("End"));
                 ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
                 String createdBy = rs.getString("Created_By");
-                ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+                Timestamp lastUpdate = rs.getTimestamp("Last_Update");
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int customerId = rs.getInt("Customer_ID");
                 int userId = rs.getInt("User_ID");
@@ -92,9 +92,9 @@ public abstract class DBAppointments {
                 ps.setTimestamp(6, TimeZones.timestamp(appointment.getStart()));
                 ps.setTimestamp(7, TimeZones.timestamp(appointment.getEnd()));
                 ps.setTimestamp(8, TimeZones.timestamp(appointment.getCreateDate()));
-                ps.setString(9, appointment.getCreatedBy());
-                ps.setTimestamp(10, TimeZones.timestamp(appointment.getLastUpdate()));
-                ps.setString(11, appointment.getLastUpdatedBy());
+                ps.setString(9, "admin");
+                ps.setTimestamp(10, appointment.getLastUpdate());
+                ps.setString(11, "admin");
                 ps.setInt(12, appointment.getCustomerId());
                 ps.setInt(13, appointment.getUserId());
                 ps.setInt(14, appointment.getContactId());
@@ -119,9 +119,9 @@ public abstract class DBAppointments {
             ps.setTimestamp(5, TimeZones.timestamp(appointment.getStart()));
             ps.setTimestamp(6, TimeZones.timestamp(appointment.getEnd()));
             ps.setTimestamp(7, TimeZones.timestamp(appointment.getCreateDate()));
-            ps.setString(8, appointment.getCreatedBy());
-            ps.setTimestamp(9, TimeZones.timestamp(appointment.getLastUpdate()));
-            ps.setString(10, appointment.getLastUpdatedBy());
+            ps.setString(8, "admin");
+            ps.setTimestamp(9, appointment.getLastUpdate());
+            ps.setString(10, "admin");
             ps.setInt(11, appointment.getCustomerId());
             ps.setInt(12, appointment.getUserId());
             ps.setInt(13, appointment.getContactId());
@@ -152,6 +152,19 @@ public abstract class DBAppointments {
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ObservableList<Appointments> getAllAppointmentsExcept(int id) {
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM APPOINTMENTS WHERE Appointment_ID != " + id;
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+        }
+        catch(SQLException sqlE) {
+            sqlE.printStackTrace();
+        }
+        return resultSet(rs);
     }
 
 

@@ -10,6 +10,7 @@ import util.TimeZones;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -25,7 +26,7 @@ public abstract class DBCustomers {
                 String customerPhoneNumber = rs.getString("Phone");
                 ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
                 String createdBy = rs.getString("Created_By");
-                ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+                Timestamp lastUpdate = rs.getTimestamp("Last_Update");
                 String lastUpdatedBy = rs.getString("Last_Updated_By");
                 int divisionId = rs.getInt("Division_ID");
                 Customers customer = new Customers(customerId, customerName, customerAddress, customerPostalCode, customerPhoneNumber,
@@ -56,7 +57,7 @@ public abstract class DBCustomers {
     public static void addCustomer(Customers customer) {
         if(customer != null) {
             try {
-                String sql = "INSERT INTO CUSTOMERS (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_Date " +
+                String sql = "INSERT INTO CUSTOMERS (Customer_ID, Customer_Name, Address, Postal_Code, Phone, Create_Date, " +
                         "Created_By, Last_Update, Last_Updated_By, Division_ID) VALUES (?,?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = JDBC.connection.prepareStatement(sql);
                 ps.setInt(1, customer.getCustomerId());
@@ -65,9 +66,9 @@ public abstract class DBCustomers {
                 ps.setString(4, customer.getCustomerPostalCode());
                 ps.setString(5, customer.getCustomerPhoneNumber());
                 ps.setTimestamp(6, TimeZones.timestamp(customer.getCreateDate()));
-                ps.setString(7, customer.getCreatedBy());
-                ps.setTimestamp(8, TimeZones.timestamp(customer.getLastUpdate()));
-                ps.setString(9, customer.getLastUpdatedBy());
+                ps.setString(7, "admin");
+                ps.setTimestamp(8, customer.getLastUpdate());
+                ps.setString(9, "admin");
                 ps.setInt(10, customer.getDivisionId());
                 ps.execute();
             }
@@ -90,22 +91,38 @@ public abstract class DBCustomers {
 
     public static void updateCustomer(Customers customer) {
         try {
-            String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ? " +
-                    "Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ?" + customer.getCustomerId();
+            String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, " +
+                    "Created_By = ?, Last_Update = ?, Last_Updated_By = ?, Division_ID = ? WHERE Customer_ID = "+ customer.getCustomerId();
             PreparedStatement ps = JDBC.connection.prepareStatement(sql);
             ps.setString(1, customer.getCustomerName());
             ps.setString(2, customer.getCustomerAddress());
             ps.setString(3, customer.getCustomerPostalCode());
             ps.setString(4, customer.getCustomerPhoneNumber());;
             ps.setTimestamp(5, TimeZones.timestamp(customer.getCreateDate()));
-            ps.setString(6, customer.getCreatedBy());
-            ps.setTimestamp(7, TimeZones.timestamp(customer.getLastUpdate()));
-            ps.setString(8, customer.getLastUpdatedBy());
+            ps.setString(6, "admin");
+            ps.setTimestamp(7, customer.getLastUpdate());
+            ps.setString(8, "admin");
             ps.setInt(9, customer.getDivisionId());
             ps.execute();
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static int generateCustomerId() {
+        int genCustId = -1;
+        try {
+            String sql = "SELECT MAX(Customer_ID) as MAX_CUSTOMER_ID FROM CUSTOMERS";
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                genCustId = rs.getInt("MAX_CUSTOMER_ID") + 1;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genCustId;
     }
 }

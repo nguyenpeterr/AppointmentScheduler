@@ -8,6 +8,7 @@ import model.Users;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -24,7 +25,7 @@ public abstract class DBUsers {
             String userPassword = rs.getString("Password");
             ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
             String createdBy = rs.getString("Created_By");
-            ZonedDateTime lastUpdate = ZonedDateTime.of(rs.getTimestamp("Last_Update").toLocalDateTime(), ZoneId.systemDefault());
+            Timestamp lastUpdate = rs.getTimestamp("Last_Update");
             String lastUpdatedBy = rs.getString("Last_Updated_By");
             Users users = new Users(userId, userName, userPassword, createDate, createdBy, lastUpdate, lastUpdatedBy);
             userNameList.add(users);
@@ -43,7 +44,7 @@ public abstract class DBUsers {
                 return true;
             }
         } catch(SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         Alert alert = new Alert(Alert.AlertType.WARNING);

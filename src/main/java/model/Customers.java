@@ -11,7 +11,7 @@ public class Customers extends Date {
     private String customerPhoneNumber;
     private int divisionId;
 
-    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int divisionId) {
+    public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
             this.customerId = customerId;
             this.customerName = customerName;
@@ -22,7 +22,7 @@ public class Customers extends Date {
     }
 
     public int getCustomerId() {
-        return customerId;
+        return this.customerId;
     }
 
     public void setCustomerId(int customerId) {
@@ -30,7 +30,7 @@ public class Customers extends Date {
     }
 
     public String getCustomerName() {
-        return customerName;
+        return this.customerName;
     }
 
     public void setCustomerName(String customerName) {
@@ -38,7 +38,7 @@ public class Customers extends Date {
     }
 
     public String getCustomerAddress() {
-        return customerAddress;
+        return this.customerAddress;
     }
 
     public void setCustomerAddress(String customerAddress) {
@@ -46,7 +46,7 @@ public class Customers extends Date {
     }
 
     public String getCustomerPostalCode() {
-        return customerPostalCode;
+        return this.customerPostalCode;
     }
 
     public void setCustomerPostalCode(String customerPostalCode) {
@@ -54,7 +54,7 @@ public class Customers extends Date {
     }
 
     public String getCustomerPhoneNumber() {
-        return customerPhoneNumber;
+        return this.customerPhoneNumber;
     }
 
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
@@ -63,7 +63,7 @@ public class Customers extends Date {
 
 
     public int getDivisionId() {
-        return divisionId;
+        return this.divisionId;
     }
 
     public void setDivisionId(int divisionId) {

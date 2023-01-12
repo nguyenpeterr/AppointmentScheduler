@@ -3,6 +3,7 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
@@ -16,17 +17,15 @@ public class Appointments extends Date {
     private ZonedDateTime end;
     private ZonedDateTime createDate;
     private String createdBy;
-    private ZonedDateTime lastUpdate;
+    private Timestamp lastUpdate;
     private String lastUpdatedBy;
     private int userId;
     private int customerId;
     private int contactId;
 
-    public static ObservableList<Appointments> thAppointmentsList = FXCollections.observableArrayList();
-
 
     public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
-                        ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
+                        ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.appointmentId = appointmentId;
         this.title = title;
@@ -54,7 +53,7 @@ public class Appointments extends Date {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public void setTitle(String title) {
@@ -62,7 +61,7 @@ public class Appointments extends Date {
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -70,7 +69,7 @@ public class Appointments extends Date {
     }
 
     public String getLocation() {
-        return location;
+        return this.location;
     }
 
     public void setLocation(String location) {
@@ -86,7 +85,7 @@ public class Appointments extends Date {
     }
 
     public ZonedDateTime getStart() {
-        return start;
+        return this.start;
     }
 
     public void setStart(ZonedDateTime start) {
@@ -94,7 +93,7 @@ public class Appointments extends Date {
     }
 
     public ZonedDateTime getEnd() {
-        return end;
+        return this.end;
     }
 
     public void setEnd(ZonedDateTime end) {
@@ -122,12 +121,12 @@ public class Appointments extends Date {
     }
 
     @Override
-    public ZonedDateTime getLastUpdate() {
+    public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public void setLastUpdate(ZonedDateTime lastUpdate) {
+    public void setLastUpdate(Timestamp lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
@@ -158,7 +157,7 @@ public class Appointments extends Date {
     }
 
     public int getContactId() {
-        return contactId;
+        return this.contactId;
     }
 
     public void setContactId(int contactId) {

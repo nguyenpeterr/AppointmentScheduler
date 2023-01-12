@@ -83,7 +83,7 @@
                      </HBox.margin></Label>
                     </children>
                 </HBox>
-              <TableView fx:id="appointmentTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onAppointmentTableViewClicked" prefHeight="400.0" prefWidth="1054.0">
+              <TableView fx:id="appointmentTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onAppointmentTableViewClicked" prefHeight="400.0" prefWidth="1054.0" visible="false">
                   <columns>
                       <TableColumn fx:id="appointmentIdCol_a" editable="false" prefWidth="94.83333587646484" sortable="false" text="Appointment ID" />
                       <TableColumn fx:id="titleCol_a" editable="false" prefWidth="76.33332824707031" sortable="false" text="Title" />
@@ -97,7 +97,7 @@
                       <TableColumn fx:id="userIdCol_a" editable="false" prefWidth="70.5" sortable="false" text="User_ID" />
                   </columns>
               </TableView>
-              <TableView fx:id="customerTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onCustomerTableViewClicked" prefHeight="400.0" prefWidth="1054.0" visible="false">
+              <TableView fx:id="customerTableView" layoutX="3.0" layoutY="114.0" onMouseClicked="#onCustomerTableViewClicked" prefHeight="400.0" prefWidth="1054.0">
                   <columns>
                       <TableColumn fx:id="customerIdCol" editable="false" prefWidth="75.0" sortable="false" text="Customer ID" />
                       <TableColumn fx:id="customerNameCol" editable="false" prefWidth="126.5" sortable="false" text="Customer Name" />

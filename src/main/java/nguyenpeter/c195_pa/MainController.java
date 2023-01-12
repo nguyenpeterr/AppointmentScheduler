@@ -22,7 +22,11 @@ import util.TimeZones;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -139,6 +143,8 @@ public class MainController implements Initializable {
 
     @FXML
     void onAddButton(ActionEvent event) throws IOException{
+        selectedCustomer = null;
+        selectedAppointment = null;
         if(toggleAppointmentButton.isSelected()) {
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
             scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
@@ -218,36 +224,37 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void onUpdateButton(ActionEvent event) throws IOException{
-        if(selectedAppointment != null || selectedCustomer != null) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("AppointmentForm.fxml"));
-            loader.load();
+    void onUpdateButton(ActionEvent event) throws IOException, SQLException {
+        if (toggleAppointmentButton.isSelected()) {
+            if (selectedAppointment != null || selectedCustomer != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("AppointmentForm.fxml"));
+                loader.load();
 
-            AppointmentController AController = loader.getController();
-            AController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
+                AppointmentController AController = loader.getController();
+                AController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
 
-            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            Parent scene = loader.getRoot();
-            stage.setScene(new Scene(scene));
-            stage.show();
-//            if (toggleAppointmentButton.isSelected()) {
-//                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-//                scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
-//                stage.setScene(new Scene(scene));
-//                stage.setTitle("Appointment Form");
-//                stage.show();
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.show();
             }
-            else if (toggleCustomerButton.isSelected()) {
-//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-//                scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
-//                stage.setScene(new Scene(scene));
-//                stage.setTitle("Customer Form");
-//                stage.show();
-//            }
+        } else if (toggleCustomerButton.isSelected()) {
+            if (selectedAppointment != null || selectedCustomer != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("CustomerForm.fxml"));
+                loader.load();
+
+                CustomerController CController = loader.getController();
+                CController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }
         }
     }
-
 
 
     @FXML
@@ -306,11 +313,11 @@ public class MainController implements Initializable {
         locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
         typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
+
         endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
         contactCol_a.setCellValueFactory(new PropertyValueFactory<>("contactId"));
-
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         addressCol.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
@@ -330,4 +337,7 @@ public class MainController implements Initializable {
  * Filter search results (radio buttons)
  * MouseClick event for selecting appointment/customer for updating
  * Button event for adding/removing appointment/customer
+ * Fix customer update country/firstleveldivisions
+ * Fix apopointment adding
+ *
  */

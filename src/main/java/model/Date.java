@@ -5,11 +5,11 @@ import java.time.ZonedDateTime;
 
 public class Date {
     private ZonedDateTime createDate;
-    private ZonedDateTime lastUpdate;
+    private Timestamp lastUpdate;
     private String createdBy;
     private String lastUpdatedBy;
 
-    public Date (ZonedDateTime createDate, String createdBy, ZonedDateTime lastUpdate, String lastUpdatedBy) {
+    public Date (ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy) {
         this.createDate = createDate;
         this.createdBy = createdBy;
         this.lastUpdate = lastUpdate;
@@ -24,11 +24,11 @@ public class Date {
         this.createDate = createDate;
     }
 
-    public ZonedDateTime getLastUpdate() {
+    public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(ZonedDateTime lastUpdate) {
+    public void setLastUpdate(Timestamp lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
