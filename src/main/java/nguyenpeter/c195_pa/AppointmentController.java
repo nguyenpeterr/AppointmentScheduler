@@ -217,6 +217,7 @@ public class AppointmentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        appointmentIdField.setText(String.valueOf(DBAppointments.generateAppointmentId()));
         startTimeSpinner.setValueFactory(startTImeVF);
         endTimeSpinner.setValueFactory(endTimeVF);
         try {

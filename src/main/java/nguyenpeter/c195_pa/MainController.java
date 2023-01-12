@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import model.Appointments;
 import model.Customers;
 import util.TimeZones;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -139,6 +138,7 @@ public class MainController implements Initializable {
     public static Appointments selectedAppointment = null;
     public static Customers selectedCustomer = null;
     public static ZonedDateTime selectedDate = null;
+    public boolean viewAppointments = true;
 
 
     @FXML
@@ -191,9 +191,40 @@ public class MainController implements Initializable {
         setSelectedCustomer();
     }
 
-    @FXML
-    void onDeleteButton(ActionEvent event) {
+    public static boolean confirm(String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+        alert.showAndWait();
+        return alert.getResult() == ButtonType.YES;
+    }
 
+    @FXML
+    void onDeleteButton(ActionEvent event) throws SQLException {
+        if (selectedAppointment != null || selectedCustomer != null) {
+            if (viewAppointments && selectedAppointment != null) {
+                if(confirm("Are you sure you'd like to delete Appointment ID: " + selectedAppointment.getAppointmentId() + "?")) {
+                    DBAppointments.removeAppointment(selectedAppointment.getAppointmentId());
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Appointment ID: " + selectedAppointment.getAppointmentId() + "\n" +
+                            selectedAppointment.getType() + " has been deleted.");
+                    alert.show();
+                }
+            } else {
+                if(selectedCustomer != null) {
+                    if(confirm("Are you sure you'd like to delete " + selectedCustomer.getCustomerName() + "?")) {
+                        DBAppointments.removeCustomerAppts(DBAppointments.getCustomerAppts(selectedCustomer.getCustomerId()),
+                                selectedCustomer.getCustomerId());
+                        DBCustomers.removeCustomer(selectedCustomer.getCustomerId());
+                    }
+                }
+            }
+            tableViewSetup();
+            selectedCustomer = null;
+            selectedAppointment = null;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Please choose something to delete");
+            alert.show();
+        }
     }
 
     @FXML
@@ -286,8 +317,6 @@ public class MainController implements Initializable {
     }
 
     public void tableViewSetup() {
-        appointmentTableView.setVisible(true);
-        customerTableView.setVisible(false);
         try {
             appointmentsList = DBAppointments.getAllAppointments();
             customersList = DBCustomers.getAllCustomers();
@@ -304,7 +333,10 @@ public class MainController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZone.setText(TimeZones.getLocalTime() + " - " + TimeZones.getLocalTimeZone());
         serverTimeZone.setText(TimeZones.getUTCTime() + " - " + TimeZones.getUTCZone());
-
+        appointmentTableView.setVisible(true);
+        appointmentTableView.setDisable(false);
+        customerTableView.setVisible(false);
+        customerTableView.setDisable(true);
         tableViewSetup();
 
         appointmentIdCol_a.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
@@ -333,11 +365,7 @@ public class MainController implements Initializable {
 }
 
 /**
- * Make unique IDs for Appointments and Customers.
  * Filter search results (radio buttons)
- * MouseClick event for selecting appointment/customer for updating
- * Button event for adding/removing appointment/customer
- * Fix customer update country/firstleveldivisions
- * Fix apopointment adding
- *
+ * Button event for adding/removing appointment
+ * Javadocs
  */

@@ -51,15 +51,15 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
-    public static ObservableList<Appointments> getAllAppointments(int id) throws SQLException {
-        String sql = "SELECT * APPOINTMENTS WHERE Appointment_ID = " + id;
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return resultSet(rs);
-    }
+//    public static ObservableList<Appointments> getAllAppointments(int id) throws SQLException {
+//        String sql = "SELECT * APPOINTMENTS WHERE Customer_ID = " + id;
+//        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+//        ResultSet rs = ps.executeQuery();
+//        return resultSet(rs);
+//    }
 
     public static ObservableList<Appointments> getCustomerAppts(int id) throws SQLException {
-        String sql = "SELECT * APPOINTMENTS WHERE Customer_ID = " + id;
+        String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return resultSet(rs);
@@ -77,6 +77,7 @@ public abstract class DBAppointments {
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ps.execute();
     }
+
 
     public static void addAppointment(Appointments appointment) {
         if(appointment != null) {
@@ -165,6 +166,22 @@ public abstract class DBAppointments {
             sqlE.printStackTrace();
         }
         return resultSet(rs);
+    }
+
+    public static int generateAppointmentId() {
+        int genApptId = -1;
+        try {
+            String sql = "SELECT MAX(Appointment_ID) as MAX_APPOINTMENT_ID FROM APPOINTMENTS";
+            PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                genApptId = rs.getInt("MAX_APPOINTMENT_ID") + 1;
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return genApptId;
     }
 
 
