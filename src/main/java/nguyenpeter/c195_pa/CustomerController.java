@@ -118,7 +118,10 @@ public class CustomerController implements Initializable {
             MainController.selectedAppointment = null;
             MainController.selectedCustomer = null;
             stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            stage.close();
+            scene = FXMLLoader.load(MainController.class.getResource("Main.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Appointment Management System");
+            stage.show();
         }
     }
 
