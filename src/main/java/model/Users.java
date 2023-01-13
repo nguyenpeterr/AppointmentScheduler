@@ -41,6 +41,6 @@ public class Users extends Date {
 
     @Override
     public String toString() {
-        return (Integer.toString(userId));
+        return (" [" + Integer.toString(userId) + "] " + userName + " ");
     }
 }

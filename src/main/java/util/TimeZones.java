@@ -24,6 +24,10 @@ public class TimeZones {
         return localTime.format(timeFormatter);
     }
 
+    public static String getLocalTime() {
+        return localTime.format(timeFormatter);
+    }
+
     public static String getLocalDate(ZonedDateTime time) {
         return localDate.format(dateFormatter);
     }

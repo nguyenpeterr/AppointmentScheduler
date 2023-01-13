@@ -122,17 +122,19 @@ public class AppointmentController implements Initializable {
     @FXML
     void onSaveButton(ActionEvent event) throws IOException {
         if(validInput()) {
-            if(MainController.selectedAppointment != null) {
+            if (MainController.selectedAppointment != null) {
                 DBAppointments.updateAppointment(createAppointment());
-                stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-                scene = FXMLLoader.load(MainController.class.getResource("Main.fxml"));
-                stage.setScene(new Scene(scene));
-                stage.setTitle("Appointment Management System");
-                stage.show();
-            }
-        } else {
+                System.out.println("Update Success");
+            } else {
                 addAppointment();
+                System.out.println("Add Success");
             }
+            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(MainController.class.getResource("Main.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.setTitle("Appointment Management System");
+            stage.show();
+        }
     }
 
     public void addAppointment() {
@@ -193,16 +195,16 @@ public class AppointmentController implements Initializable {
         boolean descriptionInput = Verify.isVarCharFifty("Description", descriptionField.getText());
         boolean locationInput = Verify.isVarCharFifty("Location", locationField.getText());
         boolean typeInput = Verify.isVarCharFifty("Type", typeField.getText());
-        boolean userIdInput = Verify.validInt(String.valueOf(userIdComboBox.getValue()));
-        boolean userId = false;
-        if (userIdInput) {
-            userId = Verify.validUserId(Integer.parseInt(String.valueOf(userIdComboBox.getValue())));
+        boolean userIdInput = false;
+        if(userIdComboBox.getValue() != null) {
+            userIdInput = true;
         }
-        boolean customerIdInput = Verify.validInt(String.valueOf(customerIdComboBox.getValue()));
-        boolean customerId = false;
-        if (customerIdInput) {
-            customerId = Verify.validCustomer(Integer.parseInt(String.valueOf(customerIdComboBox.getValue())));
+        boolean userId = true;
+        boolean customerIdInput = false;
+        if(customerIdComboBox.getValue() != null) {
+            customerIdInput = true;
         }
+       boolean customerId = true;
         boolean datesInput = Verify.validTime(datePickerValue(0), datePickerValue(1),
                 TimeZones.EST(startTimeSpinner.getValue()), TimeZones.EST(endTimeSpinner.getValue()));
         boolean dateAvailable = false;

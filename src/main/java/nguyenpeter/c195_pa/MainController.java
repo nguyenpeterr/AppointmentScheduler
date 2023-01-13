@@ -24,9 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.ResourceBundle;
@@ -385,6 +383,31 @@ public class MainController implements Initializable {
         confirmAlertButton.setDisable(true);
     }
 
+    private void confirmAppointments() {
+        boolean showAlert = false;
+        int fifteenMinutes = 900000;
+        ObservableList<Appointments> appointments = FXCollections.observableArrayList();
+        try {
+            appointments = DBAppointments.getAllAppointments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        LocalTime now = ZonedDateTime.now(ZoneId.systemDefault()).toLocalTime();
+        LocalDate today = ZonedDateTime.now(ZoneId.systemDefault()).toLocalDate();
+        for (Appointments a : appointments) {
+            if(a.getStart().toLocalDate().equals(today)) {
+                LocalTime aTime = a.getStart().toLocalTime();
+                if(aTime.compareTo(now) <= fifteenMinutes && aTime.compareTo(now) > 0) {
+                    showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStart());
+                    showAlert = true;
+                }
+            }
+        }
+        if(!showAlert) {
+            showAppointmentAlert(false, -1, "", ZonedDateTime.now());
+        }
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -418,6 +441,7 @@ public class MainController implements Initializable {
         custLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         custDivisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
 
+        confirmAppointments();
     }
 }
 
