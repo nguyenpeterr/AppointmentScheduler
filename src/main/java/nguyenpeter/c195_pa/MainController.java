@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -134,6 +135,8 @@ public class MainController implements Initializable {
     private TableColumn<?, ?> userIdCol_a;
     @FXML
     private ToggleGroup viewTG;
+    @FXML
+    private Group alertGroup;
 
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
@@ -143,6 +146,13 @@ public class MainController implements Initializable {
     public boolean viewAppointments = true;
     public boolean monthSort = true;
     public boolean viewAll = true;
+    private boolean firstLoad = true;
+    Scene appointmentFormScene;
+    Stage appointmentFormStage = new Stage();
+    Scene reportScene;
+    Stage reportStage = new Stage();
+    Scene customerFormScene;
+    Stage customerFormStage = new Stage();
 
 
     @FXML
@@ -150,15 +160,25 @@ public class MainController implements Initializable {
         selectedCustomer = null;
         selectedAppointment = null;
         if(toggleAppointmentButton.isSelected()) {
-            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AppointmentForm.fxml"));
+            Parent root =loader.load();
+            appointmentFormScene = new Scene(root);
+            appointmentFormStage.setScene(appointmentFormScene);
+            appointmentFormStage.setResizable(false);
+            appointmentFormStage.showAndWait();
+            tableViewSetup();
+//            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+//            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
+//            stage.setScene(new Scene(scene));
+//            stage.show();
         } else {
-            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(MainController.class.getResource("CustomerForm.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerForm.fxml"));
+            Parent root =loader.load();
+            customerFormScene = new Scene(root);
+            customerFormStage.setScene(customerFormScene);
+            customerFormStage.setResizable(false);
+            customerFormStage.showAndWait();
+            tableViewSetup();
         }
     }
 
@@ -252,11 +272,12 @@ public class MainController implements Initializable {
 
     @FXML
     void onReportsButton(ActionEvent event) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(MainController.class.getResource("Report.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.setTitle("Reports");
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
+        Parent root =loader.load();
+        reportScene = new Scene(root);
+        reportStage.setScene(reportScene);
+        reportStage.setResizable(false);
+        reportStage.showAndWait();
     }
 
     @FXML
@@ -265,29 +286,41 @@ public class MainController implements Initializable {
             if (selectedAppointment != null || selectedCustomer != null) {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("AppointmentForm.fxml"));
-                loader.load();
+                Parent root =loader.load();
+                appointmentFormScene = new Scene(root);
 
                 AppointmentController AController = loader.getController();
                 AController.sendAppointment(appointmentTableView.getSelectionModel().getSelectedItem());
 
-                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                Parent scene = loader.getRoot();
-                stage.setScene(new Scene(scene));
-                stage.show();
+                appointmentFormStage.setScene(appointmentFormScene);
+                appointmentFormStage.setResizable(false);
+                appointmentFormStage.showAndWait();
+                tableViewSetup();
+
+//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+//                Parent scene = loader.getRoot();
+//                stage.setScene(new Scene(scene));
+//                stage.show();
             }
         } else if (toggleCustomerButton.isSelected()) {
             if (selectedAppointment != null || selectedCustomer != null) {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("CustomerForm.fxml"));
-                loader.load();
+                Parent root =loader.load();
+                customerFormScene = new Scene(root);
 
                 CustomerController CController = loader.getController();
                 CController.sendCustomer(customerTableView.getSelectionModel().getSelectedItem());
 
-                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                Parent scene = loader.getRoot();
-                stage.setScene(new Scene(scene));
-                stage.show();
+                customerFormStage.setScene(customerFormScene);
+                customerFormStage.setResizable(false);
+                customerFormStage.showAndWait();
+                tableViewSetup();
+
+//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+//                Parent scene = loader.getRoot();
+//                stage.setScene(new Scene(scene));
+//                stage.show();
             }
         }
     }
@@ -357,7 +390,6 @@ public class MainController implements Initializable {
     }
 
     private void showAppointmentAlert(boolean imminent, int id, String title, ZonedDateTime start) {
-        appointmentAlertWindow.setFill(Paint.valueOf("#828282"));
         if(imminent) {
             String alert = "The appointment below is scheduled to start within 15 minutes: \n\n" +
                     "Appointment ID: " + id + "\n" + "Title: " + title + "\n" +
@@ -366,21 +398,13 @@ public class MainController implements Initializable {
         } else {
             alertWindowText.setText("There are no appointments scheduled within 15 minutes.");
         }
-        alertWindowText.setVisible(true);
-        alertWindowText.setDisable(false);
-        appointmentAlertWindow.setVisible(true);
-        appointmentAlertWindow.setDisable(false);
-        confirmAlertButton.setVisible(true);
-        confirmAlertButton.setDisable(false);
+        alertGroup.setVisible(true);
+        alertGroup.setDisable(false);
     }
 
     private void hideAppointmentAlert() {
-        alertWindowText.setVisible(false);
-        alertWindowText.setDisable(true);
-        appointmentAlertWindow.setVisible(false);
-        appointmentAlertWindow.setDisable(true);
-        confirmAlertButton.setVisible(false);
-        confirmAlertButton.setDisable(true);
+        alertGroup.setVisible(false);
+        alertGroup.setDisable(true);
     }
 
     private void confirmAppointments() {
@@ -441,7 +465,13 @@ public class MainController implements Initializable {
         custLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         custDivisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
 
-        confirmAppointments();
+        if(firstLoad) {
+            alertGroup.setVisible(true);
+            confirmAppointments();
+            firstLoad = false;
+        }
+
+
     }
 }
 

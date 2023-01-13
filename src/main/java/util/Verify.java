@@ -24,10 +24,13 @@ public abstract class Verify {
     private static String address = "^(\\d+) ?([A-Za-z](?= ))? (.*?) ([^ ]+?) ?((?<= )APT)? ?((?<= )\\d*)?$";
     private static String intTen = "[0-9]{1,10}";
     private static String email = "\"(^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$){3,50}\"";
-    private static String phone = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
-            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
-            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
-    private static String postal = "^\\d{5}-\\d{4}|\\d{5}|[A-Z]\\d[A-Z] \\d[A-Z]\\d$(([A-Z]{1,2}[0-9][0-9A-Z]?)\\ ([0-9][A-Z]{2}))|(GIR\\ 0AA)";
+    private static String postal = "^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?" +
+            "[0-9][ABD-HJLNP-UW-Z]{2})$|^([ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z] ?[0-9][ABCEGHJ-NPRSTV-Z][0-9])" +
+            "$|^(T[0-9])$|^([A-Z][0-9][A-Z] [0-9][A-Z][0-9])$\n";
+    private static String phone = "^(?:(?:\\\\+1|1)?(?:\\\\s*(?:[.-]\\\\s*)?)?)?(?:\\\\(?:([2-9][0-8][0-9])\\\\)?" +
+            "(?:\\\\s*(?:[.-]\\\\s*)?)?)?([2-9][0-9]{2}(?:\\\\s*(?:[.-]\\\\s*)?)?[0-9]{4})$|^(?:(?:\\\\+44|44)?(?:\\\\s*" +
+            "(?:[.-]\\\\s*)?)?)?(?:0?7\\\\d{3}(?:\\\\s*(?:[.-]\\\\s*)?)?\\\\d{7})$|^(?:(?:\\\\+44|44)?(?:\\\\s*" +
+            "(?:[.-]\\\\s*)?)?)?(?:\\\\d{5}(?:\\\\s*(?:[.-]\\\\s*)?)?\\\\d{5})$\n";
 
     public static boolean isVarCharFifty(String input, String verify) {
         Pattern p = Pattern.compile("^.{1,50}$");

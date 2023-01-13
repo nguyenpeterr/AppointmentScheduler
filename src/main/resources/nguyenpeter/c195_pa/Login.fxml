@@ -18,7 +18,7 @@
     <children>
         <Group>
             <children>
-                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#d3eaff" height="320.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="540.0" />
+                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="320.0" opacity="0.5" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="540.0" />
               <GridPane alignment="CENTER" layoutX="56.0" layoutY="24.0" prefHeight="225.0" prefWidth="409.0">
                   <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="120.5" />
