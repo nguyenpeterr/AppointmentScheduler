@@ -52,6 +52,8 @@ public class MainController implements Initializable {
      * Table columns are labeled representing data from the database.
      * Radio buttons are for users to select for viewing certain data
      * Buttons are dedicated for specific tasks (adding, updating, deleting data, etc..)
+     * Rectangle is the alert window for showing appointments due within 15mins at login
+     *
      */
     @FXML
     private Button addButton;
@@ -138,6 +140,17 @@ public class MainController implements Initializable {
     @FXML
     private Group alertGroup;
 
+    /**
+     * appointmentsList shows the list of appointments from the appointments database
+     * customersList shows the list of customers from Customers database
+     * selectedAppointment variable stores the appointment the user selects on the tableview
+     * selectedCustomer variable stores the customer the user selects on the customer tableview
+     * viewAppointment set to true
+     * monthSort sets the filter to view appointments by month
+     * viewAll sets the filter to view all appointments
+     * firstLoad set to true for appointment alert window to show at first load
+     * Stage and scenes for AppointmentForm.fxml, CustomerForm.fxml, and Report.fxml
+     */
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
     public static Appointments selectedAppointment = null;
@@ -155,6 +168,11 @@ public class MainController implements Initializable {
     Stage customerFormStage = new Stage();
 
 
+    /**
+     * Adds appointment or customer to database
+     * @param event calls on Add button press
+     * @throws IOException
+     */
     @FXML
     void onAddButton(ActionEvent event) throws IOException{
         selectedCustomer = null;
@@ -167,10 +185,6 @@ public class MainController implements Initializable {
             appointmentFormStage.setResizable(false);
             appointmentFormStage.showAndWait();
             tableViewSetup();
-//            stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-//            scene = FXMLLoader.load(MainController.class.getResource("AppointmentForm.fxml"));
-//            stage.setScene(new Scene(scene));
-//            stage.show();
         } else {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerForm.fxml"));
             Parent root =loader.load();
@@ -192,11 +206,18 @@ public class MainController implements Initializable {
         tableViewSetup();
     }
 
+    /**
+     * Calls on setSelectedAppointment() method when user clicks on the table view
+     * @param event Initializes when user clicks on the tableview window
+     */
     @FXML
     void onAppointmentTableViewClicked(MouseEvent event) {
         setSelectedAppointment();
     }
 
+    /**
+     * Assigns selectedAppointment variable
+     */
     public void setSelectedAppointment() {
         selectedCustomer = null;
         selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
@@ -205,23 +226,41 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Assigns the selectedCustomer variable
+     */
     public void setSelectedCustomer() {
         selectedAppointment = null;
         selectedDate = null;
         selectedCustomer = (Customers) customerTableView.getSelectionModel().getSelectedItem();
     }
 
+    /**
+     * Calls on setSelectedCustomer() method when user clicks on the table view
+     * @param event Initializes when user clicks on the tableview window
+     */
     @FXML
     void onCustomerTableViewClicked(MouseEvent event) {
         setSelectedCustomer();
     }
 
+    /**
+     * Alert is shown for the user.
+     * @param message Message is taken in as the parameter to ask user to confirm
+     * @return Result is returned if the user selects the 'Yes' button
+     */
     public static boolean confirm(String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
         alert.showAndWait();
         return alert.getResult() == ButtonType.YES;
     }
 
+    /**
+     * Delete button for the main page, to delete appointment or customer. Alert shown if user has not
+     * selected an item to delete
+     * @param event Initiated on button click
+     * @throws SQLException throws an exception if there is a data access error
+     */
     @FXML
     void onDeleteButton(ActionEvent event) throws SQLException {
         if (selectedAppointment != null || selectedCustomer != null) {
@@ -252,11 +291,21 @@ public class MainController implements Initializable {
         }
     }
 
+    /**
+     * Closes the alert window after user confirms the alert message
+     * @param event Method is called on when user clicks on the confirm button
+     */
     @FXML
     void onConfirmAlertButton(ActionEvent event) {
         hideAppointmentAlert();
     }
 
+    /**
+     * Connected to the log out button on the main form. Will close the main window and return
+     * user to the login screen
+     * @param event Initiated when user clicks on log out button
+     * @throws IOException
+     */
     @FXML
     void onLogOutButton(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -265,11 +314,20 @@ public class MainController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Attached to the month view radio button to filter results to current month
+     * @param event Initiated on radio button select
+     */
     @FXML
     void onMonthToggle(ActionEvent event) {
         viewToggle();
     }
 
+    /**
+     * Attached to the Reports button to open the Reports.fxml page
+     * @param event Initiated on button click
+     * @throws IOException
+     */
     @FXML
     void onReportsButton(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Report.fxml"));
@@ -280,6 +338,12 @@ public class MainController implements Initializable {
         reportStage.showAndWait();
     }
 
+    /**
+     * Opens the appointment or customer page with data from the selected appointment/customer for updating
+     * @param event Initiated when user clicks on Update button
+     * @throws IOException
+     * @throws SQLException
+     */
     @FXML
     void onUpdateButton(ActionEvent event) throws IOException, SQLException {
         if (toggleAppointmentButton.isSelected()) {
@@ -297,10 +361,6 @@ public class MainController implements Initializable {
                 appointmentFormStage.showAndWait();
                 tableViewSetup();
 
-//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-//                Parent scene = loader.getRoot();
-//                stage.setScene(new Scene(scene));
-//                stage.show();
             }
         } else if (toggleCustomerButton.isSelected()) {
             if (selectedAppointment != null || selectedCustomer != null) {
@@ -317,20 +377,23 @@ public class MainController implements Initializable {
                 customerFormStage.showAndWait();
                 tableViewSetup();
 
-//                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-//                Parent scene = loader.getRoot();
-//                stage.setScene(new Scene(scene));
-//                stage.show();
             }
         }
     }
 
-
+    /**
+     * Attached to week view radio button. Will filter appointments by current week
+     * @param event On radio button select
+     */
     @FXML
     void onWeekToggle(ActionEvent event) {
         viewToggle();
     }
 
+    /**
+     * Attached to the View Appointments button to show appointments on the table view
+     * @param event On button select
+     */
     @FXML
     void onAppointmentToggle(ActionEvent event) {
         appointmentTableView.setVisible(true);
@@ -346,6 +409,10 @@ public class MainController implements Initializable {
         appointmentTableView.setItems(appointmentsList);
     }
 
+    /**
+     * Attached to the View Customers button to show customers in the table view
+     * @param event On View Customers button click
+     */
     @FXML
     void onCustomerToggle(ActionEvent event) {
         appointmentTableView.setVisible(false);
@@ -354,6 +421,9 @@ public class MainController implements Initializable {
         customerTableView.setDisable(false);
     }
 
+    /**
+     * Used to populate the table view with appointments/customers
+     */
     public void tableViewSetup() {
         try {
             appointmentsList = DBAppointments.getAllAppointments();
@@ -371,14 +441,27 @@ public class MainController implements Initializable {
             appointmentTableView.setItems(appointmentsList);
         }
     }
+
+    /**
+     * List of appointments according to the current week of the user's system
+     * @return Returns the list of appointments within the current week
+     */
     private FilteredList<Appointments> weekFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getStart().get(ChronoField.ALIGNED_WEEK_OF_YEAR) ==
                 ZonedDateTime.now(ZoneId.systemDefault()).get(ChronoField.ALIGNED_WEEK_OF_YEAR));
     }
 
+    /**
+     * List of appointments according the current month of the user's system
+     * @return Returns the list of appointments within the current month
+     */
     private FilteredList<Appointments> monthFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getStart().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
     }
+
+    /**
+     * Checks to see what radio button the user selects to filter the view by month
+     */
     public void viewToggle() {
         viewAll = false;
         if(monthSort) {
@@ -389,8 +472,16 @@ public class MainController implements Initializable {
         tableViewSetup();
     }
 
-    private void showAppointmentAlert(boolean imminent, int id, String title, ZonedDateTime start) {
-        if(imminent) {
+    /**
+     * Used to show the appointment alert when application opens. Alerts the user if there is an
+     * appointment scheduled within 15mins
+     * @param bool Takes in a boolean value
+     * @param id Takes in an appointment id
+     * @param title Takes in the appointment title
+     * @param start Takes in the ZonedDateTime of the start of the appointment
+     */
+    private void showAppointmentAlert(boolean bool, int id, String title, ZonedDateTime start) {
+        if(bool) {
             String alert = "The appointment below is scheduled to start within 15 minutes: \n\n" +
                     "Appointment ID: " + id + "\n" + "Title: " + title + "\n" +
                     "Start: " + TimeZones.getLocalDate(start) + " @ " + TimeZones.getLocalTime(start);
@@ -402,11 +493,18 @@ public class MainController implements Initializable {
         alertGroup.setDisable(false);
     }
 
+    /**
+     * Used to hide the alert
+     */
     private void hideAppointmentAlert() {
         alertGroup.setVisible(false);
         alertGroup.setDisable(true);
     }
 
+    /**
+     * Method attached to the appointment alert to alert user if there is an appointment
+     * within 15mins.
+     */
     private void confirmAppointments() {
         boolean showAlert = false;
         int fifteenMinutes = 900000;
@@ -432,7 +530,13 @@ public class MainController implements Initializable {
         }
     }
 
-
+    /**
+     * Sets the timezone based on user system and shows the current database time.
+     * Appointment and Customer table views are set
+     * Appointment alert window is shown
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timeZone.setText(TimeZones.getLocalTime() + " - " + TimeZones.getLocalTimeZone());
@@ -477,7 +581,7 @@ public class MainController implements Initializable {
 
 /**
  * Fix timezone display
- * 15min alert window (DONE) - Need to call the function
+ * Fix validating postal and phone update (UK)
  * Reports page
  * Javadocs
  */

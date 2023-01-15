@@ -32,11 +32,17 @@ import java.sql.Timestamp;
 import java.time.*;
 import java.util.ResourceBundle;
 
+/**
+ * AppointmentController class controls the AppointmentForm.fxml. This controller handles all texts, database data for adding,
+ * deleting, or updating.
+ */
 public class AppointmentController implements Initializable {
 
-    Stage stage;
-    Parent scene;
-
+//    Stage stage;
+//    Parent scene;
+    /**
+     * Labels, text fields, combo boxes and spinners are declared here from the AppointmentForm.fxml
+     */
     @FXML
     private TextField appointmentIdField;
     @FXML
@@ -93,6 +99,12 @@ public class AppointmentController implements Initializable {
     private TextField userIdField;
     @FXML
     private Label userIdLabel;
+
+    /**
+     * List to handle time in hours for the spinner. Minutes are incremented every 30 minutes and hours are incremented
+     * accordingly
+     * @return returns hours
+     */
     private ObservableList<LocalTime> genHours() {
         ObservableList<LocalTime> hours = FXCollections.observableArrayList();
         for(int i=0; i <= 23; i++) {
@@ -105,7 +117,11 @@ public class AppointmentController implements Initializable {
     public SpinnerValueFactory<LocalTime> startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
     public SpinnerValueFactory<LocalTime> endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
 
-
+    /**
+     * Attached to the cancel button on the GUI. Window will close and user will be returned to the main appointment window.
+     * @param event On Cancel button click
+     * @throws IOException
+     */
     @FXML
     void onCancelButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -113,11 +129,28 @@ public class AppointmentController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Attached to the Spinner
+     * @param event On mouse click
+     */
     @FXML
-    void onEndSpinnerClick(MouseEvent event) {
-
+    void onStartSpinnerClick(MouseEvent event) {
     }
 
+    /**
+     * Attached to the Spinner
+     * @param event On mouse click
+     */
+    @FXML
+    void onEndSpinnerClick(MouseEvent event) {
+    }
+
+    /**
+     * Attached to the save button to either update an existing appointment or create a new appointment based on
+     * whether there is a selected appointment
+     * @param event On Save button click
+     * @throws IOException
+     */
     @FXML
     void onSaveButton(ActionEvent event) throws IOException {
         if(validInput()) {
@@ -135,10 +168,17 @@ public class AppointmentController implements Initializable {
         }
     }
 
+    /**
+     * Method to add appointment into the database
+     */
     public void addAppointment() {
         DBAppointments.addAppointment(createAppointment());
     }
 
+    /**
+     * Grabs input from the text field and creates a new appointment
+     * @return Returns a new appointment
+     */
     public Appointments createAppointment() {
         int appointmentId = Integer.parseInt(appointmentIdField.getText());
         String title = titleField.getText();
@@ -158,12 +198,13 @@ public class AppointmentController implements Initializable {
                 createDate, createdBy, lastUpdate, lastUpdatedBy, customerId, userId, contactId);
     }
 
-    @FXML
-    void onStartSpinnerClick(MouseEvent event) {
 
-    }
-
-
+    /**
+     * Takes the data from the selected appointment and fills the AppointmentForm.fxml accordingly. Allows the user
+     * to update the current data.
+     * @param appointment Takes the selected appointment as the parameter
+     * @throws SQLException
+     */
     public void sendAppointment(Appointments appointment) throws SQLException {
         appointmentIdField.setText(String.valueOf(appointment.getAppointmentId()));
         titleField.setText(String.valueOf(appointment.getTitle()));
@@ -188,6 +229,10 @@ public class AppointmentController implements Initializable {
     }
 
 
+    /**
+     * Method to verify if the input from the user is valid
+     * @return Returns true if all inputs are valid, returns false otherwise
+     */
     public boolean validInput() {
         boolean titleInput = Verify.isVarCharFifty("Title", titleField.getText());
         boolean descriptionInput = Verify.isVarCharFifty("Description", descriptionField.getText());
@@ -220,6 +265,11 @@ public class AppointmentController implements Initializable {
         return true;
     }
 
+    /**
+     * Dissects the date from the date picker and splits it into date and time
+     * @param datePicker Takes the date from the date picker as a parameter
+     * @return Returns the dissected date and time
+     */
     private ZonedDateTime datePickerValue(int datePicker){
         LocalDate date;
         LocalTime time;
@@ -233,6 +283,11 @@ public class AppointmentController implements Initializable {
         return TimeZones.combinedDateTime(date, time);
     }
 
+    /**
+     * When the appointment form is initialized, field values are populated
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentIdField.setText(String.valueOf(DBAppointments.generateAppointmentId()));
