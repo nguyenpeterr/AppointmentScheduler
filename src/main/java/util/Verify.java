@@ -18,19 +18,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * Verify class is used to verify data from the text fields for a valid input
+ * Variables are assigned with regex's taken from https://regexlib.com/
+ * Please note that the current data from the database does not satisfy the regex's for address format requirement
+ * given by the assignment. (i.e. data does not have the city names, assignmet asks for city/province name in the format)
+ * Also, the phone and postal for the UK address in the data does NOT satisfy the regex's in a proper format.
+ */
 public abstract class Verify {
     private static String name = "[a-zA-Z.-]+\\s[a-zA-Z.-]+";
     private static String address = "^(\\d+) ?([A-Za-z](?= ))? (.*?) ([^ ]+?) ?((?<= )APT)? ?((?<= )\\d*)?$";
     private static String intTen = "[0-9]{1,10}";
     private static String email = "\"(^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$){3,50}\"";
-    private static String postal = "^(GIR ?0AA|[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]([0-9ABEHMNPRV-Y])?)|[0-9][A-HJKPS-UW]) ?" +
-            "[0-9][ABD-HJLNP-UW-Z]{2})$|^([ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z] ?[0-9][ABCEGHJ-NPRSTV-Z][0-9])" +
-            "$|^(T[0-9])$|^([A-Z][0-9][A-Z] [0-9][A-Z][0-9])$\n";
-    private static String phone = "^(?:(?:\\\\+1|1)?(?:\\\\s*(?:[.-]\\\\s*)?)?)?(?:\\\\(?:([2-9][0-8][0-9])\\\\)?" +
-            "(?:\\\\s*(?:[.-]\\\\s*)?)?)?([2-9][0-9]{2}(?:\\\\s*(?:[.-]\\\\s*)?)?[0-9]{4})$|^(?:(?:\\\\+44|44)?(?:\\\\s*" +
-            "(?:[.-]\\\\s*)?)?)?(?:0?7\\\\d{3}(?:\\\\s*(?:[.-]\\\\s*)?)?\\\\d{7})$|^(?:(?:\\\\+44|44)?(?:\\\\s*" +
-            "(?:[.-]\\\\s*)?)?)?(?:\\\\d{5}(?:\\\\s*(?:[.-]\\\\s*)?)?\\\\d{5})$\n";
+    private static String postal = "^[0-9]{5}([\s-]{1}[0-9]{4})?$";
+    private static String phone = "((\\(\\d{3}\\)?)|(\\d{3}))([\\s-./]?)(\\d{3})([\\s-./]?)(\\d{4})" +
+            "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
 
     public static boolean isVarCharFifty(String input, String verify) {
         Pattern p = Pattern.compile("^.{1,50}$");

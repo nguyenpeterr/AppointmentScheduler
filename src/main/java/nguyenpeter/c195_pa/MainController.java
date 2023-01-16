@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.Appointments;
 import model.Customers;
 import util.TimeZones;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
@@ -421,26 +424,6 @@ public class MainController implements Initializable {
         customerTableView.setDisable(false);
     }
 
-    /**
-     * Used to populate the table view with appointments/customers
-     */
-    public void tableViewSetup() {
-        try {
-            appointmentsList = DBAppointments.getAllAppointments();
-            customersList = DBCustomers.getAllCustomers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        customerTableView.setItems(customersList);
-        if (monthSort) {
-            appointmentTableView.setItems(monthFilter());
-        } else {
-            appointmentTableView.setItems(weekFilter());
-        }
-        if (viewAll) {
-            appointmentTableView.setItems(appointmentsList);
-        }
-    }
 
     /**
      * List of appointments according to the current week of the user's system
@@ -531,6 +514,27 @@ public class MainController implements Initializable {
     }
 
     /**
+     * Used to populate the table view with appointments/customers
+     */
+    public void tableViewSetup() {
+        try {
+            appointmentsList = DBAppointments.getAllAppointments();
+            customersList = DBCustomers.getAllCustomers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        customerTableView.setItems(customersList);
+        if (monthSort) {
+            appointmentTableView.setItems(monthFilter());
+        } else {
+            appointmentTableView.setItems(weekFilter());
+        }
+        if (viewAll) {
+            appointmentTableView.setItems(appointmentsList);
+        }
+    }
+
+    /**
      * Sets the timezone based on user system and shows the current database time.
      * Appointment and Customer table views are set
      * Appointment alert window is shown
@@ -553,7 +557,22 @@ public class MainController implements Initializable {
         locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
         typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
+        startCol_a.setCellFactory(column -> {
+            TableCell<Appointments, ZonedDateTime> cell = new TableCell<>() {
+                DateTimeFormatter colFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm z");
 
+                @Override
+                protected void updateItem(ZonedDateTime item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setText(null);
+                    } else {
+                        setText(colFormat.format(item));
+                    }
+                }
+            };
+            return cell;
+        });
         endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
@@ -576,12 +595,39 @@ public class MainController implements Initializable {
         }
 
 
+        class ColumnFormatter<S, T> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
+            private Format format;
+
+            public ColumnFormatter(Format format) {
+                super();
+                this.format = format;
+            }
+
+            @Override
+            public TableCell<S, T> call(TableColumn<S, T> arg0) {
+                return new TableCell<S, T>() {
+                    @Override
+                    protected void updateItem(T item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item == null || empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(new Label(format.format(item)));
+                        }
+                    }
+                };
+            }
+        }
+
+        startCol_a.setCellFactory(new ColumnFormatter<Appointments, ZonedDateTime>(new SimpleDateFormat("dd MMM YYYY")));
+
+
     }
+
 }
 
 /**
  * Fix timezone display
- * Fix validating postal and phone update (UK)
  * Reports page
  * Javadocs
  */
