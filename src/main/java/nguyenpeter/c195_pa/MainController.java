@@ -557,22 +557,6 @@ public class MainController implements Initializable {
         locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
         typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
         startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
-        startCol_a.setCellFactory(column -> {
-            TableCell<Appointments, ZonedDateTime> cell = new TableCell<>() {
-                DateTimeFormatter colFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm z");
-
-                @Override
-                protected void updateItem(ZonedDateTime item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setText(null);
-                    } else {
-                        setText(colFormat.format(item));
-                    }
-                }
-            };
-            return cell;
-        });
         endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
@@ -594,32 +578,6 @@ public class MainController implements Initializable {
             firstLoad = false;
         }
 
-
-        class ColumnFormatter<S, T> implements Callback<TableColumn<S, T>, TableCell<S, T>> {
-            private Format format;
-
-            public ColumnFormatter(Format format) {
-                super();
-                this.format = format;
-            }
-
-            @Override
-            public TableCell<S, T> call(TableColumn<S, T> arg0) {
-                return new TableCell<S, T>() {
-                    @Override
-                    protected void updateItem(T item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (item == null || empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(new Label(format.format(item)));
-                        }
-                    }
-                };
-            }
-        }
-
-        startCol_a.setCellFactory(new ColumnFormatter<Appointments, ZonedDateTime>(new SimpleDateFormat("dd MMM YYYY")));
 
 
     }

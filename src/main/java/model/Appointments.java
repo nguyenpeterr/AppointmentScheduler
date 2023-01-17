@@ -44,6 +44,10 @@ public class Appointments extends Date {
 
     }
 
+    public Appointments() {
+        this(-1, null, null, null, null, null, null, null, null, null, null, -1, -1 ,-1);
+    }
+
     public int getAppointmentId() {
         return appointmentId;
     }
