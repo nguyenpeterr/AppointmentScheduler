@@ -42,11 +42,11 @@ public abstract class DBUsers {
             ResultSet rs = ps.executeQuery();
             rs.next();
             if (rs.getString("User_Name").equals(inputUserName) && rs.getString("Password").equals(inputPassword)) {
-                LoginLog.loginLog(inputUserName, "** Valid Password **");
+                LoginLog.loginLog(inputUserName, " successfully logged in ");
                 return true;
             }
         } catch(SQLException e) {
-            LoginLog.loginLog(inputUserName, inputPassword);
+            LoginLog.loginLog(inputUserName, " gave an invalid log-in ");
         }
 
         Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -9,18 +9,18 @@ import java.time.ZonedDateTime;
 
 public abstract class LoginLog {
 
-    public static void loginLog(String username, String password) {
+    public static void loginLog(String username, String text) {
         String date = TimeZones.getLocalDate(ZonedDateTime.now());
         String time = TimeZones.getLocalTime(ZonedDateTime.now());
-        String log = "========== Login Attempts ==========" + "\n" +
-                "Date: " + date + "\nTime: " + time + "\nUsername: " + username + " // Password: " + password +
-                "\n====================";
+        String log = "--------------- Login Attempts ---------------------------" + "\n" +
+                "User " + username + text + "at " + date + " " + time +
+                "\n----------------------------------------------------------";
 
         FileWriter fw = null;
         BufferedWriter bw = null;
         PrintWriter pw = null;
         try {
-            fw = new FileWriter("Login attempts", true);
+            fw = new FileWriter("login_activity.txt", true);
             bw = new BufferedWriter(fw);
             pw = new PrintWriter(bw);
             pw.println(log);
