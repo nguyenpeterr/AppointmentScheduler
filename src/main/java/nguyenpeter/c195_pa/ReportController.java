@@ -121,6 +121,8 @@ public abstract class ReportController implements Initializable {
         intTotalCustLabel.setText("");
     }
 
+
+
 //    public static String contactSchedule() throws SQLException {
 //        int appt = 1;
 //        StringBuilder schedule = new StringBuilder("");

@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.Users;
+import util.LoginLog;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,10 +42,11 @@ public abstract class DBUsers {
             ResultSet rs = ps.executeQuery();
             rs.next();
             if (rs.getString("User_Name").equals(inputUserName) && rs.getString("Password").equals(inputPassword)) {
+                LoginLog.loginLog(inputUserName, "** Valid Password **");
                 return true;
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            LoginLog.loginLog(inputUserName, inputPassword);
         }
 
         Alert alert = new Alert(Alert.AlertType.WARNING);
