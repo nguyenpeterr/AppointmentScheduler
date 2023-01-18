@@ -339,6 +339,7 @@ public class MainController implements Initializable {
         reportStage.setScene(reportScene);
         reportStage.setResizable(false);
         reportStage.showAndWait();
+
     }
 
     /**
@@ -447,11 +448,7 @@ public class MainController implements Initializable {
      */
     public void viewToggle() {
         viewAll = false;
-        if(monthSort) {
-            monthSort = false;
-        } else {
-            monthSort = true;
-        }
+        monthSort = !monthSort;
         tableViewSetup();
     }
 

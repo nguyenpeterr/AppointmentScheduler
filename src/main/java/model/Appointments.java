@@ -167,5 +167,10 @@ public class Appointments extends Date {
     public void setContactId(int contactId) {
         this.contactId = contactId;
     }
+
+    @Override
+    public String toString() {
+        return (getType());
+    }
 }
 

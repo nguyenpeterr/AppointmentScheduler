@@ -41,6 +41,9 @@
               </columns>
             </TableView>
             <ComboBox fx:id="reportComboBox" layoutX="476.0" layoutY="78.0" prefWidth="150.0" />
+            <ComboBox fx:id="reportComboType" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
+            <ComboBox fx:id="reportComboMonth" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
+            <ComboBox fx:id="reportComboBoxCountry" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
             <Label fx:id="comboLabel" layoutX="386.0" layoutY="83.0" text="Label" />
             <TableView fx:id="customersTableView" editable="true" layoutX="-2.0" layoutY="130.0" prefHeight="547.0" prefWidth="1092.0" visible="false">
                <columns>

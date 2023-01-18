@@ -28,4 +28,9 @@ public class Countries extends Date {
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
+
+    @Override
+    public String toString() {
+        return (countryName);
+    }
 }

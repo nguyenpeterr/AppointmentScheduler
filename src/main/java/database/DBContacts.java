@@ -25,4 +25,5 @@ public abstract class DBContacts {
         }
         return contactsList;
     }
+
 }

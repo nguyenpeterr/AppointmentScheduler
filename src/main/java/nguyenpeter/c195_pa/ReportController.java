@@ -1,29 +1,28 @@
 package nguyenpeter.c195_pa;
 
 import database.DBContacts;
+import database.DBCountries;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import database.DBAppointments;
 import model.Appointments;
 import model.Contacts;
-import util.TimeZones;
+import model.Countries;
 
-import java.time.Month;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Month;
 import java.util.ResourceBundle;
 
-public abstract class ReportController implements Initializable {
+public class ReportController implements Initializable {
 
     Stage stage;
     Parent scene;
@@ -72,7 +71,13 @@ public abstract class ReportController implements Initializable {
     @FXML
     private RadioButton rButtonContactSched;
     @FXML
-    private ComboBox<?> reportComboBox;
+    private ComboBox<Contacts> reportComboBox;
+    @FXML
+    private ComboBox<Countries> reportComboBoxCountry;
+    @FXML
+    private ComboBox<Month> reportComboMonth;
+    @FXML
+    private ComboBox<Appointments> reportComboType;
     @FXML
     private ToggleGroup reportTG;
     @FXML
@@ -91,6 +96,10 @@ public abstract class ReportController implements Initializable {
     private Label intTotalCustLabel;
 
 
+    private ObservableList<Month> getMonths() {
+        return FXCollections.observableArrayList(Month.values());
+    }
+
     @FXML
     void onCloseButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -98,55 +107,58 @@ public abstract class ReportController implements Initializable {
     }
 
     @FXML
-    void onRadioSelect(ActionEvent event) {
+    void onRadioSelect(ActionEvent event) throws SQLException {
         if(rButtonContactSched.isSelected()) {
-            comboLabel.setText("Contact ID");
-            contactScheduleTableView.setVisible(true);
-            customersTableView.setVisible(false);
-            totalCustLabel.setText("");
-            intTotalCustLabel.setText("");
-        }
-        if(rButtonByType.isSelected() || rButtonByMonth.isSelected() || rButtonByCountry.isSelected()) {
-            comboLabel.setText("Customer ID");
-            contactScheduleTableView.setVisible(false);
-            customersTableView.setVisible(true);
-            totalCustLabel.setText("Total Customers:");
-            intTotalCustLabel.setText("--");
+            try {
+                comboLabel.setText("Contact ID");
+                reportComboBox.setItems(DBContacts.getAllContacts());
+                reportComboBox.setVisible(true);
+                reportComboMonth.setVisible(false);
+                reportComboType.setVisible(false);
+                reportComboBoxCountry.setVisible(false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else if (rButtonByType.isSelected()){
+            try {
+                comboLabel.setText("Type");
+                reportComboType.setItems(DBAppointments.getAllAppointments());
+                reportComboBox.setVisible(false);
+                reportComboMonth.setVisible(false);
+                reportComboType.setVisible(true);
+                reportComboBoxCountry.setVisible(false);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        } else if (rButtonByMonth.isSelected()) {
+            try {
+                comboLabel.setText("Month");
+                reportComboMonth.setItems(getMonths());
+                reportComboBox.setVisible(false);
+                reportComboMonth.setVisible(true);
+                reportComboType.setVisible(false);
+                reportComboBoxCountry.setVisible(false);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        } else if (rButtonByCountry.isSelected()) {
+            try {
+                comboLabel.setText("Country");
+                reportComboBoxCountry.setItems(DBCountries.getAllCountries());
+                reportComboBox.setVisible(false);
+                reportComboMonth.setVisible(false);
+                reportComboType.setVisible(false);
+                reportComboBoxCountry.setVisible(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        comboLabel.setText("");
-        totalCustLabel.setText("");
-        intTotalCustLabel.setText("");
+
     }
-
-
-
-//    public static String contactSchedule() throws SQLException {
-//        int appt = 1;
-//        StringBuilder schedule = new StringBuilder("");
-//        ObservableList<Appointments> contactAppointments;
-//        ObservableList<Contacts> contacts = FXCollections.observableArrayList();
-//        try {
-//            contacts = DBContacts.getAllContacts();
-//        }
-//        catch(SQLException sqlE) {}
-//        for (Contacts c : contacts) {
-//            appt = 1;
-//            contactAppointments = DBAppointments.getContactAppts(c.getContactId());
-//            schedule.append("Contact: ").append(c.getContactName()).append("\n");
-//            for (Appointments a : contactAppointments) {
-//                schedule.append("|Appointment ").append(appt).append("|\nAppointment_ID: ")
-//                        .append(a.getAppointmentId()).append("\nTitle: ").append(a.getTitle()).append("\nType: ")
-//                        .append(a.getType()).append("\nDescription: ").append(a.getDescription()).append("\nStart: ")
-//                        .append(TimeZones.reportEST(a.getStart())).append("\nEnd: ")
-//                        .append(TimeZones.reportEST(a.getEnd())).append("\nCustomer ID: ")
-//                        .append(a.getCustomerId()).append("\n\n");
-//                appt +=1;
-//            }
-//        }
-//        return schedule.toString();
-//    }
 
 }

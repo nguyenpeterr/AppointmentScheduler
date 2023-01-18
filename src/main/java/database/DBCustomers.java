@@ -54,6 +54,8 @@ public abstract class DBCustomers {
                 return resultSet(rs);
     }
 
+
+
     public static void addCustomer(Customers customer) {
         if(customer != null) {
             try {
