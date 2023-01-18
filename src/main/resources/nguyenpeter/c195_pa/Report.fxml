@@ -29,23 +29,21 @@
             </HBox>
             <TableView fx:id="contactScheduleTableView" editable="true" layoutX="-2.0" layoutY="130.0" prefHeight="547.0" prefWidth="1090.0">
               <columns>
-                <TableColumn fx:id="apptIdCol" editable="false" prefWidth="70.5" text="Appt ID" />
-                <TableColumn fx:id="titleCol" editable="false" prefWidth="106.0" text="Title" />
-                  <TableColumn fx:id="typeCol" editable="false" prefWidth="143.5" text="Type" />
-                  <TableColumn fx:id="descCol" editable="false" prefWidth="179.16668701171875" text="Description" />
-                  <TableColumn fx:id="startTimeCol" editable="false" prefWidth="121.33331298828125" text="Start Time" />
-                  <TableColumn fx:id="endTimeCol" editable="false" prefWidth="117.5" text="End Time" />
-                  <TableColumn fx:id="startDateCol" editable="false" prefWidth="134.0" text="Start Date" />
-                  <TableColumn fx:id="endDateCol" editable="false" prefWidth="124.33331298828125" text="End date" />
-                  <TableColumn fx:id="custIdCol" editable="false" prefWidth="95.16668701171875" text="Customer ID" />
+                <TableColumn fx:id="apptIdCol" editable="false" prefWidth="77.16666412353516" text="Appt ID" />
+                <TableColumn fx:id="titleCol" editable="false" prefWidth="104.83333587646484" text="Title" />
+                  <TableColumn fx:id="typeCol" editable="false" prefWidth="185.5" text="Type" />
+                  <TableColumn fx:id="descCol" editable="false" prefWidth="254.5" text="Description" />
+                  <TableColumn fx:id="startTimeCol" editable="false" prefWidth="164.16665649414062" text="Start Time" />
+                  <TableColumn fx:id="endTimeCol" editable="false" prefWidth="193.5" text="End Time" />
+                  <TableColumn fx:id="custIdCol" editable="false" prefWidth="110.5" text="Customer ID" />
               </columns>
             </TableView>
-            <ComboBox fx:id="reportComboBox" layoutX="476.0" layoutY="78.0" prefWidth="150.0" />
-            <ComboBox fx:id="reportComboType" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
-            <ComboBox fx:id="reportComboMonth" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
-            <ComboBox fx:id="reportComboBoxCountry" layoutX="476.0" layoutY="78.0" prefWidth="150.0" visible="false" />
+            <ComboBox fx:id="reportComboBox" layoutX="476.0" layoutY="78.0" onAction="#onReportComboBox" prefWidth="150.0" />
+            <ComboBox fx:id="reportComboType" layoutX="476.0" layoutY="78.0" onAction="#onReportComboType" prefWidth="150.0" visible="false" />
+            <ComboBox fx:id="reportComboMonth" layoutX="476.0" layoutY="78.0" onAction="#onReportComboMonth" prefWidth="150.0" visible="false" />
+            <ComboBox fx:id="reportComboBoxCountry" layoutX="476.0" layoutY="78.0" onAction="#onReportComboBoxCountry" prefWidth="150.0" visible="false" />
             <Label fx:id="comboLabel" layoutX="386.0" layoutY="83.0" text="Label" />
-            <TableView fx:id="customersTableView" editable="true" layoutX="-2.0" layoutY="130.0" prefHeight="547.0" prefWidth="1092.0" visible="false">
+            <TableView fx:id="customersTableView" editable="true" layoutX="-2.0" layoutY="130.0" prefHeight="547.0" prefWidth="1092.0">
                <columns>
                   <TableColumn fx:id="custViewCustIdCol" editable="false" prefWidth="70.5" text="Cust ID" />
                   <TableColumn fx:id="custNameCol" editable="false" prefWidth="120.66667175292969" text="Customer Name" />

@@ -44,7 +44,7 @@ public class Contacts {
 
     @Override
     public String toString() {
-        return (" [" + Integer.toString(contactId) + "] " + contactName + " ");
+        return (Integer.toString(contactId));
     }
 
 }
