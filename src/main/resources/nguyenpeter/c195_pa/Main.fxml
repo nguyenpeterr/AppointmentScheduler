@@ -87,10 +87,10 @@
                   <columns>
                       <TableColumn fx:id="appointmentIdCol_a" editable="false" prefWidth="94.83333587646484" sortable="false" text="Appointment ID" />
                       <TableColumn fx:id="titleCol_a" editable="false" prefWidth="76.33332824707031" sortable="false" text="Title" />
-                      <TableColumn fx:id="descriptionCol_a" editable="false" prefWidth="144.16665649414062" sortable="false" text="Type" />
+                      <TableColumn fx:id="descriptionCol_a" editable="false" prefWidth="144.16665649414062" sortable="false" text="Description" />
                       <TableColumn fx:id="locationCol_a" editable="false" prefWidth="115.33334350585938" sortable="false" text="Location" />
                       <TableColumn fx:id="contactCol_a" editable="false" prefWidth="64.5" sortable="false" text="Contact" />
-                      <TableColumn fx:id="typeCol_a" editable="false" prefWidth="111.5" sortable="false" text="Description" />
+                      <TableColumn fx:id="typeCol_a" editable="false" prefWidth="111.5" sortable="false" text="Type" />
                       <TableColumn fx:id="startCol_a" editable="false" minWidth="9.0" prefWidth="139.5" sortable="false" text="Start" />
                       <TableColumn fx:id="endCol_a" editable="false" prefWidth="147.5" sortable="false" text="End" />
                       <TableColumn fx:id="customerIdCol_a" editable="false" minWidth="0.0" prefWidth="90.5" sortable="false" text="Customer_ID" />

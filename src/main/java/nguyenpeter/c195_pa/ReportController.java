@@ -97,6 +97,10 @@ public class ReportController implements Initializable {
 
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+    public static Contacts selectedContact = null;
+    public static Appointments selectedType = null;
+    public static Month selectedMonth = null;
+    public static Countries selectedCountry = null;
 
     private ObservableList<Month> getMonths() {
         return FXCollections.observableArrayList(Month.values());
@@ -104,23 +108,41 @@ public class ReportController implements Initializable {
 
     @FXML
     void onReportComboBox(ActionEvent event) {
-
+        selectedCountry = null;
+        selectedMonth = null;
+        selectedType = null;
+        tableViewSetup();
+        selectedContact = (Contacts) reportComboBox.getSelectionModel().getSelectedItem();
+        contactScheduleTableView.setItems(contactFilter());
     }
 
     @FXML
     void onReportComboBoxCountry(ActionEvent event) {
-
+        selectedContact = null;
+        selectedMonth = null;
+        selectedType = null;
+        tableViewSetup();
+        selectedCountry= (Countries) reportComboBoxCountry.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void onReportComboMonth(ActionEvent event) {
-
+        selectedCountry = null;
+        selectedContact = null;
+        selectedType = null;
+        tableViewSetup();
+        selectedMonth = (Month) reportComboMonth.getSelectionModel().getSelectedItem();
     }
 
     @FXML
     void onReportComboType(ActionEvent event) {
-
+        selectedCountry = null;
+        selectedMonth = null;
+        selectedContact = null;
+        tableViewSetup();
+        selectedType = (Appointments) reportComboType.getSelectionModel().getSelectedItem();
     }
+
 
     @FXML
     void onCloseButton(ActionEvent event) throws IOException {
@@ -133,6 +155,7 @@ public class ReportController implements Initializable {
         if(rButtonContactSched.isSelected()) {
             contactScheduleTableView.setVisible(true);
             customersTableView.setVisible(false);
+            tableViewSetup();
             try {
                 comboLabel.setText("Contact ID");
                 reportComboBox.setItems(DBContacts.getAllContacts());
@@ -146,6 +169,7 @@ public class ReportController implements Initializable {
         } else if (rButtonByType.isSelected()){
             contactScheduleTableView.setVisible(false);
             customersTableView.setVisible(true);
+            tableViewSetup();
             try {
                 comboLabel.setText("Type");
                 reportComboType.setItems(DBAppointments.getAllAppointments());
@@ -160,6 +184,7 @@ public class ReportController implements Initializable {
         } else if (rButtonByMonth.isSelected()) {
             contactScheduleTableView.setVisible(false);
             customersTableView.setVisible(true);
+            tableViewSetup();
             try {
                 comboLabel.setText("Month");
                 reportComboMonth.setItems(getMonths());
@@ -173,6 +198,7 @@ public class ReportController implements Initializable {
         } else if (rButtonByCountry.isSelected()) {
             contactScheduleTableView.setVisible(false);
             customersTableView.setVisible(true);
+            tableViewSetup();
             try {
                 comboLabel.setText("Country");
                 reportComboBoxCountry.setItems(DBCountries.getAllCountries());
@@ -195,12 +221,7 @@ public class ReportController implements Initializable {
             e.printStackTrace();
         }
         contactScheduleTableView.setItems(appointmentsList);
-        if (rButtonContactSched.isSelected()) {
-            contactScheduleTableView.setItems(contactFilter());
-        } else {
-            contactScheduleTableView.setItems(appointmentsList);
-        }
-
+        customersTableView.setItems(customersList);
     }
 
     private FilteredList<Appointments> contactFilter() {
@@ -233,7 +254,7 @@ public class ReportController implements Initializable {
         lastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
         updatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         custStateCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
-        tableViewSetup();
+
     }
 
 }
