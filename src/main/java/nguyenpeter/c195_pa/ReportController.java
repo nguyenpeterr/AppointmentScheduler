@@ -164,7 +164,7 @@ public class ReportController implements Initializable {
                 comboLabel.setText("Contact ID");
                 reportComboBox.setItems(DBContacts.getAllContacts());
                 reportComboBox.getItems().add(0, null);
-                reportComboType.setValue(null);
+                reportComboBox.setValue(null);
                 reportComboBox.setVisible(true);
                 reportComboMonth.setVisible(false);
                 reportComboType.setVisible(false);
@@ -179,6 +179,8 @@ public class ReportController implements Initializable {
             try {
                 comboLabel.setText("Type");
                 reportComboType.setItems(DBAppointments.getAllAppointments());
+                reportComboType.getItems().add(0, null);
+                reportComboType.setValue(null);
                 reportComboBox.setVisible(false);
                 reportComboMonth.setVisible(false);
                 reportComboType.setVisible(true);
@@ -194,6 +196,8 @@ public class ReportController implements Initializable {
             try {
                 comboLabel.setText("Month");
                 reportComboMonth.setItems(getMonths());
+                reportComboMonth.getItems().add(0, null);
+                reportComboMonth.setValue(null);
                 reportComboBox.setVisible(false);
                 reportComboMonth.setVisible(true);
                 reportComboType.setVisible(false);
@@ -208,6 +212,8 @@ public class ReportController implements Initializable {
             try {
                 comboLabel.setText("Country");
                 reportComboBoxCountry.setItems(DBCountries.getAllCountries());
+                reportComboBoxCountry.getItems().add(0, null);
+                reportComboBoxCountry.setValue(null);
                 reportComboBox.setVisible(false);
                 reportComboMonth.setVisible(false);
                 reportComboType.setVisible(false);
@@ -237,6 +243,7 @@ public class ReportController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         intTotalCustLabel.setText("--");
+        comboLabel.setText("");
         contactScheduleTableView.setVisible(true);
         customersTableView.setVisible(false);
         tableViewSetup();
