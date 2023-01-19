@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.Appointments;
-import model.Contacts;
+import model.Customers;
 import util.TimeZones;
 
 import java.sql.*;
@@ -62,8 +62,8 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
-    public static ObservableList<Appointments> getSortedAppointments() throws SQLException {
-        String sql = "SELECT * FROM APPOINTMENTS ORDER BY Type ASC";
+    public static ObservableList<Appointments> getSortedAppointments(String type) throws SQLException {
+        String sql = "SELECT * FROM APPOINTMENTS WHERE Type = " + "'" + type + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return resultSet(rs);

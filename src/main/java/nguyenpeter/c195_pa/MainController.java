@@ -575,8 +575,6 @@ public class MainController implements Initializable {
             firstLoad = false;
         }
 
-
-
     }
 
 }

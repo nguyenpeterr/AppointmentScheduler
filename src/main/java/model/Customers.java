@@ -10,6 +10,7 @@ public class Customers extends Date {
     private String customerPostalCode;
     private String customerPhoneNumber;
     private int divisionId;
+    private String appointmentType;
 
     public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
@@ -69,6 +70,7 @@ public class Customers extends Date {
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
+
 
 
 

@@ -25,6 +25,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.Month;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 
 public class ReportController implements Initializable {
 
@@ -97,6 +98,7 @@ public class ReportController implements Initializable {
 
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+    public static ObservableList<Appointments> typeList = FXCollections.observableArrayList();
     public static Contacts selectedContact = null;
     public static Appointments selectedType = null;
     public static Month selectedMonth = null;
@@ -111,17 +113,21 @@ public class ReportController implements Initializable {
         selectedCountry = null;
         selectedMonth = null;
         selectedType = null;
+        intTotalCustLabel.setText("--");
         selectedContact = (Contacts) reportComboBox.getSelectionModel().getSelectedItem();
         if(reportComboBox.getValue() == null) {
             tableViewSetup();
+            intTotalCustLabel.setText(Integer.toString(appointmentsList.size()));
         } else {
             contactScheduleTableView.setItems(contactFilter());
+            intTotalCustLabel.setText(Integer.toString(contactFilter().size()));
         }
 
     }
 
     @FXML
     void onReportComboBoxCountry(ActionEvent event) {
+        intTotalCustLabel.setText("--");
         selectedContact = null;
         selectedMonth = null;
         selectedType = null;
@@ -131,6 +137,7 @@ public class ReportController implements Initializable {
 
     @FXML
     void onReportComboMonth(ActionEvent event) {
+        intTotalCustLabel.setText("--");
         selectedCountry = null;
         selectedContact = null;
         selectedType = null;
@@ -139,12 +146,20 @@ public class ReportController implements Initializable {
     }
 
     @FXML
-    void onReportComboType(ActionEvent event) {
+    void onReportComboType(ActionEvent event) throws SQLException {
+        intTotalCustLabel.setText("--");
         selectedCountry = null;
         selectedMonth = null;
         selectedContact = null;
         tableViewSetup();
         selectedType = (Appointments) reportComboType.getSelectionModel().getSelectedItem();
+        if(reportComboType.getValue() == null) {
+            tableViewSetup();
+        } else {
+            typeList = DBAppointments.getSortedAppointments(String.valueOf(selectedType));
+            contactScheduleTableView.setItems(typeList);
+
+        }
     }
 
 
@@ -173,8 +188,8 @@ public class ReportController implements Initializable {
                 e.printStackTrace();
             }
         } else if (rButtonByType.isSelected()){
-            contactScheduleTableView.setVisible(false);
-            customersTableView.setVisible(true);
+            contactScheduleTableView.setVisible(true);
+            customersTableView.setVisible(false);
             tableViewSetup();
             try {
                 comboLabel.setText("Type");
@@ -240,6 +255,9 @@ public class ReportController implements Initializable {
         return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
 
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         intTotalCustLabel.setText("--");
@@ -247,7 +265,6 @@ public class ReportController implements Initializable {
         contactScheduleTableView.setVisible(true);
         customersTableView.setVisible(false);
         tableViewSetup();
-
 
         apptIdCol.setCellValueFactory(new PropertyValueFactory<>("appointmentId"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
