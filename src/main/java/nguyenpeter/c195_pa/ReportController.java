@@ -111,9 +111,13 @@ public class ReportController implements Initializable {
         selectedCountry = null;
         selectedMonth = null;
         selectedType = null;
-        tableViewSetup();
         selectedContact = (Contacts) reportComboBox.getSelectionModel().getSelectedItem();
-        contactScheduleTableView.setItems(contactFilter());
+        if(reportComboBox.getValue() == null) {
+            tableViewSetup();
+        } else {
+            contactScheduleTableView.setItems(contactFilter());
+        }
+
     }
 
     @FXML
@@ -159,6 +163,8 @@ public class ReportController implements Initializable {
             try {
                 comboLabel.setText("Contact ID");
                 reportComboBox.setItems(DBContacts.getAllContacts());
+                reportComboBox.getItems().add(0, null);
+                reportComboType.setValue(null);
                 reportComboBox.setVisible(true);
                 reportComboMonth.setVisible(false);
                 reportComboType.setVisible(false);
@@ -225,7 +231,7 @@ public class ReportController implements Initializable {
     }
 
     private FilteredList<Appointments> contactFilter() {
-        return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex() + 1);
+        return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
 
     @Override
