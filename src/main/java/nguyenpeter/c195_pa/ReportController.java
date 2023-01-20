@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.Month;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -98,7 +99,7 @@ public class ReportController implements Initializable {
 
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
-    public static ObservableList<Appointments> typeList = FXCollections.observableArrayList();
+    public static ObservableList<Customers> typeList = FXCollections.observableArrayList();
     public static Contacts selectedContact = null;
     public static Appointments selectedType = null;
     public static Month selectedMonth = null;
@@ -156,8 +157,9 @@ public class ReportController implements Initializable {
         if(reportComboType.getValue() == null) {
             tableViewSetup();
         } else {
-            typeList = DBAppointments.getSortedAppointments(String.valueOf(selectedType));
-            contactScheduleTableView.setItems(typeList);
+            typeList = DBCustomers.getCustomerByType(String.valueOf(selectedType));
+            customersTableView.setItems(typeList);
+            intTotalCustLabel.setText(Integer.toString(typeList.size()));
 
         }
     }
@@ -188,8 +190,8 @@ public class ReportController implements Initializable {
                 e.printStackTrace();
             }
         } else if (rButtonByType.isSelected()){
-            contactScheduleTableView.setVisible(true);
-            customersTableView.setVisible(false);
+            contactScheduleTableView.setVisible(false);
+            customersTableView.setVisible(true);
             tableViewSetup();
             try {
                 comboLabel.setText("Type");
@@ -254,7 +256,6 @@ public class ReportController implements Initializable {
     private FilteredList<Appointments> contactFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
-
 
 
 

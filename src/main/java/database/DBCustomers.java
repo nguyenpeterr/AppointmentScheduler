@@ -54,6 +54,12 @@ public abstract class DBCustomers {
                 return resultSet(rs);
     }
 
+    public static ObservableList<Customers> getCustomerByType(String type) throws SQLException {
+        String sql = "SELECT Customers.*, Appointments.Type FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE Appointments.Type = " + '"' + type + '"';
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return resultSet(rs);
+    }
 
 
     public static void addCustomer(Customers customer) {
