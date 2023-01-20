@@ -61,6 +61,13 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
+    public static ObservableList<Customers> getCustomerByMonth(String month) throws SQLException {
+        String sql = "SELECT Customers.*, Appointments.*, MONTHNAME(Appointments.Start) as month FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE UPPER(MONTHNAME(Appointments.Start)) = " + '"' + month + '"';
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return resultSet(rs);
+    }
+
 
     public static void addCustomer(Customers customer) {
         if(customer != null) {

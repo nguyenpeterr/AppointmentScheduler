@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -137,13 +139,20 @@ public class ReportController implements Initializable {
     }
 
     @FXML
-    void onReportComboMonth(ActionEvent event) {
+    void onReportComboMonth(ActionEvent event) throws SQLException {
         intTotalCustLabel.setText("--");
         selectedCountry = null;
         selectedContact = null;
         selectedType = null;
         tableViewSetup();
         selectedMonth = (Month) reportComboMonth.getSelectionModel().getSelectedItem();
+        if(reportComboMonth.getValue() == null) {
+            tableViewSetup();
+        } else {
+            typeList = DBCustomers.getCustomerByMonth(String.valueOf(selectedMonth));
+            customersTableView.setItems(typeList);
+            intTotalCustLabel.setText(Integer.toString(typeList.size()));
+        }
     }
 
     @FXML
@@ -160,7 +169,6 @@ public class ReportController implements Initializable {
             typeList = DBCustomers.getCustomerByType(String.valueOf(selectedType));
             customersTableView.setItems(typeList);
             intTotalCustLabel.setText(Integer.toString(typeList.size()));
-
         }
     }
 
