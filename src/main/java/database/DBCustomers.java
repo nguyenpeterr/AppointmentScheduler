@@ -68,6 +68,13 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
+    public static ObservableList<Customers> getCustomerByCountry(String country) throws SQLException {
+        String sql = "SELECT Customers.*, Countries.*, First_Level_Divisions.* FROM CUSTOMERS INNER JOIN First_Level_Divisions ON Customers.Division_ID = First_Level_Divisions.Division_ID INNER JOIN Countries ON First_Level_Divisions.Country_ID = Countries.Country_ID WHERE Countries.Country = " + '"' + country + '"';
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return resultSet(rs);
+    }
+
 
     public static void addCustomer(Customers customer) {
         if(customer != null) {

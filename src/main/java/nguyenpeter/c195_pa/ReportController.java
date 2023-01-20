@@ -1,8 +1,6 @@
 package nguyenpeter.c195_pa;
 
-import database.DBContacts;
-import database.DBCountries;
-import database.DBCustomers;
+import database.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import database.DBAppointments;
 import model.Appointments;
 import model.Contacts;
 import model.Countries;
@@ -129,13 +126,20 @@ public class ReportController implements Initializable {
     }
 
     @FXML
-    void onReportComboBoxCountry(ActionEvent event) {
+    void onReportComboBoxCountry(ActionEvent event) throws SQLException {
         intTotalCustLabel.setText("--");
         selectedContact = null;
         selectedMonth = null;
         selectedType = null;
         tableViewSetup();
         selectedCountry= (Countries) reportComboBoxCountry.getSelectionModel().getSelectedItem();
+        if(reportComboBoxCountry.getValue() == null) {
+            tableViewSetup();
+        } else {
+            typeList = DBCustomers.getCustomerByCountry(String.valueOf(selectedCountry));
+            customersTableView.setItems(typeList);
+            intTotalCustLabel.setText(Integer.toString(typeList.size()));
+        }
     }
 
     @FXML
@@ -264,7 +268,6 @@ public class ReportController implements Initializable {
     private FilteredList<Appointments> contactFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
-
 
 
     @Override
