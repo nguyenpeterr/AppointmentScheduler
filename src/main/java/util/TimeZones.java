@@ -19,6 +19,9 @@ public class TimeZones {
     private static ZonedDateTime utcZDT = ZonedDateTime.ofInstant(myZDT.toInstant(), utcZoneId);
 
 
+    public static ZoneId getLocalZoneId() {
+        return localZoneId;
+    }
 
     public static String getLocalTime(ZonedDateTime time) {
         return localTime.format(timeFormatter);

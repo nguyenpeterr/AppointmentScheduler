@@ -8,8 +8,11 @@ import model.Customers;
 import util.TimeZones;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class DBAppointments {
 
@@ -22,8 +25,10 @@ public abstract class DBAppointments {
                 String description = rs.getString("Description");
                 String location = rs.getString("Location");
                 String type = rs.getString("Type");
-                ZonedDateTime start = TimeZones.toLocal(rs.getTimestamp("Start"));
-                ZonedDateTime end = TimeZones.toLocal(rs.getTimestamp("End"));
+                LocalDateTime startLDT = rs.getTimestamp("Start").toLocalDateTime();
+                ZonedDateTime start = startLDT.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault());
+                LocalDateTime endLDT = rs.getTimestamp("End").toLocalDateTime();
+                ZonedDateTime end = endLDT.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault());
                 ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
                 String createdBy = rs.getString("Created_By");
                 Timestamp lastUpdate = rs.getTimestamp("Last_Update");

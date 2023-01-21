@@ -553,7 +553,7 @@ public class MainController implements Initializable {
         descriptionCol_a.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
         typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
+        startCol_a.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
         endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
