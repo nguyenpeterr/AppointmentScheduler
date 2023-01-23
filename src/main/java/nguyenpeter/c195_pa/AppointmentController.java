@@ -30,6 +30,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 /**
@@ -72,7 +73,7 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label endTimeLabel;
     @FXML
-    private Spinner<LocalTime> endTimeSpinner;
+    private ComboBox<String> endCombo;
     @FXML
     private TextField locationField;
     @FXML
@@ -86,7 +87,7 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label startTimeLabel;
     @FXML
-    private Spinner<LocalTime> startTimeSpinner;
+    private ComboBox<String> startCombo;
     @FXML
     private TextField titleField;
     @FXML
@@ -100,22 +101,39 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label userIdLabel;
 
-    /**
-     * List to handle time in hours for the spinner. Minutes are incremented every 30 minutes and hours are incremented
-     * accordingly
-     * @return returns hours
-     */
-    private ObservableList<LocalTime> genHours() {
-        ObservableList<LocalTime> hours = FXCollections.observableArrayList();
-        for(int i=0; i <= 23; i++) {
-            for(int m=0; m <= 1; m++) {
-                hours.add(TimeZones.setLocalTime(i, m*30));
-            }
-        } return hours;
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
+    private final String delimiter = ": ";
+
+//    /**
+//     * List to handle time in hours for the spinner. Minutes are incremented every 30 minutes and hours are incremented
+//     * accordingly
+//     * @return returns hours
+//     */
+//    private ObservableList<LocalTime> genHours() {
+//        ObservableList<LocalTime> hours = FXCollections.observableArrayList();
+//        for(int i=0; i <= 23; i++) {
+//            for(int m=0; m <= 1; m++) {
+//                hours.add(TimeZones.setLocalTime(i, m*30));
+//            }
+//        } return hours;
+//    }
+//    public ObservableList<LocalTime> hours = genHours();
+//    public SpinnerValueFactory<LocalTime> startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
+//    public SpinnerValueFactory<LocalTime> endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
+
+    private ObservableList<String> getAppointmentTimes() {
+        ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
+        LocalTime midnight = LocalTime.of(0,0);
+        appointmentTimes.add(midnight.format(timeFormatter));
+
+        int mins = 15;
+        LocalTime appointmentTime = midnight.plusMinutes(mins);
+        while(!appointmentTime.equals(midnight)) {
+            appointmentTimes.add(appointmentTime.format(timeFormatter));
+            appointmentTime = appointmentTime.plusMinutes(mins);
+        }
+        return appointmentTimes;
     }
-    public ObservableList<LocalTime> hours = genHours();
-    public SpinnerValueFactory<LocalTime> startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
-    public SpinnerValueFactory<LocalTime> endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
 
     /**
      * Attached to the cancel button on the GUI. Window will close and user will be returned to the main appointment window.
@@ -130,19 +148,20 @@ public class AppointmentController implements Initializable {
     }
 
     /**
-     * Attached to the Spinner
+     * Attached to the start combobox
      * @param event On mouse click
      */
+
     @FXML
-    void onStartSpinnerClick(MouseEvent event) {
+    void onStartCombo(MouseEvent event) {
     }
 
     /**
-     * Attached to the Spinner
+     * Attached to the end combobox
      * @param event On mouse click
      */
     @FXML
-    void onEndSpinnerClick(MouseEvent event) {
+    void onEndCombo(MouseEvent event) {
     }
 
     /**
@@ -185,8 +204,8 @@ public class AppointmentController implements Initializable {
         String description = descriptionField.getText();
         String location = locationField.getText();
         String type = typeField.getText();
-        ZonedDateTime start = datePickerValue(0);
-        ZonedDateTime end = datePickerValue(1);
+        LocalDateTime start = datePickerValue(0).toLocalDateTime();
+        LocalDateTime end = datePickerValue(1).toLocalDateTime();
         int customerId = customerIdComboBox.getSelectionModel().getSelectedIndex() + 1;
         int userId = userIdComboBox.getSelectionModel().getSelectedIndex() + 1;
         int contactId = contactComboBox.getSelectionModel().getSelectedIndex() + 1;
@@ -211,14 +230,14 @@ public class AppointmentController implements Initializable {
         descriptionField.setText(String.valueOf(appointment.getDescription()));
         locationField.setText(String.valueOf(appointment.getLocation()));
         typeField.setText(String.valueOf(appointment.getType()));
-        LocalDate startDate = TimeZones.toLocal(MainController.selectedAppointment.getStart()).toLocalDate();
-        LocalTime startTime = TimeZones.toLocal(MainController.selectedAppointment.getStart()).toLocalTime();
+        LocalDate startDate = MainController.selectedAppointment.getStartDateTimeLocal().toLocalDate();
+        LocalTime startTime = MainController.selectedAppointment.getStartDateTimeLocal().toLocalTime();
         startDatePicker.setValue(startDate);
-        startTImeVF.setValue(startTime);
-        LocalDate endDate = TimeZones.toLocal(MainController.selectedAppointment.getEnd()).toLocalDate();
-        LocalTime endTime = TimeZones.toLocal(MainController.selectedAppointment.getEnd()).toLocalTime();
+        startCombo.setValue(startTime.format(timeFormatter).toString());
+        LocalDate endDate = MainController.selectedAppointment.getEndTimeLocal().toLocalDate();
+        LocalTime endTime = MainController.selectedAppointment.getEndTimeLocal().toLocalTime();
         endDatePicker.setValue(endDate);
-        endTimeVF.setValue(endTime);
+        endCombo.setValue(endTime.format(timeFormatter).toString());
         contactComboBox.getSelectionModel().selectFirst();
         contactComboBox.getSelectionModel().select(MainController.selectedAppointment.getContactId() - 1);
         userIdComboBox.getSelectionModel().selectFirst();
@@ -239,6 +258,8 @@ public class AppointmentController implements Initializable {
         boolean locationInput = Verify.isVarCharFifty("Location", locationField.getText());
         boolean typeInput = Verify.isVarCharFifty("Type", typeField.getText());
         boolean userIdInput = false;
+        LocalDateTime start = datePickerValue(0).toLocalDateTime();
+        LocalDateTime end = datePickerValue(1).toLocalDateTime();
         if(userIdComboBox.getValue() != null) {
             userIdInput = true;
         }
@@ -249,7 +270,7 @@ public class AppointmentController implements Initializable {
         }
        boolean customerId = true;
         boolean datesInput = Verify.validTime(datePickerValue(0), datePickerValue(1),
-                TimeZones.EST(startTimeSpinner.getValue()), TimeZones.EST(endTimeSpinner.getValue()));
+                TimeZones.EST(start.toLocalTime()), TimeZones.EST(end.toLocalTime()));
         boolean dateAvailable = false;
         if (customerId) {
             dateAvailable = Verify.isAvailableDate(datePickerValue(0), datePickerValue(1),
@@ -275,10 +296,12 @@ public class AppointmentController implements Initializable {
         LocalTime time;
         if(datePicker == 0) {
             date = startDatePicker.getValue();
-            time = startTimeSpinner.getValue();
+            String timeString = startCombo.getValue();
+            time = LocalTime.parse(timeString, timeFormatter);
         } else {
             date = endDatePicker.getValue();
-            time = endTimeSpinner.getValue();
+            String timeString = endCombo.getValue();
+            time = LocalTime.parse(timeString, timeFormatter);
         }
         return TimeZones.combinedDateTime(date, time);
     }
@@ -291,8 +314,8 @@ public class AppointmentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         appointmentIdField.setText(String.valueOf(DBAppointments.generateAppointmentId()));
-        startTimeSpinner.setValueFactory(startTImeVF);
-        endTimeSpinner.setValueFactory(endTimeVF);
+        startCombo.getItems().addAll(getAppointmentTimes());
+        endCombo.getItems().addAll(startCombo.getItems());
         try {
             contactComboBox.setItems(DBContacts.getAllContacts());
             customerIdComboBox.setItems(DBCustomers.getAllCustomers());

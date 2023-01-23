@@ -80,8 +80,8 @@ public class TimeZones {
         return LocalTime.of(hour, min, 0);
     }
 
-    public static ZonedDateTime EST(ZonedDateTime time) {
-        return ZonedDateTime.of(time.toLocalDateTime(), ZoneId.of("America/New_York"));
+    public static ZonedDateTime EST(LocalDateTime time) {
+        return ZonedDateTime.of(time, ZoneId.of("America/New_York"));
     }
 
     public static LocalTime EST(LocalTime time) {
@@ -93,12 +93,23 @@ public class TimeZones {
         return estDateTime.toLocalTime();
     }
 
+//    public static ZonedDateTime combinedDateTime(LocalDate date, LocalTime time) {
+//        if (date != null && time != null) {
+//            LocalDateTime combinedTime = LocalDateTime.of(date, time);
+//            ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.of("America/New_York"));
+//            return ZonedDateTime.of(combinedLocalTime.toLocalDateTime(), ZoneId.of("UTC"));
+//        }
+//        return ZonedDateTime.now();
+//    }
+
     public static ZonedDateTime combinedDateTime(LocalDate date, LocalTime time) {
         if (date != null && time != null) {
             LocalDateTime combinedTime = LocalDateTime.of(date, time);
-            ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.of("America/New_York"));
-            return ZonedDateTime.of(combinedLocalTime.toLocalDateTime(), ZoneId.of("UTC"));
+            ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.systemDefault());
+            System.out.println("COMBINED SUCCESS");
+            return combinedLocalTime;
         }
+        System.out.println("COMBINE FAILED");
         return ZonedDateTime.now();
     }
 

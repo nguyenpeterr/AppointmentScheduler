@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -63,6 +64,13 @@ public abstract class DBCustomers {
 
     public static ObservableList<Customers> getCustomerByMonth(String month) throws SQLException {
         String sql = "SELECT Customers.*, Appointments.*, MONTHNAME(Appointments.Start) as month FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE UPPER(MONTHNAME(Appointments.Start)) = " + '"' + month + '"';
+        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        return resultSet(rs);
+    }
+
+    public static ObservableList<Customers> getCustomerByMonth(LocalDate today) throws SQLException {
+        String sql = "SELECT Customers.*, Appointments.*, MONTHNAME(Appointments.Start) as month FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE UPPER(MONTHNAME(Appointments.Start)) = " + '"' + today + '"';
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         return resultSet(rs);

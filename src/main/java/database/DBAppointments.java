@@ -16,29 +16,37 @@ import java.time.format.DateTimeFormatter;
 
 public abstract class DBAppointments {
 
+    private static final DateTimeFormatter zdtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
+    private static final DateTimeFormatter ldtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     public static ObservableList<Appointments> resultSet(ResultSet rs) {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
             while (rs.next()) {
-                int appointmentId = rs.getInt("Appointment_ID");
-                String title = rs.getString("Title");
-                String description = rs.getString("Description");
-                String location = rs.getString("Location");
-                String type = rs.getString("Type");
-                LocalDateTime startLDT = rs.getTimestamp("Start").toLocalDateTime();
-                ZonedDateTime start = startLDT.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault());
-                LocalDateTime endLDT = rs.getTimestamp("End").toLocalDateTime();
-                ZonedDateTime end = endLDT.atZone(ZoneOffset.UTC).withZoneSameInstant(ZoneId.systemDefault());
-                ZonedDateTime createDate = ZonedDateTime.of(rs.getTimestamp("Create_Date").toLocalDateTime(), ZoneId.systemDefault());
-                String createdBy = rs.getString("Created_By");
-                Timestamp lastUpdate = rs.getTimestamp("Last_Update");
-                String lastUpdatedBy = rs.getString("Last_Updated_By");
-                int customerId = rs.getInt("Customer_ID");
-                int userId = rs.getInt("User_ID");
-                int contactId = rs.getInt("Contact_ID");
-                Appointments appointment = new Appointments(appointmentId, title, description, location, type, start, end,
-                        createDate, createdBy, lastUpdate, lastUpdatedBy, customerId, userId, contactId);
-                appointmentsList.add(appointment);
+                Appointments newAppointment = new Appointments();
+                newAppointment.setAppointmentId(rs.getInt("Appointment_ID"));
+                newAppointment.setTitle(rs.getString("Title"));
+                newAppointment.setDescription(rs.getString("Description"));
+                newAppointment.setLocation(rs.getString("Location"));
+                newAppointment.setType(rs.getString("Type"));
+
+                String startDateTime = rs.getString("Start") + " UTC";
+                String endDateTime = rs.getString("End") + " UTC";
+                ZonedDateTime startZDT = ZonedDateTime.parse(startDateTime, zdtFormatter);
+                ZonedDateTime endZDT = ZonedDateTime.parse(endDateTime, zdtFormatter);
+                newAppointment.setStart(startZDT);
+                newAppointment.setEnd(endZDT);
+                newAppointment.setCustomerId(rs.getInt("Customer_ID"));
+                newAppointment.setUserId(rs.getInt("User_ID"));
+                newAppointment.setContactId(rs.getInt("Contact_ID"));
+                String createDate = rs.getString("Create_Date") + " UTC";
+                ZonedDateTime createZDT = ZonedDateTime.parse(createDate, zdtFormatter);
+                newAppointment.setCreateDate(createZDT);
+                newAppointment.setCreatedBy(rs.getString("Created_By"));
+                newAppointment.setLastUpdate(rs.getTimestamp("Last_Update"));
+                newAppointment.setLastUpdatedBy(rs.getString("Last_Updated_By"));
+                appointmentsList.add(newAppointment);
+
             }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -99,8 +107,14 @@ public abstract class DBAppointments {
                 ps.setString(3,appointment.getDescription());
                 ps.setString(4, appointment.getLocation());
                 ps.setString(5, appointment.getType());
-                ps.setTimestamp(6, TimeZones.timestamp(appointment.getStart()));
-                ps.setTimestamp(7, TimeZones.timestamp(appointment.getEnd()));
+                ZonedDateTime startZoned = appointment.getStartTimeZoned();
+                ZonedDateTime endZoned = appointment.getStartTimeZoned();
+                startZoned = startZoned.withZoneSameInstant(ZoneId.of("UTC"));
+                endZoned = endZoned.withZoneSameInstant(ZoneId.of("UTC"));
+                String start = startZoned.toLocalDateTime().format(ldtFormatter);
+                String end = endZoned.toLocalDateTime().format(ldtFormatter);
+                ps.setString(6, start);
+                ps.setString(7, end);
                 ps.setTimestamp(8, TimeZones.timestamp(appointment.getCreateDate()));
                 ps.setString(9, "admin");
                 ps.setTimestamp(10, appointment.getLastUpdate());
@@ -126,8 +140,14 @@ public abstract class DBAppointments {
             ps.setString(2, appointment.getDescription());
             ps.setString(3, appointment.getLocation());
             ps.setString(4, appointment.getType());
-            ps.setTimestamp(5, TimeZones.timestamp(appointment.getStart()));
-            ps.setTimestamp(6, TimeZones.timestamp(appointment.getEnd()));
+            ZonedDateTime startZoned = appointment.getStartTimeZoned();
+            ZonedDateTime endZoned = appointment.getEndTimeZoned();
+            startZoned = startZoned.withZoneSameInstant(ZoneId.of("UTC"));
+            endZoned = endZoned.withZoneSameInstant(ZoneId.of("UTC"));
+            String start = startZoned.toLocalDateTime().format(ldtFormatter);
+            String end = endZoned.toLocalDateTime().format(ldtFormatter);
+            ps.setString(5, start);
+            ps.setString(6, end);
             ps.setTimestamp(7, TimeZones.timestamp(appointment.getCreateDate()));
             ps.setString(8, "admin");
             ps.setTimestamp(9, appointment.getLastUpdate());

@@ -6,7 +6,10 @@ import javafx.collections.ObservableList;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class Appointments extends Date {
     private int appointmentId;
@@ -14,8 +17,8 @@ public class Appointments extends Date {
     private String description;
     private String location;
     private String type;
-    private ZonedDateTime start;
-    private ZonedDateTime end;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private ZonedDateTime createDate;
     private String createdBy;
     private Timestamp lastUpdate;
@@ -25,7 +28,7 @@ public class Appointments extends Date {
     private int contactId;
 
 
-    public Appointments(int appointmentId, String title, String description, String location, String type, ZonedDateTime start, ZonedDateTime end,
+    public Appointments(int appointmentId, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end,
                         ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
         this.appointmentId = appointmentId;
@@ -46,7 +49,7 @@ public class Appointments extends Date {
     }
 
     public Appointments() {
-        this(-1, null, null, null, null, null, null, null, null, null, null, -1, -1 ,-1);
+        this(0, null, null, null, null, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, -1, -1 ,-1);
     }
 
     public int getAppointmentId() {
@@ -89,20 +92,50 @@ public class Appointments extends Date {
         this.type = type;
     }
 
-    public ZonedDateTime getStart() {
+    public String getStart() {
+        return start.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+    }
+
+    public LocalDateTime getStartDateTimeLocal() {
         return this.start;
     }
 
+    public ZonedDateTime getStartTimeZoned() {
+        return this.start.atZone(ZoneId.systemDefault());
+    }
+
     public void setStart(ZonedDateTime start) {
+        ZoneId localZoneId = ZoneId.systemDefault();
+        LocalDateTime startLocalDateTime = start.withZoneSameInstant(localZoneId).toLocalDateTime();
+        System.out.println("SET ZDT START");
+        setStart(startLocalDateTime);
+    }
+
+    public void setStart(LocalDateTime start) {
+        System.out.println("SET LDT START");
         this.start = start;
     }
 
-    public ZonedDateTime getEnd() {
+    public String getEnd() {
+        return this.end.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
+    }
+
+    public LocalDateTime getEndTimeLocal() {
         return this.end;
     }
 
+    public ZonedDateTime getEndTimeZoned() {
+        return this.end.atZone(ZonedDateTime.now().getZone());
+    }
+
+    public void setEnd(LocalDateTime endDateTimeLocal) {
+        end = endDateTimeLocal;
+    }
+
     public void setEnd(ZonedDateTime end) {
-        this.end = end;
+        ZoneId localZoneId = ZoneId.systemDefault();
+        LocalDateTime endDateTimeLocal = end.withZoneSameInstant(localZoneId).toLocalDateTime();
+        setEnd(endDateTimeLocal);
     }
 
 

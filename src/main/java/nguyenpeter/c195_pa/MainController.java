@@ -225,7 +225,7 @@ public class MainController implements Initializable {
         selectedCustomer = null;
         selectedAppointment = (Appointments) appointmentTableView.getSelectionModel().getSelectedItem();
         if(selectedDate != null) {
-            selectedDate = selectedAppointment.getStart();
+            selectedDate = selectedAppointment.getStartTimeZoned();
         }
     }
 
@@ -431,7 +431,7 @@ public class MainController implements Initializable {
      * @return Returns the list of appointments within the current week
      */
     private FilteredList<Appointments> weekFilter() {
-        return new FilteredList<>(appointmentsList, p -> p.getStart().get(ChronoField.ALIGNED_WEEK_OF_YEAR) ==
+        return new FilteredList<>(appointmentsList, p -> p.getStartDateTimeLocal().get(ChronoField.ALIGNED_WEEK_OF_YEAR) ==
                 ZonedDateTime.now(ZoneId.systemDefault()).get(ChronoField.ALIGNED_WEEK_OF_YEAR));
     }
 
@@ -439,9 +439,14 @@ public class MainController implements Initializable {
      * List of appointments according the current month of the user's system
      * @return Returns the list of appointments within the current month
      */
+//    private FilteredList<Appointments> monthFilter() {
+//        return new FilteredList<>(appointmentsList, p -> p.getStart().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
+//    }
+
     private FilteredList<Appointments> monthFilter() {
-        return new FilteredList<>(appointmentsList, p -> p.getStart().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
+        return new FilteredList<>(appointmentsList, p -> p.getStartDateTimeLocal().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
     }
+
 
     /**
      * Checks to see what radio button the user selects to filter the view by month
@@ -497,10 +502,10 @@ public class MainController implements Initializable {
         LocalTime now = ZonedDateTime.now(ZoneId.systemDefault()).toLocalTime();
         LocalDate today = ZonedDateTime.now(ZoneId.systemDefault()).toLocalDate();
         for (Appointments a : appointments) {
-            if(a.getStart().toLocalDate().equals(today)) {
-                LocalTime aTime = a.getStart().toLocalTime();
+            if(a.getStartDateTimeLocal().equals(today)) {
+                LocalTime aTime = a.getStartDateTimeLocal().toLocalTime();
                 if(aTime.compareTo(now) <= fifteenMinutes && aTime.compareTo(now) > 0) {
-                    showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStart());
+                    showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStartTimeZoned());
                     showAlert = true;
                 }
             }
@@ -553,7 +558,7 @@ public class MainController implements Initializable {
         descriptionCol_a.setCellValueFactory(new PropertyValueFactory<>("description"));
         locationCol_a.setCellValueFactory(new PropertyValueFactory<>("location"));
         typeCol_a.setCellValueFactory(new PropertyValueFactory<>("type"));
-        startCol_a.setCellValueFactory(new PropertyValueFactory<>("formattedStart"));
+        startCol_a.setCellValueFactory(new PropertyValueFactory<>("start"));
         endCol_a.setCellValueFactory(new PropertyValueFactory<>("end"));
         customerIdCol_a.setCellValueFactory(new PropertyValueFactory<>("customerId"));
         userIdCol_a.setCellValueFactory(new PropertyValueFactory<>("userId"));
@@ -568,12 +573,7 @@ public class MainController implements Initializable {
         custLastUpdateCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdate"));
         custLastUpdatedByCol.setCellValueFactory(new PropertyValueFactory<>("lastUpdatedBy"));
         custDivisionIdCol.setCellValueFactory(new PropertyValueFactory<>("divisionId"));
-
-        if(firstLoad) {
-            alertGroup.setVisible(true);
-            confirmAppointments();
-            firstLoad = false;
-        }
+        confirmAppointments();
 
     }
 
@@ -581,6 +581,8 @@ public class MainController implements Initializable {
 
 /**
  * Fix timezone display
- * Reports page
+ * Adding Appt Start time is ok, adding end time does not stick (but updating sticks)
+ * Check for overlap
+ * Updating old appointments is 1hr off
  * Javadocs
  */

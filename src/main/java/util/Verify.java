@@ -168,7 +168,7 @@ public abstract class Verify {
         ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
         allAppointments = DBAppointments.getAllAppointmentsExcept(id);
         for (Appointments a : allAppointments) {
-            if (isBetween(TimeZones.EST(start), TimeZones.EST(end), TimeZones.EST(a.getStart()), TimeZones.EST(a.getEnd()))) {
+            if (isBetween(TimeZones.EST(start.toLocalDateTime()), TimeZones.EST(end.toLocalDateTime()), TimeZones.EST(a.getStartDateTimeLocal()), TimeZones.EST(a.getEndTimeZoned().toLocalDateTime()))) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
                 alert.setContentText("Appointment Overlap");
