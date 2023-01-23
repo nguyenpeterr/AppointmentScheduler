@@ -108,7 +108,7 @@ public abstract class DBAppointments {
                 ps.setString(4, appointment.getLocation());
                 ps.setString(5, appointment.getType());
                 ZonedDateTime startZoned = appointment.getStartTimeZoned();
-                ZonedDateTime endZoned = appointment.getStartTimeZoned();
+                ZonedDateTime endZoned = appointment.getEndTimeZoned();
                 startZoned = startZoned.withZoneSameInstant(ZoneId.of("UTC"));
                 endZoned = endZoned.withZoneSameInstant(ZoneId.of("UTC"));
                 String start = startZoned.toLocalDateTime().format(ldtFormatter);

@@ -102,24 +102,7 @@ public class AppointmentController implements Initializable {
     private Label userIdLabel;
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
-    private final String delimiter = ": ";
 
-//    /**
-//     * List to handle time in hours for the spinner. Minutes are incremented every 30 minutes and hours are incremented
-//     * accordingly
-//     * @return returns hours
-//     */
-//    private ObservableList<LocalTime> genHours() {
-//        ObservableList<LocalTime> hours = FXCollections.observableArrayList();
-//        for(int i=0; i <= 23; i++) {
-//            for(int m=0; m <= 1; m++) {
-//                hours.add(TimeZones.setLocalTime(i, m*30));
-//            }
-//        } return hours;
-//    }
-//    public ObservableList<LocalTime> hours = genHours();
-//    public SpinnerValueFactory<LocalTime> startTImeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
-//    public SpinnerValueFactory<LocalTime> endTimeVF = new SpinnerValueFactory.ListSpinnerValueFactory<>(hours);
 
     private ObservableList<String> getAppointmentTimes() {
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
@@ -175,10 +158,8 @@ public class AppointmentController implements Initializable {
         if(validInput()) {
             if (MainController.selectedAppointment != null) {
                 DBAppointments.updateAppointment(createAppointment());
-                System.out.println("Update Success");
             } else {
                 addAppointment();
-                System.out.println("Add Success");
             }
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             MainController.selectedAppointment = null;

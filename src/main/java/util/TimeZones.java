@@ -93,23 +93,12 @@ public class TimeZones {
         return estDateTime.toLocalTime();
     }
 
-//    public static ZonedDateTime combinedDateTime(LocalDate date, LocalTime time) {
-//        if (date != null && time != null) {
-//            LocalDateTime combinedTime = LocalDateTime.of(date, time);
-//            ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.of("America/New_York"));
-//            return ZonedDateTime.of(combinedLocalTime.toLocalDateTime(), ZoneId.of("UTC"));
-//        }
-//        return ZonedDateTime.now();
-//    }
-
     public static ZonedDateTime combinedDateTime(LocalDate date, LocalTime time) {
         if (date != null && time != null) {
             LocalDateTime combinedTime = LocalDateTime.of(date, time);
             ZonedDateTime combinedLocalTime = ZonedDateTime.of(combinedTime, ZoneId.systemDefault());
-            System.out.println("COMBINED SUCCESS");
             return combinedLocalTime;
         }
-        System.out.println("COMBINE FAILED");
         return ZonedDateTime.now();
     }
 
@@ -117,7 +106,4 @@ public class TimeZones {
         return Timestamp.valueOf(sqlFormat.format(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("UTC"))));
     }
 
-    public static String reportEST(ZonedDateTime time) {
-        return zonedDateFormatter.format(ZonedDateTime.of(time.toLocalDateTime(), ZoneId.of("America/New_York")));
-    }
 }

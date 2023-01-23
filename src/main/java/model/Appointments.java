@@ -107,12 +107,10 @@ public class Appointments extends Date {
     public void setStart(ZonedDateTime start) {
         ZoneId localZoneId = ZoneId.systemDefault();
         LocalDateTime startLocalDateTime = start.withZoneSameInstant(localZoneId).toLocalDateTime();
-        System.out.println("SET ZDT START");
         setStart(startLocalDateTime);
     }
 
     public void setStart(LocalDateTime start) {
-        System.out.println("SET LDT START");
         this.start = start;
     }
 

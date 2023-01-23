@@ -162,7 +162,6 @@ public class MainController implements Initializable {
     public boolean viewAppointments = true;
     public boolean monthSort = true;
     public boolean viewAll = true;
-    private boolean firstLoad = true;
     Scene appointmentFormScene;
     Stage appointmentFormStage = new Stage();
     Scene reportScene;
@@ -199,15 +198,6 @@ public class MainController implements Initializable {
         }
     }
 
-    /**
-     * User selection to view all appointments
-     * @param event when View All radio button is selected
-     */
-    @FXML
-    void onViewAllRadio(ActionEvent event) {
-        viewAll = true;
-        tableViewSetup();
-    }
 
     /**
      * Calls on setSelectedAppointment() method when user clicks on the table view
@@ -317,14 +307,7 @@ public class MainController implements Initializable {
         stage.show();
     }
 
-    /**
-     * Attached to the month view radio button to filter results to current month
-     * @param event Initiated on radio button select
-     */
-    @FXML
-    void onMonthToggle(ActionEvent event) {
-        viewToggle();
-    }
+
 
     /**
      * Attached to the Reports button to open the Reports.fxml page
@@ -385,13 +368,46 @@ public class MainController implements Initializable {
         }
     }
 
+
+//    /**
+//     * Checks to see what radio button the user selects to filter the view by month
+//     */
+//    public void viewToggle() {
+//        viewAll = false;
+//        monthSort = !monthSort;
+//        tableViewSetup();
+//    }
+
     /**
      * Attached to week view radio button. Will filter appointments by current week
      * @param event On radio button select
      */
     @FXML
     void onWeekToggle(ActionEvent event) {
-        viewToggle();
+        viewAll = false;
+        monthSort = false;
+        tableViewSetup();
+    }
+
+    /**
+     * Attached to the month view radio button to filter results to current month
+     * @param event Initiated on radio button select
+     */
+    @FXML
+    void onMonthToggle(ActionEvent event) {
+        viewAll = false;
+        monthSort = true;
+        tableViewSetup();
+    }
+
+    /**
+     * User selection to view all appointments
+     * @param event when View All radio button is selected
+     */
+    @FXML
+    void onViewAllRadio(ActionEvent event) {
+        viewAll = true;
+        tableViewSetup();
     }
 
     /**
@@ -448,14 +464,6 @@ public class MainController implements Initializable {
     }
 
 
-    /**
-     * Checks to see what radio button the user selects to filter the view by month
-     */
-    public void viewToggle() {
-        viewAll = false;
-        monthSort = !monthSort;
-        tableViewSetup();
-    }
 
     /**
      * Used to show the appointment alert when application opens. Alerts the user if there is an
@@ -492,19 +500,17 @@ public class MainController implements Initializable {
      */
     private void confirmAppointments() {
         boolean showAlert = false;
-        int fifteenMinutes = 900000;
         ObservableList<Appointments> appointments = FXCollections.observableArrayList();
         try {
             appointments = DBAppointments.getAllAppointments();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        LocalTime now = ZonedDateTime.now(ZoneId.systemDefault()).toLocalTime();
-        LocalDate today = ZonedDateTime.now(ZoneId.systemDefault()).toLocalDate();
+        LocalDateTime now = LocalDateTime.now();
         for (Appointments a : appointments) {
-            if(a.getStartDateTimeLocal().equals(today)) {
-                LocalTime aTime = a.getStartDateTimeLocal().toLocalTime();
-                if(aTime.compareTo(now) <= fifteenMinutes && aTime.compareTo(now) > 0) {
+            if(now.toLocalDate().equals(a.getStartDateTimeLocal().toLocalDate())) {
+                long timeToAppt = Duration.between(now, a.getStartDateTimeLocal()).toMinutes();
+                if(timeToAppt <= 15 && timeToAppt >=0) {
                     showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStartTimeZoned());
                     showAlert = true;
                 }
@@ -580,9 +586,7 @@ public class MainController implements Initializable {
 }
 
 /**
- * Fix timezone display
- * Adding Appt Start time is ok, adding end time does not stick (but updating sticks)
- * Check for overlap
  * Updating old appointments is 1hr off
+ * Fix alert start time to show appointment start time (currently showing current time)
  * Javadocs
  */
