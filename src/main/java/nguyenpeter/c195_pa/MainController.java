@@ -369,15 +369,6 @@ public class MainController implements Initializable {
     }
 
 
-//    /**
-//     * Checks to see what radio button the user selects to filter the view by month
-//     */
-//    public void viewToggle() {
-//        viewAll = false;
-//        monthSort = !monthSort;
-//        tableViewSetup();
-//    }
-
     /**
      * Attached to week view radio button. Will filter appointments by current week
      * @param event On radio button select
@@ -443,7 +434,7 @@ public class MainController implements Initializable {
 
 
     /**
-     * List of appointments according to the current week of the user's system
+     * Lambda of the list of appointments according to the current week of the user's system
      * @return Returns the list of appointments within the current week
      */
     private FilteredList<Appointments> weekFilter() {
@@ -452,32 +443,28 @@ public class MainController implements Initializable {
     }
 
     /**
-     * List of appointments according the current month of the user's system
+     * Lambda of the list of appointments according the current month of the user's system
      * @return Returns the list of appointments within the current month
      */
-//    private FilteredList<Appointments> monthFilter() {
-//        return new FilteredList<>(appointmentsList, p -> p.getStart().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
-//    }
-
     private FilteredList<Appointments> monthFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getStartDateTimeLocal().getMonthValue() == ZonedDateTime.now(ZoneId.systemDefault()).getMonthValue());
     }
 
 
-
     /**
      * Used to show the appointment alert when application opens. Alerts the user if there is an
      * appointment scheduled within 15mins
-     * @param bool Takes in a boolean value
-     * @param id Takes in an appointment id
+     * @param bool Takes in a boolean parameter
+     * @param id Takes in the appointment id
      * @param title Takes in the appointment title
-     * @param start Takes in the ZonedDateTime of the start of the appointment
+     * @param startdate Takes the date of the start date of the appointment
+     * @param startTime Takes the time of the start time of the appointment
      */
-    private void showAppointmentAlert(boolean bool, int id, String title, ZonedDateTime start) {
+    private void showAppointmentAlert(boolean bool, int id, String title, ZonedDateTime startdate, String startTime) {
         if(bool) {
             String alert = "The appointment below is scheduled to start within 15 minutes: \n\n" +
                     "Appointment ID: " + id + "\n" + "Title: " + title + "\n" +
-                    "Start: " + TimeZones.getLocalDate(start) + " @ " + TimeZones.getLocalTime(start);
+                    "Start: " + TimeZones.getLocalDate(startdate) + " @ " + startTime;
             alertWindowText.setText(alert);
         } else {
             alertWindowText.setText("There are no appointments scheduled within 15 minutes.");
@@ -511,13 +498,13 @@ public class MainController implements Initializable {
             if(now.toLocalDate().equals(a.getStartDateTimeLocal().toLocalDate())) {
                 long timeToAppt = Duration.between(now, a.getStartDateTimeLocal()).toMinutes();
                 if(timeToAppt <= 15 && timeToAppt >=0) {
-                    showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStartTimeZoned());
+                    showAppointmentAlert(true, a.getAppointmentId(), a.getTitle(), a.getStartTimeZoned(), a.getStart());
                     showAlert = true;
                 }
             }
         }
         if(!showAlert) {
-            showAppointmentAlert(false, -1, "", ZonedDateTime.now());
+            showAppointmentAlert(false, -1, "", ZonedDateTime.now(), "");
         }
     }
 
@@ -586,7 +573,6 @@ public class MainController implements Initializable {
 }
 
 /**
- * Updating old appointments is 1hr off
  * Fix alert start time to show appointment start time (currently showing current time)
  * Javadocs
  */

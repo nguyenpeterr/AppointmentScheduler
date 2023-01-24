@@ -27,12 +27,14 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
+/**
+ * ReportController manages the Report.fxml form. This handles the Reports window for all appointments
+ */
 public class ReportController implements Initializable {
 
-    Stage stage;
-    Parent scene;
-
-
+    /**
+     * Tables, labels, combo boxes, radio buttons declared here from the Report.fxml
+     */
     @FXML
     private TableColumn<?, ?> apptIdCol;
     @FXML
@@ -96,6 +98,10 @@ public class ReportController implements Initializable {
     @FXML
     private Label intTotalCustLabel;
 
+    /**
+     * Creates lists from Appointments and Customers to use for filtering
+     * Create a list of Months to populate the combo box to allow user to filter by specific month
+     */
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
     public static ObservableList<Customers> typeList = FXCollections.observableArrayList();
@@ -108,6 +114,12 @@ public class ReportController implements Initializable {
         return FXCollections.observableArrayList(Month.values());
     }
 
+    /**
+     * When the user selects the combo box in the Contact Schedule view, the user is able to select
+     * the contact ID to filter the report.
+     * Shows the count of customers on the bottom
+     * @param event On combo box selection
+     */
     @FXML
     void onReportComboBox(ActionEvent event) {
         selectedCountry = null;
@@ -125,6 +137,13 @@ public class ReportController implements Initializable {
 
     }
 
+    /**
+     * When the user selects the combo box in the 'View by Country' view, the user is able to select
+     * the country to filter the report
+     * Shows the count of customers on the bottom
+     * @param event On combo box selection
+     * @throws SQLException
+     */
     @FXML
     void onReportComboBoxCountry(ActionEvent event) throws SQLException {
         intTotalCustLabel.setText("--");
@@ -142,6 +161,13 @@ public class ReportController implements Initializable {
         }
     }
 
+    /**
+     * When the user selects the combo box in the 'View by Month' view, the user is able to select
+     * the Month to filter the report
+     * Shows the count of customers on the bottom
+     * @param event On combo box selection
+     * @throws SQLException
+     */
     @FXML
     void onReportComboMonth(ActionEvent event) throws SQLException {
         intTotalCustLabel.setText("--");
@@ -159,6 +185,13 @@ public class ReportController implements Initializable {
         }
     }
 
+    /**
+     * When the user selects the combo box in the 'View by Type' view, the user is able to select
+     * the type to filter the report
+     * Shows the count of customers on the bottom
+     * @param event On combo box selection
+     * @throws SQLException
+     */
     @FXML
     void onReportComboType(ActionEvent event) throws SQLException {
         intTotalCustLabel.setText("--");
@@ -177,12 +210,22 @@ public class ReportController implements Initializable {
     }
 
 
+    /**
+     * Closes the window
+     * @param event On Close button click
+     * @throws IOException
+     */
     @FXML
     void onCloseButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Sets the table view and combo box label based on the selected radio button
+     * @param event On radio button selection
+     * @throws SQLException
+     */
     @FXML
     void onRadioSelect(ActionEvent event) throws SQLException {
         if(rButtonContactSched.isSelected()) {
@@ -254,6 +297,9 @@ public class ReportController implements Initializable {
         }
     }
 
+    /**
+     * Populates the table view
+     */
     public void tableViewSetup() {
         try {
             appointmentsList = DBAppointments.getAllAppointments();
@@ -265,11 +311,21 @@ public class ReportController implements Initializable {
         customersTableView.setItems(customersList);
     }
 
+    /**
+     * Lambda to filter the table view based on the selected contact id from the combo box
+     * @return Returns a new filtered list
+     */
     private FilteredList<Appointments> contactFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
 
 
+    /**
+     * When the Reports window is initialized, combo box label is set to blank.
+     * Table view is populated with all appointments
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         intTotalCustLabel.setText("--");

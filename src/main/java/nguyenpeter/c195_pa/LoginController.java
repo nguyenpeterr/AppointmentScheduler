@@ -18,16 +18,22 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/**
+ * LoginController handles the login window.
+ * Requires user to enter a valid username and password in order to access the application
+ * Logs all login attempts in login_activity.txt file
+ */
 public class LoginController implements Initializable {
 
+    /**
+     * Sets the stage and scene for the Login window
+     */
     Stage stage;
     Parent scene;
 
-    @FXML
-    private RadioButton rButtonEng;
-
-    @FXML
-    private RadioButton rButtonFrench;
+    /**
+     * Buttons and text fields are declared here from the Login.fxml
+     */
 
     @FXML
     private Button loginButton;
@@ -57,6 +63,13 @@ public class LoginController implements Initializable {
     private TextField usernameTextField;
 
 
+    /**
+     * Attached to the Login button for users to log in and access the application
+     * Warning will show if username/password is incorrect
+     * @param event On Login button click
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     void onLoginButton(ActionEvent event) throws SQLException, IOException {
         if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
@@ -73,11 +86,22 @@ public class LoginController implements Initializable {
         }
     }
 
+    /**
+     * Exits the application
+     * @param event On Exit button click
+     */
     @FXML
     void onExitButton(ActionEvent event) {
         System.exit(0);
     }
 
+    /**
+     * If the user's language setting is set to French/France, the login screen will show a translated screen, including
+     * the alert message.
+     * Shows the user their Time Zone on the bottom
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         usernameLabel.setText(LanguageMain.translate("username"));

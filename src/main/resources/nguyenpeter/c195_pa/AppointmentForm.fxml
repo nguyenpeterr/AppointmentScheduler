@@ -57,7 +57,7 @@
                 <TextField fx:id="titleField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="customerIdComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <ComboBox fx:id="userIdComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <ComboBox fx:id="startCombo" onAction="#onStartCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ComboBox fx:id="startCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <ComboBox fx:id="endCombo" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="9" />
             </children>
             <padding>

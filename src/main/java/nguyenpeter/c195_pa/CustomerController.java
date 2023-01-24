@@ -26,12 +26,15 @@ import java.time.ZonedDateTime;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
 
+/**
+ * CustomerController class controls the CustomerForm.fxml. This controller handles all customers and database data for adding,
+ * deleting, or updating.
+ */
 public class CustomerController implements Initializable {
 
-    Stage stage;
-    Parent scene;
-
-
+    /**
+     * Labels, text fields, combo boxes and buttons are declared here from the CustomerForm.fxml
+     */
     @FXML
     private TextField addressField;
     @FXML
@@ -65,9 +68,17 @@ public class CustomerController implements Initializable {
     @FXML
     private Label stateLabel;
 
+    /**
+     * Hash tables to store division names and division IDs
+     */
     public Hashtable<Integer, String> divisionNameHash;
     public Hashtable<String, Integer> divisionIdHash;
 
+    /**
+     * Does not save any input or updated data. Closes window
+     * @param event On Cancel button click
+     * @throws IOException
+     */
     @FXML
     void onCancelButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -75,6 +86,10 @@ public class CustomerController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Attached to the Country combo box for user to select country of the customer
+     * @param event On mouse click
+     */
     @FXML
     void onCountryComboBox(ActionEvent event) {
         if(countryComboBox.getSelectionModel().getSelectedIndex() == 0) {
@@ -87,6 +102,15 @@ public class CustomerController implements Initializable {
         divisionComboBox.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Verifies the inputs of the user.
+     * Checks for valid name entry
+     * Checks for valid address entry
+     * Checks for valid postal code entry
+     * Checks for valid phone number entry
+     *
+     * @return Returns true if all are valid, else false
+     */
     public boolean verifyInput() {
         boolean nameInput = Verify.validName(nameField.getText());
         boolean addressInput = Verify.validAddress(addressField.getText());
@@ -100,6 +124,12 @@ public class CustomerController implements Initializable {
         }
         return true;
     }
+
+    /**
+     * Saves or updates a new or existing customer to the application and database
+     * @param event On Save button click
+     * @throws IOException
+     */
     @FXML
     void onSaveButton(ActionEvent event) throws IOException {
         if(verifyInput()) {
@@ -122,6 +152,10 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * Creates a new customer with given input
+     * @return Returns a new customer object
+     */
     public Customers createCustomer() {
         int customerId = Integer.parseInt(customerIdField.getText());
         String customerName = nameField.getText();
@@ -137,10 +171,18 @@ public class CustomerController implements Initializable {
                 createDate, createdBy, lastUpdate, lastUpdatedBy, divisionId);
     }
 
+    /**
+     * Adds a mew customer into the MySQL database
+     */
     public void addCustomer() {
             DBCustomers.addCustomer(createCustomer());
     }
 
+    /**
+     * Grabs the selected custmer from the main appointment window and populates the text fields with the customer's information
+     * @param customer Takes in the selected customer as the parameter
+     * @throws SQLException
+     */
     public void sendCustomer(Customers customer) throws SQLException {
         customerIdField.setText(String.valueOf(customer.getCustomerId()));
         nameField.setText(String.valueOf(customer.getCustomerName()));
@@ -151,6 +193,10 @@ public class CustomerController implements Initializable {
 
     }
 
+    /**
+     * Lists the country in the division combobox based on the user's division ID
+     * @param divisionId Takes the customer's division ID as the parameter
+     */
     public void setCBDivisionId(int divisionId) {
         if (divisionId >= 1 && divisionId <=54) {
             countryComboBox.getSelectionModel().select("U.S");
@@ -167,15 +213,31 @@ public class CustomerController implements Initializable {
         }
     }
 
+    /**
+     * Grabs the division name based on the division ID
+     * @param divisionId Takes the division ID as the parameter
+     * @return
+     */
     public String divisionNameFromId(int divisionId) {
         return divisionNameHash.get(divisionId);
     }
 
+    /**
+     * Grabs the division id based on the division name
+     * @param division Takes the division name as the parameter
+     * @return
+     */
     public int divisionIdFromName(String division) {
         return divisionIdHash.get(division);
     }
 
 
+    /**
+     * When the window is loaded, division name/id are set.
+     * If there was a customer that was selected on the main window, the text fields are populated with that info
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         divisionNameHash = DBFirstLevelDivisions.hashAllDivisions();

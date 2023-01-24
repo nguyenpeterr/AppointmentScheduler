@@ -9,6 +9,9 @@ import util.LanguageMain;
 
 import java.io.IOException;
 
+/**
+ * MainApplication is the main class that loads the application
+ */
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
@@ -19,6 +22,12 @@ public class MainApplication extends Application {
         stage.show();
     }
 
+    /**
+     * Opens the JDBC connection to the MySQL database
+     * Launches the application
+     * Closes the connection when exited
+     * @param args
+     */
     public static void main(String[] args) {
         JDBC.openConnection();
         launch(args);

@@ -39,8 +39,7 @@ import java.util.ResourceBundle;
  */
 public class AppointmentController implements Initializable {
 
-//    Stage stage;
-//    Parent scene;
+
     /**
      * Labels, text fields, combo boxes and spinners are declared here from the AppointmentForm.fxml
      */
@@ -101,9 +100,16 @@ public class AppointmentController implements Initializable {
     @FXML
     private Label userIdLabel;
 
+    /**
+     * Formats the time to show hour:minutes am/pm
+     */
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
 
 
+    /**
+     * Used to populate the start and end combo boxes to select time of appointment
+     * @return returns the list of times
+     */
     private ObservableList<String> getAppointmentTimes() {
         ObservableList<String> appointmentTimes = FXCollections.observableArrayList();
         LocalTime midnight = LocalTime.of(0,0);
@@ -135,17 +141,6 @@ public class AppointmentController implements Initializable {
      * @param event On mouse click
      */
 
-    @FXML
-    void onStartCombo(MouseEvent event) {
-    }
-
-    /**
-     * Attached to the end combobox
-     * @param event On mouse click
-     */
-    @FXML
-    void onEndCombo(MouseEvent event) {
-    }
 
     /**
      * Attached to the save button to either update an existing appointment or create a new appointment based on
@@ -231,6 +226,12 @@ public class AppointmentController implements Initializable {
 
     /**
      * Method to verify if the input from the user is valid
+     * Verifies if Title is VARCHAR(50)
+     * Verifies if Description is VARCHAR(50)
+     * Verifies if Location is VARCHAR(50)
+     * Verifies if Type is VARCHAR(50)
+     * Checks to see if input date is available (no overlap of appointments)
+     * Checks to see if input time is within business hours
      * @return Returns true if all inputs are valid, returns false otherwise
      */
     public boolean validInput() {
