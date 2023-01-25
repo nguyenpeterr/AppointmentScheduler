@@ -4,6 +4,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.MissingResourceException;
 
+/**
+ * LanguageMain class is used to translate the login window based on user's system setting
+ * Will translate between French and English
+ */
 public abstract class LanguageMain {
     public static ResourceBundle rb = ResourceBundle.getBundle("lang", Locale.getDefault());
     private static boolean hasText = false;

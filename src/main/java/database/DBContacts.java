@@ -8,7 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * DBContacts class handles the SQL statements for Contacts and data handling between the database and the application
+ *
+ */
 public abstract class DBContacts {
+    /**
+     * Executes the SQL statement to get all from Contacts table
+     * @return List of all contacts
+     * @throws SQLException
+     */
     public static ObservableList<Contacts> getAllContacts() throws SQLException {
         ObservableList<Contacts> contactsList = FXCollections.observableArrayList();
 

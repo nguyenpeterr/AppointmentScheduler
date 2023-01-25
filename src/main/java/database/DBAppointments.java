@@ -14,11 +14,22 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * DBAppointments class handles the SQL statements and data handling for Appointments between the database and the application
+ *
+ */
 public abstract class DBAppointments {
-
+    /**
+     * Formats the time to a pattern
+     */
     private static final DateTimeFormatter zdtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z");
     private static final DateTimeFormatter ldtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * Creates a list of appointments, runs through the database and grabs the data based on column name
+     * @param rs Takes the prepared statement execute query as parameter
+     * @return returns the list of appointments
+     */
     public static ObservableList<Appointments> resultSet(ResultSet rs) {
         ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
         try {
@@ -53,6 +64,12 @@ public abstract class DBAppointments {
         }
             return appointmentsList;
     }
+
+    /**
+     * Executes the prepared SQL statement of selecting all from the appointments table
+     * @return The list of appointments
+     * @throws SQLException
+     */
     public static ObservableList<Appointments> getAllAppointments() throws SQLException {
 
         String sql = "SELECT * FROM APPOINTMENTS";
@@ -61,6 +78,13 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the prepared SQL statement of selecting all from the appointments table where customer ID matches
+     * the given customer ID
+     * @param id Customer ID
+     * @return Returns the list of appointments matching the given customer ID
+     * @throws SQLException
+     */
     public static ObservableList<Appointments> getCustomerAppts(int id) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Customer_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -68,6 +92,11 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the prepared SQL statement to grab appointments by date
+     * @return List of appointments by date
+     * @throws SQLException
+     */
     public static ObservableList<Appointments> getMonthAppts() throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Start_Date= ";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -75,6 +104,12 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all appointments by type
+     * @param type Appointment Type
+     * @return List of appointments by type
+     * @throws SQLException
+     */
     public static ObservableList<Appointments> getSortedAppointments(String type) throws SQLException {
         String sql = "SELECT * FROM APPOINTMENTS WHERE Type = " + "'" + type + "'";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -82,6 +117,12 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all appointments by Contact ID
+     * @param id Contact ID
+     * @return List of appointments by contact ID
+     * @throws SQLException
+     */
     public static ObservableList<Appointments> getContactAppts(int id) throws SQLException {
         String sql = "SELECT * APPOINTMENTS WHERE Contact_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -89,6 +130,11 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Removes the selected appointment matching the appointment ID
+     * @param appointmentId Appointment ID
+     * @throws SQLException
+     */
     public static void removeAppointment(int appointmentId) throws SQLException {
         String sql = "DELETE FROM APPOINTMENTS WHERE Appointment_ID = " + appointmentId;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -96,6 +142,10 @@ public abstract class DBAppointments {
     }
 
 
+    /**
+     * Adds a new appointment into the database
+     * @param appointment Appointment to add
+     */
     public static void addAppointment(Appointments appointment) {
         if(appointment != null) {
             try {
@@ -130,6 +180,10 @@ public abstract class DBAppointments {
         }
     }
 
+    /**
+     * Updates an existing appointment in the database
+     * @param appointment Appointment to update
+     */
     public static void updateAppointment(Appointments appointment) {
         try{
             String sql = "UPDATE APPOINTMENTS SET Title = ?, Description = ?, Location = ?, Type = ?, Start = ?, End = ?, " + "" +
@@ -162,6 +216,11 @@ public abstract class DBAppointments {
         }
     }
 
+    /**
+     * Removes the appointment by customer ID
+     * @param appointment Appointment to remove
+     * @param customerId Customer ID
+     */
     public static void removeCustomerAppts(ObservableList<Appointments> appointment, int customerId) {
         try {
             for (Appointments a : appointment) {
@@ -184,6 +243,11 @@ public abstract class DBAppointments {
         }
     }
 
+    /**
+     * Executes the SQL statement to get all appointments except for a specific appointment
+     * @param id Appointment ID to not grab
+     * @return List of appointments without the given appointment ID
+     */
     public static ObservableList<Appointments> getAllAppointmentsExcept(int id) {
         ResultSet rs = null;
         try {
@@ -197,6 +261,10 @@ public abstract class DBAppointments {
         return resultSet(rs);
     }
 
+    /**
+     * Auto-generates the appointment ID
+     * @return Returns a unique appointment ID
+     */
     public static int generateAppointmentId() {
         int genApptId = -1;
         try {

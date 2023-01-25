@@ -15,7 +15,16 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * DBCustomers class handles the SQL statements for Customers and data handling between the database and the application
+ *
+ */
 public abstract class DBCustomers {
+    /**
+     * Creates a list of customers, runs through the database and grabs the data based on column name
+     * @param rs Takes the prepared statement execute query as parameter
+     * @return returns the list of customers
+     */
     public static ObservableList<Customers> resultSet(ResultSet rs) {
         ObservableList<Customers> customerList = FXCollections.observableArrayList();
         try {
@@ -41,6 +50,11 @@ public abstract class DBCustomers {
         return customerList;
     }
 
+    /**
+     * Executes the SQL statement to get all from the customers table
+     * @return List of customers
+     * @throws SQLException
+     */
         public static ObservableList<Customers> getAllCustomers() throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -48,6 +62,12 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all customers based on given customer ID
+     * @param id Customer ID
+     * @return List of customers based on customer ID
+     * @throws SQLException
+     */
     public static ObservableList<Customers> getAllCustomers(int id) throws SQLException {
         String sql = "SELECT * FROM CUSTOMERS WHERE Customer_ID = " + id;
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -55,6 +75,13 @@ public abstract class DBCustomers {
                 return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all customers based on appointment type
+     * Inner joins the apartment table to link appointments to customer by customer ID
+     * @param type Appointment type
+     * @return List of Customers that match the given appointment type
+     * @throws SQLException
+     */
     public static ObservableList<Customers> getCustomerByType(String type) throws SQLException {
         String sql = "SELECT Customers.*, Appointments.Type FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE Appointments.Type = " + '"' + type + '"';
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -62,6 +89,13 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all customers by month
+     * Inner joins appointment table
+     * @param month Month to filter the customers
+     * @return List of customers based on given month
+     * @throws SQLException
+     */
     public static ObservableList<Customers> getCustomerByMonth(String month) throws SQLException {
         String sql = "SELECT Customers.*, Appointments.*, MONTHNAME(Appointments.Start) as month FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE UPPER(MONTHNAME(Appointments.Start)) = " + '"' + month + '"';
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -69,13 +103,14 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
-    public static ObservableList<Customers> getCustomerByMonth(LocalDate today) throws SQLException {
-        String sql = "SELECT Customers.*, Appointments.*, MONTHNAME(Appointments.Start) as month FROM CUSTOMERS INNER JOIN APPOINTMENTS ON Customers.Customer_ID = Appointments.Customer_ID WHERE UPPER(MONTHNAME(Appointments.Start)) = " + '"' + today + '"';
-        PreparedStatement ps = JDBC.connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        return resultSet(rs);
-    }
-
+    /**
+     * Executes the SQL statement to get all customers based on country
+     * Inner joins the FirstLevelDivisions table to customers to match Customer ID
+     * Inner joins the FirstLevelDivisions table to Countries table to match by Country ID
+     * @param country Given country to filter
+     * @return List of customers based on given country
+     * @throws SQLException
+     */
     public static ObservableList<Customers> getCustomerByCountry(String country) throws SQLException {
         String sql = "SELECT Customers.*, Countries.*, First_Level_Divisions.* FROM CUSTOMERS INNER JOIN First_Level_Divisions ON Customers.Division_ID = First_Level_Divisions.Division_ID INNER JOIN Countries ON First_Level_Divisions.Country_ID = Countries.Country_ID WHERE Countries.Country = " + '"' + country + '"';
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -83,7 +118,10 @@ public abstract class DBCustomers {
         return resultSet(rs);
     }
 
-
+    /**
+     * Adds a new customer to the database
+     * @param customer New customer object
+     */
     public static void addCustomer(Customers customer) {
         if(customer != null) {
             try {
@@ -108,6 +146,10 @@ public abstract class DBCustomers {
         }
     }
 
+    /**
+     * Removes the customer from the database
+     * @param id Customer ID
+     */
     public static void removeCustomer(int id) {
         try {
             String sql = "DELETE FROM CUSTOMERS WHERE Customer_ID = " + id;
@@ -119,6 +161,10 @@ public abstract class DBCustomers {
         }
     }
 
+    /**
+     * Updates an existing customer in the database
+     * @param customer Customer to remove
+     */
     public static void updateCustomer(Customers customer) {
         try {
             String sql = "UPDATE CUSTOMERS SET Customer_Name = ?, Address = ?, Postal_Code = ?, Phone = ?, Create_Date = ?, " +
@@ -140,6 +186,10 @@ public abstract class DBCustomers {
         }
     }
 
+    /**
+     * Auto-generates a customer ID
+     * @return Returns a unique customer ID
+     */
     public static int generateCustomerId() {
         int genCustId = -1;
         try {

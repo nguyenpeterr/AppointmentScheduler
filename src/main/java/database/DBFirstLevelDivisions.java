@@ -12,8 +12,17 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Hashtable;
 
+/**
+ * DBFirstLevelDivisions class handles the SQL statements for First Level Divisions and data handling between the database and the application
+ *
+ */
 public abstract class DBFirstLevelDivisions {
 
+    /**
+     * Creates a list of divisions, runs through the database and grabs the data based on column name
+     * @param rs Takes the prepared statement execute query as parameter
+     * @return Returns a list of divisions
+     */
     public static ObservableList<FirstLevelDivisions> resultSet(ResultSet rs) {
         ObservableList<FirstLevelDivisions> divisionsList = FXCollections.observableArrayList();
         try {
@@ -35,6 +44,12 @@ public abstract class DBFirstLevelDivisions {
             }
             return divisionsList;
     }
+
+    /**
+     * Executes the SQL statement to get all from the First_Level_Divisions table
+     * @return List of divisions
+     * @throws SQLException
+     */
     public static ObservableList<FirstLevelDivisions> getAllDivisions() throws SQLException {
         String sql = "SELECT * FROM FIRST_LEVEL_DIVISIONS";
         PreparedStatement ps = JDBC.connection.prepareStatement(sql);
@@ -42,6 +57,10 @@ public abstract class DBFirstLevelDivisions {
         return resultSet(rs);
     }
 
+    /**
+     * Executes the SQL statement to get all US divisions
+     * @return Returns a list of US states
+     */
     public static ObservableList<String> getUSDivision() {
         ObservableList<String> dList = FXCollections.observableArrayList();
         try {
@@ -59,6 +78,10 @@ public abstract class DBFirstLevelDivisions {
         return dList;
     }
 
+    /**
+     * Executes the SQL stateent to get all Canadian divisions
+     * @return Returns a list of Canadian provinces
+     */
     public static ObservableList<String> getCADivision() {
         ObservableList<String> dList = FXCollections.observableArrayList();
         try {
@@ -76,6 +99,10 @@ public abstract class DBFirstLevelDivisions {
         return dList;
     }
 
+    /**
+     * Executes the SQL statement to grab all UK divisions
+     * @return Returns a list of UK regions
+     */
     public static ObservableList<String> getUKDivision() {
         ObservableList<String> dList = FXCollections.observableArrayList();
         try {
@@ -93,6 +120,10 @@ public abstract class DBFirstLevelDivisions {
         return dList;
     }
 
+    /**
+     * Creates a hash table to match division ID to division
+     * @return Hash table of divisions
+     */
     public static Hashtable<Integer, String> hashAllDivisions() {
         Hashtable<Integer, String> divisionHashTable = new Hashtable<>();
         try {
@@ -113,6 +144,10 @@ public abstract class DBFirstLevelDivisions {
         return divisionHashTable;
     }
 
+    /**
+     * Creates a hash table to match division ID to division
+     * @return Hash table of division IDs
+     */
     public static Hashtable<String, Integer> hashAllDivisionIds() {
         Hashtable<String, Integer> divisionHashTable = new Hashtable<>();
         try {

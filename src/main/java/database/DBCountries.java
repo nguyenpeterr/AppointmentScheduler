@@ -9,7 +9,16 @@ import java.sql.*;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+/**
+ * DBCountries class handles the SQL statements for Countries and data handling between the database and the application
+ *
+ */
 public abstract class DBCountries {
+    /**
+     * Executes the SQL statement to get all from Countries table
+     * @return List of countries
+     * @throws SQLException
+     */
     public static ObservableList<Countries> getAllCountries() throws SQLException {
         ObservableList<Countries> countryList = FXCollections.observableArrayList();
 
@@ -29,6 +38,11 @@ public abstract class DBCountries {
         return countryList;
     }
 
+    /**
+     * Executes the SQL statement to get all from Contacts table
+     * @return List of country names only
+     * @throws SQLException
+     */
     public static ObservableList<String> getAllCountryNames() throws SQLException {
         ObservableList<String> countryList = FXCollections.observableArrayList();
 

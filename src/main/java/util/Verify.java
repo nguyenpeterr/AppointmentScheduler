@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  * Verify class is used to verify data from the text fields for a valid input
  * Variables are assigned with regex's taken from https://regexlib.com/
  * Please note that the current data from the database does not satisfy the regex's for address format requirement
- * given by the assignment. (i.e. data does not have the city names, assignmet asks for city/province name in the format)
+ * given by the assignment. (i.e. data does not have the city names, assignment asks for city/province name in the format)
  * Also, the phone and postal for the UK address in the data does NOT satisfy the regex's in a proper format.
  */
 public abstract class Verify {
@@ -34,6 +34,12 @@ public abstract class Verify {
     private static String phone = "((\\(\\d{3}\\)?)|(\\d{3}))([\\s-./]?)(\\d{3})([\\s-./]?)(\\d{4})" +
             "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
 
+    /**
+     * Checks to see if the input is within 50 chars
+     * @param input String input from user
+     * @param verify String to verify
+     * @return True if valid, false if input is more than 50 chars
+     */
     public static boolean isVarCharFifty(String input, String verify) {
         Pattern p = Pattern.compile("^.{1,50}$");
         Matcher m = p.matcher(verify);
@@ -48,20 +54,11 @@ public abstract class Verify {
         }
     }
 
-    public static boolean isVarCharOneHundred(String input, String verify) {
-        Pattern p = Pattern.compile("^.{1,100}$");
-        Matcher m = p.matcher(verify);
-        if(m.matches()) {
-            return true;
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input Error");
-            alert.setContentText(input + " must be in between 1 and 100 characters!");
-            alert.show();
-            return false;
-        }
-    }
-
+    /**
+     * Checks to see if user input is a valid name
+     * @param verify String to verify
+     * @return True if valid, false if invalid
+     */
     public static boolean validName(String verify) {
         Pattern p = Pattern.compile(name, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(verify);
@@ -76,6 +73,11 @@ public abstract class Verify {
         }
     }
 
+    /**
+     * Checks to see if user input is a valid address
+     * @param verify String to verify
+     * @return True if valid, false if invalid
+     */
     public static boolean validAddress(String verify) {
         Pattern p = Pattern.compile(address, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(verify);
@@ -92,6 +94,11 @@ public abstract class Verify {
         }
     }
 
+    /**
+     * Checks to see if user input is a valid phone number
+     * @param verify String to verify
+     * @return True if valid, false if invalid
+     */
     public static boolean validPhone(String verify) {
         Pattern p = Pattern.compile(phone);
         Matcher m = p.matcher(verify);
@@ -106,20 +113,11 @@ public abstract class Verify {
         }
     }
 
-    public static boolean validEmail(String verify) {
-        Pattern p = Pattern.compile(email, Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(verify);
-        if(m.matches()) {
-            return true;
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input Error");
-            alert.setContentText("Email must in the format abc123@sample.com");
-            alert.show();
-            return false;
-        }
-    }
-
+    /**
+     * Checks to see if user input is a valid postal
+     * @param verify String to verify
+     * @return True if valid, false if invalid
+     */
     public static boolean validPostal(String verify) {
         Pattern p = Pattern.compile(postal, Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(verify);
@@ -134,20 +132,14 @@ public abstract class Verify {
         }
     }
 
-    public static boolean lessThanTen(String input, String verify) {
-        Pattern p = Pattern.compile(intTen);
-        Matcher m = p.matcher(verify);
-        if(m.matches()) {
-            return true;
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Input Error");
-            alert.setContentText("Input must be 10 numbers or less.");
-            alert.show();
-            return false;
-        }
-    }
-
+    /**
+     * Checks to see if the chosen appointment times are overlapped
+     * @param start Start time (original)
+     * @param end End time (original)
+     * @param start2 Start time (copy)
+     * @param end2 End time (copy)
+     * @return True if there is no overlap
+     */
     public static boolean isBetween(ZonedDateTime start, ZonedDateTime end, ZonedDateTime start2, ZonedDateTime end2) {
         if (start.isAfter(start2) && start.isBefore(end2)) {
             return true;
@@ -164,6 +156,13 @@ public abstract class Verify {
         return false;
     }
 
+    /**
+     * Checks to see if the appointment dates overlap
+     * @param start Start date/time
+     * @param end End date/time
+     * @param id Appointment ID
+     * @return Return true if it's available
+     */
     public static boolean isAvailableDate(ZonedDateTime start, ZonedDateTime end, int id) {
         ObservableList<Appointments> allAppointments = FXCollections.observableArrayList();
         allAppointments = DBAppointments.getAllAppointmentsExcept(id);
@@ -179,6 +178,11 @@ public abstract class Verify {
         return true;
     }
 
+    /**
+     * Checks to see if the input integer is positive
+     * @param verify String to verify
+     * @return True if valid
+     */
     public static boolean validInt(String verify) {
         try {
             Integer.parseInt(verify);
@@ -192,7 +196,11 @@ public abstract class Verify {
         return true;
     }
 
-
+    /**
+     * Checks to see if the user ID is valid
+     * @param verify User ID
+     * @return True if valid
+     */
     public static boolean validUserId(int verify) {
         ObservableList<Users> user = FXCollections.observableArrayList();
         List<Integer> userId = new ArrayList<>();
@@ -213,6 +221,11 @@ public abstract class Verify {
         return false;
     }
 
+    /**
+     * Checks to see if there is a valid customer
+     * @param verify Customer ID
+     * @return True if valid
+     */
     public static boolean validCustomer(int verify) {
         ObservableList<Customers> customer = FXCollections.observableArrayList();
         List<Integer> customerId = new ArrayList<>();
@@ -234,7 +247,14 @@ public abstract class Verify {
     }
 
 
-
+    /**
+     * Checks to see if the chosen appointment times are within business hours
+     * @param startTime Start time (local)
+     * @param endTime End time (local)
+     * @param startEST Start time (EST)
+     * @param endEST End time (EST)
+     * @return True if valid
+     */
     public static boolean validTime(ZonedDateTime startTime, ZonedDateTime endTime, LocalTime startEST,
                                       LocalTime endEST)
     {

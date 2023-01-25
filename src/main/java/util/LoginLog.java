@@ -6,9 +6,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.ZonedDateTime;
 
-
+/**
+ * LoginLog class is used to log all login attempts and save it to a file named login_activity.txt
+ */
 public abstract class LoginLog {
-
+    /**
+     * Logs the username used to login
+     * @param username Username input
+     * @param text Text to say if successfully logged in
+     */
     public static void loginLog(String username, String text) {
         String date = TimeZones.getLocalDate(ZonedDateTime.now());
         String time = TimeZones.getLocalTime(ZonedDateTime.now());
