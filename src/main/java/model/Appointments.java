@@ -11,6 +11,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
+/**
+ * Appointments model class to handle new appointments
+ */
 public class Appointments extends Date {
     private int appointmentId;
     private String title;
@@ -27,7 +30,23 @@ public class Appointments extends Date {
     private int customerId;
     private int contactId;
 
-
+    /**
+     * Appointments constructor
+     * @param appointmentId Appointment ID that is auto-generated
+     * @param title Appointment title
+     * @param description Appointment description
+     * @param location Appointment location
+     * @param type Appointment type
+     * @param start Appointment start time
+     * @param end Appointment end time
+     * @param createDate Create date of the appointment
+     * @param createdBy Appointment created by -user-
+     * @param lastUpdate Last update of the appointment
+     * @param lastUpdatedBy Last updated by -user-
+     * @param customerId Customer ID that's the Foreign Key to the appointment
+     * @param userId User ID that is linked to the user logged in (or manually selected)
+     * @param contactId Contact ID linked to the Appointment
+     */
     public Appointments(int appointmentId, String title, String description, String location, String type, LocalDateTime start, LocalDateTime end,
                         ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int customerId, int userId, int contactId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
@@ -48,10 +67,17 @@ public class Appointments extends Date {
 
     }
 
+    /**
+     * Default Appointments constructor
+     */
     public Appointments() {
         this(0, null, null, null, null, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, -1, -1 ,-1);
     }
 
+    /**
+     * Getters and setters for the Appointment constructors
+     * @return
+     */
     public int getAppointmentId() {
         return appointmentId;
     }
@@ -92,6 +118,10 @@ public class Appointments extends Date {
         this.type = type;
     }
 
+    /**
+     * Shows the formatted start time
+     * @return Returns start time formatted
+     */
     public String getStart() {
         return start.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
     }
@@ -100,10 +130,19 @@ public class Appointments extends Date {
         return this.start;
     }
 
+    /**
+     * Gets the ZoneId of the system default from the ZonedDateTime
+     * @return ZoneId of the system default
+     */
     public ZonedDateTime getStartTimeZoned() {
         return this.start.atZone(ZoneId.systemDefault());
     }
 
+
+    /**
+     * Sets the start time to LocalDateTime
+     * @param start
+     */
     public void setStart(ZonedDateTime start) {
         ZoneId localZoneId = ZoneId.systemDefault();
         LocalDateTime startLocalDateTime = start.withZoneSameInstant(localZoneId).toLocalDateTime();
@@ -114,6 +153,10 @@ public class Appointments extends Date {
         this.start = start;
     }
 
+    /**
+     * Gets the formatted end time
+     * @return returns end time formatted
+     */
     public String getEnd() {
         return this.end.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT));
     }
@@ -122,6 +165,10 @@ public class Appointments extends Date {
         return this.end;
     }
 
+    /**
+     * Gets the end time in ZonedDateTime
+     * @return ZonedDateTime of the end time
+     */
     public ZonedDateTime getEndTimeZoned() {
         return this.end.atZone(ZonedDateTime.now().getZone());
     }
@@ -130,6 +177,10 @@ public class Appointments extends Date {
         end = endDateTimeLocal;
     }
 
+    /**
+     * Sets the end time to LocalDateTime from a ZonedDateTime
+     * @param end
+     */
     public void setEnd(ZonedDateTime end) {
         ZoneId localZoneId = ZoneId.systemDefault();
         LocalDateTime endDateTimeLocal = end.withZoneSameInstant(localZoneId).toLocalDateTime();

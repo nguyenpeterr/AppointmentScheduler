@@ -464,7 +464,7 @@ public class MainController implements Initializable {
         if(bool) {
             String alert = "The appointment below is scheduled to start within 15 minutes: \n\n" +
                     "Appointment ID: " + id + "\n" + "Title: " + title + "\n" +
-                    "Start: " + TimeZones.getLocalDate(startdate) + " @ " + startTime;
+                    "Start: " + startTime;
             alertWindowText.setText(alert);
         } else {
             alertWindowText.setText("There are no appointments scheduled within 15 minutes.");
@@ -572,7 +572,4 @@ public class MainController implements Initializable {
 
 }
 
-/**
- * Fix alert start time to show appointment start time (currently showing current time)
- * Javadocs
- */
+

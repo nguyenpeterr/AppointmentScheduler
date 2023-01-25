@@ -3,6 +3,9 @@ package model;
 import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 
+/**
+ * Customers model class to handle new and existing Customers
+ */
 public class Customers extends Date {
     private int customerId;
     private String customerName;
@@ -12,6 +15,20 @@ public class Customers extends Date {
     private int divisionId;
     private String appointmentType;
 
+    /**
+     * Customers constructor
+     *
+     * @param customerId Customer ID
+     * @param customerName Customer Name
+     * @param customerAddress Customer Address
+     * @param customerPostalCode Customer Postal COde
+     * @param customerPhoneNumber Customer Phone Number
+     * @param createDate Create date of the customer
+     * @param createdBy Created by
+     * @param lastUpdate Customer data last update
+     * @param lastUpdatedBy Customer data last updated by
+     * @param divisionId Division ID
+     */
     public Customers(int customerId, String customerName, String customerAddress, String customerPostalCode, String customerPhoneNumber, ZonedDateTime createDate, String createdBy, Timestamp lastUpdate, String lastUpdatedBy, int divisionId) {
         super(createDate, createdBy, lastUpdate, lastUpdatedBy);
             this.customerId = customerId;
@@ -22,6 +39,10 @@ public class Customers extends Date {
             this.divisionId = divisionId;
     }
 
+    /**
+     * Getters and setters for Customers constructor
+     * @return
+     */
     public int getCustomerId() {
         return this.customerId;
     }
