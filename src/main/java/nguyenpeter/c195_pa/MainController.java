@@ -434,7 +434,8 @@ public class MainController implements Initializable {
 
 
     /**
-     * Lambda of the list of appointments according to the current week of the user's system
+     * Lambda 1 of the list of appointments according to the current week of the user's system
+     * The predicate is the lambda expression
      * @return Returns the list of appointments within the current week
      */
     private FilteredList<Appointments> weekFilter() {
@@ -443,7 +444,8 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Lambda of the list of appointments according the current month of the user's system
+     * Lambda 2 of the list of appointments according the current month of the user's system
+     * The predicate is the lambda expression
      * @return Returns the list of appointments within the current month
      */
     private FilteredList<Appointments> monthFilter() {

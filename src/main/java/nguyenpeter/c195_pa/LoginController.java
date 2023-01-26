@@ -63,6 +63,7 @@ public class LoginController implements Initializable {
     private TextField usernameTextField;
 
 
+
     /**
      * Attached to the Login button for users to log in and access the application
      * Warning will show if username/password is incorrect
@@ -74,7 +75,7 @@ public class LoginController implements Initializable {
     void onLoginButton(ActionEvent event) throws SQLException, IOException {
         if (usernameTextField.getText().equals("") || passwordField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Please enter a valid username or password");
+            alert.setContentText(LanguageMain.translate("missing_username_password"));
             alert.show();
         }
         else if (DBUsers.login(usernameTextField.getText(), passwordField.getText())) {

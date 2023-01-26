@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import util.LanguageMain;
 
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * MainApplication is the main class that loads the application
