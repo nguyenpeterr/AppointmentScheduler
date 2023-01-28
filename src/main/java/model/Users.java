@@ -30,33 +30,57 @@ public class Users extends Date {
     }
 
     /**
-     * Getters and setters for Users constructor
-     * @return
+     * Getter for User ID
+     * @return User ID
      */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * Setter for User ID
+     * @param userId User ID
+     */
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
+    /**
+     * Getter for Username
+     * @return Username
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Setter for username
+     * @param userName Username
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    /**
+     * Getter for User Password
+     * @return User Password
+     */
     public String getUserPassword() {
         return userPassword;
     }
 
+    /**
+     * Setter for user password
+     * @param userPassword User password
+     */
     public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 
+    /**
+     * Override to string to display in ComboBoxes
+     * @return  String of User ID and Username
+     */
     @Override
     public String toString() {
         return (" [" + Integer.toString(userId) + "] " + userName + " ");

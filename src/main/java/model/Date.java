@@ -27,37 +27,65 @@ public class Date {
     }
 
     /**
-     * Getters and setters for Date constructor
-     * @return
+     * Getter for Create Date
+     * @return ZonedDateTime of create date
      */
     public ZonedDateTime getCreateDate() {
         return createDate;
     }
 
+    /**
+     * Setter for Create Date
+     * @param createDate ZonedDateTime of create date
+     */
     public void setCreateDate(ZonedDateTime createDate) {
         this.createDate = createDate;
     }
 
+    /**
+     * Getter for Last Update
+     * @return Timestamp of last update
+     */
     public Timestamp getLastUpdate() {
         return lastUpdate;
     }
 
+    /**
+     * Setter for last update
+     * @param lastUpdate Timestamp of last update
+     */
     public void setLastUpdate(Timestamp lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
+    /**
+     * Getter for created by
+     * @return Created by
+     */
     public String getCreatedBy() {
         return createdBy;
     }
 
+    /**
+     * Setter for created by
+     * @param createdBy Created by
+     */
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Getter for last updated by
+     * @return Last updated by
+     */
     public String getLastUpdatedBy() {
         return lastUpdatedBy;
     }
 
+    /**
+     * Setter for last updated by
+     * @param lastUpdatedBy Last updated by
+     */
     public void setLastUpdatedBy(String lastUpdatedBy) {
         this.lastUpdatedBy = lastUpdatedBy;
     }

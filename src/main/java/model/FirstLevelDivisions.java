@@ -30,25 +30,41 @@ public class FirstLevelDivisions extends Date {
     }
 
     /**
-     * Getters and setters for the FirstLevelDivisions constructor
-     * @return
+     * Getter for Division ID
+     * @return Division ID
      */
     public int getDivisionId() {
         return divisionId;
     }
 
+    /**
+     * Setter for Division ID
+     * @param divisionId Division ID
+     */
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
 
+    /**
+     * Getter for Division
+     * @return Division
+     */
     public String getDivision() {
         return division;
     }
 
+    /**
+     * Setter for Division
+     * @param division Division
+     */
     public void setDivision(String division) {
         this.division = division;
     }
 
+    /**
+     * String override to display Division ID and Division as strings in ComboBoxes
+     * @return String of Division ID and Division
+     */
     @Override
     public String toString() {
         return (" [" + Integer.toString(divisionId) + "] " + division + " ");

@@ -41,7 +41,7 @@ public class AppointmentController implements Initializable {
 
 
     /**
-     * Labels, text fields, combo boxes and spinners are declared here from the AppointmentForm.fxml
+     * Labels, text fields, combo boxes, and date pickers are declared here from the AppointmentForm.fxml
      */
     @FXML
     private TextField appointmentIdField;
@@ -135,12 +135,6 @@ public class AppointmentController implements Initializable {
         MainController.selectedAppointment = null;
         stage.close();
     }
-
-    /**
-     * Attached to the start combobox
-     * @param event On mouse click
-     */
-
 
     /**
      * Attached to the save button to either update an existing appointment or create a new appointment based on

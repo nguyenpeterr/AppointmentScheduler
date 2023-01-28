@@ -69,9 +69,12 @@ public class CustomerController implements Initializable {
     private Label stateLabel;
 
     /**
-     * Hash tables to store division names and division IDs
+     * Hash table to store division names
      */
     public Hashtable<Integer, String> divisionNameHash;
+    /**
+     * Hash table to store division IDs
+     */
     public Hashtable<String, Integer> divisionIdHash;
 
     /**
@@ -216,7 +219,7 @@ public class CustomerController implements Initializable {
     /**
      * Grabs the division name based on the division ID
      * @param divisionId Takes the division ID as the parameter
-     * @return
+     * @return Division names from ID
      */
     public String divisionNameFromId(int divisionId) {
         return divisionNameHash.get(divisionId);
@@ -225,7 +228,7 @@ public class CustomerController implements Initializable {
     /**
      * Grabs the division id based on the division name
      * @param division Takes the division name as the parameter
-     * @return
+     * @return Division IDs from Name
      */
     public int divisionIdFromName(String division) {
         return divisionIdHash.get(division);
@@ -235,8 +238,8 @@ public class CustomerController implements Initializable {
     /**
      * When the window is loaded, division name/id are set.
      * If there was a customer that was selected on the main window, the text fields are populated with that info
-     * @param url
-     * @param resourceBundle
+     * @param url URL
+     * @param resourceBundle ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

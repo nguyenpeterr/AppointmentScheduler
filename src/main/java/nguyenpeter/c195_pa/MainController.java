@@ -44,7 +44,6 @@ import java.util.logging.Filter;
  * after logging in.
  *
  */
-
 public class MainController implements Initializable {
 
 
@@ -142,29 +141,55 @@ public class MainController implements Initializable {
 
     /**
      * appointmentsList shows the list of appointments from the appointments database
-     * customersList shows the list of customers from Customers database
-     * selectedAppointment variable stores the appointment the user selects on the tableview
-     * selectedCustomer variable stores the customer the user selects on the customer tableview
-     * viewAppointment set to true
-     * monthSort sets the filter to view appointments by month
-     * viewAll sets the filter to view all appointments
-     * firstLoad set to true for appointment alert window to show at first load
-     * Stage and scenes for AppointmentForm.fxml, CustomerForm.fxml, and Report.fxml
+     *
      */
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+    /**
+     * customersList shows the list of customers from Customers database
+     */
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+    /**
+     * selectedAppointment variable stores the appointment the user selects on the tableview
+     */
     public static Appointments selectedAppointment = null;
+    /**
+     * selectedCustomer variable stores the customer the user selects on the customer tableview
+     */
     public static Customers selectedCustomer = null;
+    /**
+     * selectedDate stores the ZonedDateTime of the user's date selection
+     */
     public static ZonedDateTime selectedDate = null;
+    /**
+     * viewAppointment set to true to show appointments
+     */
     public boolean viewAppointments = true;
+    /**
+     * If monthSort is true, tableview is filtered to show appointments that month
+     */
     public boolean monthSort = true;
+    /**
+     * viewAll set to true shows all appointments
+     */
     public boolean viewAll = true;
+    /**
+     * Stage and scene for AppointmentForm.fxml
+     */
     Scene appointmentFormScene;
     Stage appointmentFormStage = new Stage();
+    /**
+     * Stage and scene for Report.fxml
+     */
     Scene reportScene;
     Stage reportStage = new Stage();
+    /**
+     * Stage and scene for CustomerForm.fxml
+     */
     Scene customerFormScene;
     Stage customerFormStage = new Stage();
+    /**
+     * Stage and scene for Login.fxml
+     */
     Scene loginScene;
     Stage loginStage = new Stage();
 
@@ -309,6 +334,10 @@ public class MainController implements Initializable {
         closeMainController(event);
     }
 
+    /**
+     * Method to close the Main.fxml window
+     * @param event Closes the window when user wants to log out
+     */
     public void closeMainController(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.close();
@@ -442,7 +471,9 @@ public class MainController implements Initializable {
 
     /**
      * Lambda 1 of the list of appointments according to the current week of the user's system
-     * The predicate is the lambda expression
+     * Lambda is used here for simplifying the code for easier readability. Allows improvement of iterating
+     * through the appointmentsList to filter by week
+     *
      * @return Returns the list of appointments within the current week
      */
     private FilteredList<Appointments> weekFilter() {
@@ -452,7 +483,9 @@ public class MainController implements Initializable {
 
     /**
      * Lambda 2 of the list of appointments according the current month of the user's system
-     * The predicate is the lambda expression
+     * Lambda is used here for simplifying the code for easier readability. Allows improvement of iterating
+     * through the appointmentsList to filter by month, similar to my lambda expression for weekFilter
+     *
      * @return Returns the list of appointments within the current month
      */
     private FilteredList<Appointments> monthFilter() {
@@ -540,8 +573,8 @@ public class MainController implements Initializable {
 
     /**
      * Sets the timezone based on user system and shows the current database time.
-     * Appointment and Customer table views are set
-     * Appointment alert window is shown
+     * Appointment and Customer table views are set.
+     * Appointment alert window is shown.
      * @param url
      * @param resourceBundle
      */

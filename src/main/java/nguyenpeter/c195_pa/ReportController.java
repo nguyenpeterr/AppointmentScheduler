@@ -99,17 +99,37 @@ public class ReportController implements Initializable {
     private Label intTotalCustLabel;
 
     /**
-     * Creates lists from Appointments and Customers to use for filtering
-     * Create a list of Months to populate the combo box to allow user to filter by specific month
+     * Creates a list from Appointments to use for filtering
      */
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+    /**
+     * Creates a list from Customers to use for filtering customers
+     */
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+    /**
+     * Creates a list from Customers to use for filtering customers by appointment type
+     */
     public static ObservableList<Customers> typeList = FXCollections.observableArrayList();
+    /**
+     * Used to assign the selectedContact based on user selection
+     */
     public static Contacts selectedContact = null;
+    /**
+     * Used to assign the selectedType based on user selection
+     */
     public static Appointments selectedType = null;
+    /**
+     * Assigns the selectedMonth from user selection for filtering
+     */
     public static Month selectedMonth = null;
+    /**
+     * Assigns the selectedCountry from user selection for filtering
+     */
     public static Countries selectedCountry = null;
 
+    /**
+     * Create a list of Months to populate the combo box to allow user to filter by specific month
+     */
     private ObservableList<Month> getMonths() {
         return FXCollections.observableArrayList(Month.values());
     }
@@ -313,6 +333,8 @@ public class ReportController implements Initializable {
 
     /**
      * Lambda to filter the table view based on the selected contact id from the combo box
+     * Lambda is used here for simplifying the code for easier readability. Allows improvement of iterating
+     * through the appointmentsList to filter by Contact ID
      * @return Returns a new filtered list
      */
     private FilteredList<Appointments> contactFilter() {
@@ -323,8 +345,8 @@ public class ReportController implements Initializable {
     /**
      * When the Reports window is initialized, combo box label is set to blank.
      * Table view is populated with all appointments
-     * @param url
-     * @param resourceBundle
+     * @param url URL
+     * @param resourceBundle ResourceBundle
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

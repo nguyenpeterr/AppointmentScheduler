@@ -26,25 +26,41 @@ public class Countries extends Date {
     }
 
     /**
-     * Getters and setters for the Countries constructor
-     * @return
+     * Getter for Country ID
+     * @return Country ID
      */
     public int getCountryId() {
         return countryId;
     }
 
+    /**
+     * Setter for Country ID
+     * @param countryId Country ID
+     */
     public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
 
+    /**
+     * Getter for Country Name
+     * @return Country Name
+     */
     public String getCountryName() {
         return countryName;
     }
 
+    /**
+     * Setter for Country Name
+     * @param countryName Country Name
+     */
     public void setCountryName(String countryName) {
         this.countryName = countryName;
     }
 
+    /**
+     * String override for Country Name to display in ComboBox
+     * @return String of Country Name
+     */
     @Override
     public String toString() {
         return (countryName);

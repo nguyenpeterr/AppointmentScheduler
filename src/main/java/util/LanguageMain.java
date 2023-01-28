@@ -12,6 +12,13 @@ public abstract class LanguageMain {
     public static ResourceBundle rb = ResourceBundle.getBundle("lang", Locale.getDefault());
     private static boolean hasText = false;
 
+    /**
+     * Method to take a string as a parameter to compare to the lang resource bundle. This will grab the word and translate it (if it is translatable in the lang_properties)
+     *
+     * @param word Word to be translated
+     * @return Translated word
+     * @throws MissingResourceException if the word does not exist in the lang properties
+     */
     public static String translate(String word) throws MissingResourceException {
         try {
             rb.getString(word);

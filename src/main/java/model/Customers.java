@@ -40,61 +40,105 @@ public class Customers extends Date {
     }
 
     /**
-     * Getters and setters for Customers constructor
-     * @return
+     * Getter for Customer ID
+     * @return Customer ID
      */
     public int getCustomerId() {
         return this.customerId;
     }
 
+    /**
+     * Setter for Customer ID
+     * @param customerId Customer ID
+     */
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
+    /**
+     * Getter for Customer Name
+     * @return Customer Name
+     */
     public String getCustomerName() {
         return this.customerName;
     }
 
+    /**
+     * Setter for Customer Name
+     * @param customerName Customer Name
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    /**
+     * Getter for Customer Address
+     * @return Customer Address
+     */
     public String getCustomerAddress() {
         return this.customerAddress;
     }
 
+    /**
+     * Setter for Customer Address
+     * @param customerAddress Customer Address
+     */
     public void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;
     }
 
+    /**
+     * Getter for Customer Postal Code
+     * @return Customer Postal Code
+     */
     public String getCustomerPostalCode() {
         return this.customerPostalCode;
     }
 
+    /**
+     * Setter for Customer Postal Code
+     * @param customerPostalCode Postal Code
+     */
     public void setCustomerPostalCode(String customerPostalCode) {
         this.customerPostalCode = customerPostalCode;
     }
 
+    /**
+     * Getter for Customer Phone Number
+     * @return Customer Phone Number
+     */
     public String getCustomerPhoneNumber() {
         return this.customerPhoneNumber;
     }
 
+    /**
+     * Setter for Customer Phone Number
+     * @param customerPhoneNumber Phone number
+     */
     public void setCustomerPhoneNumber(String customerPhoneNumber) {
         this.customerPhoneNumber = customerPhoneNumber;
     }
 
-
+    /**
+     * Getter for Division ID
+     * @return Division ID
+     */
     public int getDivisionId() {
         return this.divisionId;
     }
 
+    /**
+     * Setter for Division ID
+     * @param divisionId Division ID
+     */
     public void setDivisionId(int divisionId) {
         this.divisionId = divisionId;
     }
 
-
-
-
+    /**
+     * String override to display Customer ID and Customer Name as strings in ComboBoxes
+     * @return String of Customer ID and Customer Name
+     */
     @Override
     public String toString() {
         return (" [" + Integer.toString(customerId) + "] " + customerName + " ");
