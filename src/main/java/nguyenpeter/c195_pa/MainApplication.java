@@ -3,6 +3,7 @@ package nguyenpeter.c195_pa;
 import database.JDBC;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import util.LanguageMain;
@@ -16,11 +17,15 @@ import java.util.Locale;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("Login.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 540, 320);
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        stage.setScene(new Scene(root, 540, 320));
         stage.setResizable(false);
-        stage.setScene(scene);
         stage.show();
+//        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("Login.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), 540, 320);
+//        stage.setResizable(false);
+//        stage.setScene(scene);
+//        stage.show();
     }
 
     /**

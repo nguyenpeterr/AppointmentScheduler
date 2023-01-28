@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -45,11 +46,7 @@ import java.util.logging.Filter;
  */
 
 public class MainController implements Initializable {
-    /**
-     * Sets the stage and scene of the GUI page.
-     */
-    Stage stage;
-    Parent scene;
+
 
     /**
      * Table columns are labeled representing data from the database.
@@ -168,6 +165,8 @@ public class MainController implements Initializable {
     Stage reportStage = new Stage();
     Scene customerFormScene;
     Stage customerFormStage = new Stage();
+    Scene loginScene;
+    Stage loginStage = new Stage();
 
 
     /**
@@ -301,10 +300,18 @@ public class MainController implements Initializable {
      */
     @FXML
     void onLogOutButton(ActionEvent event) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(MainController.class.getResource("Login.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        Parent root =loader.load();
+        loginScene = new Scene(root);
+        loginStage.setScene(loginScene);
+        loginStage.setResizable(false);
+        loginStage.show();
+        closeMainController(event);
+    }
+
+    public void closeMainController(ActionEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
     }
 
 

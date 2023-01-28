@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.ZoneId;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -23,7 +22,7 @@ import java.util.ResourceBundle;
  * Requires user to enter a valid username and password in order to access the application
  * Logs all login attempts in login_activity.txt file
  */
-public class LoginController implements Initializable {
+public class loginController implements Initializable {
 
     /**
      * Sets the stage and scene for the Login window
@@ -86,6 +85,7 @@ public class LoginController implements Initializable {
             stage.show();
         }
     }
+
 
     /**
      * Exits the application

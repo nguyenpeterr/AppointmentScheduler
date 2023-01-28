@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import model.Users;
+import util.LanguageMain;
 import util.LoginLog;
 
 import java.sql.PreparedStatement;
@@ -65,8 +66,7 @@ public abstract class DBUsers {
         }
 
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Login Alert");
-        alert.setContentText("Incorrect username or password!");
+        alert.setContentText(LanguageMain.translate("missing_username_password"));
         alert.show();
         return false;
     }

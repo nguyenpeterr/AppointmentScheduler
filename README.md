@@ -8,8 +8,8 @@ Date: 24 Jan 2023
 
 
 IntelliJ IDEA 2022.3 (Community Edition)
-Runtime version: 17.0.5+1-b653.14 aarch64
-VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+JDK Version 17.0.1
+JavaFX API of version 19 by JavaFX runtime of version 17.0.2-ea
 
 How to run the application:
 1. Extract zipped files
