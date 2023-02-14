@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -121,6 +122,7 @@
                   <ToggleButton fx:id="toggleCustomerButton" mnemonicParsing="false" onAction="#onCustomerToggle" text="View Customers" toggleGroup="$apptcustTG" />
                </children>
             </HBox>
+            <TextField id="onSearch" fx:id="searchTxt" layoutX="735.0" layoutY="29.0" onKeyPressed="#onSearchKey" prefHeight="26.0" prefWidth="212.0" />
             </children>
         </Group>
         <Group fx:id="alertGroup" layoutX="4.0" layoutY="4.0">

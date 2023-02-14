@@ -3,8 +3,8 @@ The Appointment Scheduling application is a GUI-based desktop application which 
 
 Developed by Peter Nguyen
 Contact: pngu142@wgu.edu
-Application Version: V1.0
-Date: 24 Jan 2023
+Application Version: V2.0
+Date: 27 Jan 2023
 
 
 IntelliJ IDEA 2022.3 (Community Edition)

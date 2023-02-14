@@ -72,6 +72,7 @@ public class CustomerController implements Initializable {
      * Hash table to store division names
      */
     public Hashtable<Integer, String> divisionNameHash;
+
     /**
      * Hash table to store division IDs
      */

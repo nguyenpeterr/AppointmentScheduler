@@ -102,26 +102,32 @@ public class ReportController implements Initializable {
      * Creates a list from Appointments to use for filtering
      */
     public static ObservableList<Appointments> appointmentsList = FXCollections.observableArrayList();
+
     /**
      * Creates a list from Customers to use for filtering customers
      */
     public static ObservableList<Customers> customersList = FXCollections.observableArrayList();
+
     /**
      * Creates a list from Customers to use for filtering customers by appointment type
      */
     public static ObservableList<Customers> typeList = FXCollections.observableArrayList();
+
     /**
      * Used to assign the selectedContact based on user selection
      */
     public static Contacts selectedContact = null;
+
     /**
      * Used to assign the selectedType based on user selection
      */
     public static Appointments selectedType = null;
+
     /**
      * Assigns the selectedMonth from user selection for filtering
      */
     public static Month selectedMonth = null;
+
     /**
      * Assigns the selectedCountry from user selection for filtering
      */
@@ -337,6 +343,9 @@ public class ReportController implements Initializable {
      * through the appointmentsList to filter by Contact ID
      * @return Returns a new filtered list
      */
+    // Lambda to filter the table view based on the selected contact id from the combo box
+    // Lambda is used here for simplifying the code for easier readability. Allows improvement of iterating
+    // through the appointmentsList to filter by Contact ID
     private FilteredList<Appointments> contactFilter() {
         return new FilteredList<>(appointmentsList, p -> p.getContactId() == reportComboBox.getSelectionModel().getSelectedIndex());
     }
