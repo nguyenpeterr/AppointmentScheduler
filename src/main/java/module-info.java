@@ -7,8 +7,8 @@ module nguyenpeter.c195_pa {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
 
-    opens nguyenpeter.c195_pa to javafx.fxml;
-    exports nguyenpeter.c195_pa;
+    opens nguyenpeter.appointmentscheduler to javafx.fxml;
+    exports nguyenpeter.appointmentscheduler;
     exports controller;
     exports model;
     opens controller to javafx.fxml;

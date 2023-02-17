@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Customers;
-import nguyenpeter.c195_pa.MainController;
+import nguyenpeter.appointmentscheduler.MainController;
 import util.TimeZones;
 import util.Verify;
 
@@ -80,7 +80,7 @@ public class CustomerController implements Initializable {
     @FXML
     void onCancelButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        nguyenpeter.c195_pa.MainController.selectedCustomer = null;
+        nguyenpeter.appointmentscheduler.MainController.selectedCustomer = null;
         stage.close();
     }
 
@@ -131,7 +131,7 @@ public class CustomerController implements Initializable {
     @FXML
     void onSaveButton(ActionEvent event) throws IOException {
         if(verifyInput()) {
-            if (nguyenpeter.c195_pa.MainController.selectedCustomer != null) {
+            if (nguyenpeter.appointmentscheduler.MainController.selectedCustomer != null) {
                 DBCustomers.updateCustomer(createCustomer());
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Update Successful!");
@@ -142,7 +142,7 @@ public class CustomerController implements Initializable {
                 alert.setContentText("Add Successful!");
                 alert.showAndWait();
             }
-            nguyenpeter.c195_pa.MainController.selectedAppointment = null;
+            nguyenpeter.appointmentscheduler.MainController.selectedAppointment = null;
             MainController.selectedCustomer = null;
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();

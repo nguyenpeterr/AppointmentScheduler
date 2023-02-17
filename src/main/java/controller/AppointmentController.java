@@ -16,7 +16,7 @@ import model.Appointments;
 import model.Contacts;
 import model.Customers;
 import model.Users;
-import nguyenpeter.c195_pa.MainController;
+import nguyenpeter.appointmentscheduler.MainController;
 import util.TimeZones;
 import util.Verify;
 
@@ -127,7 +127,7 @@ public class AppointmentController implements Initializable {
     @FXML
     void onCancelButton(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        nguyenpeter.c195_pa.MainController.selectedAppointment = null;
+        nguyenpeter.appointmentscheduler.MainController.selectedAppointment = null;
         stage.close();
     }
 
@@ -146,14 +146,14 @@ public class AppointmentController implements Initializable {
     @FXML
     void onSaveButton(ActionEvent event) throws IOException {
         if(validInput()) {
-            if (nguyenpeter.c195_pa.MainController.selectedAppointment != null) {
+            if (nguyenpeter.appointmentscheduler.MainController.selectedAppointment != null) {
                 DBAppointments.updateAppointment(createAppointment());
             } else {
                 addAppointment();
             }
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            nguyenpeter.c195_pa.MainController.selectedAppointment = null;
-            nguyenpeter.c195_pa.MainController.selectedCustomer = null;
+            nguyenpeter.appointmentscheduler.MainController.selectedAppointment = null;
+            nguyenpeter.appointmentscheduler.MainController.selectedCustomer = null;
             stage.close();
         }
     }
@@ -201,18 +201,18 @@ public class AppointmentController implements Initializable {
         descriptionField.setText(String.valueOf(appointment.getDescription()));
         locationField.setText(String.valueOf(appointment.getLocation()));
         typeField.setText(String.valueOf(appointment.getType()));
-        LocalDate startDate = nguyenpeter.c195_pa.MainController.selectedAppointment.getStartDateTimeLocal().toLocalDate();
-        LocalTime startTime = nguyenpeter.c195_pa.MainController.selectedAppointment.getStartDateTimeLocal().toLocalTime();
+        LocalDate startDate = nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getStartDateTimeLocal().toLocalDate();
+        LocalTime startTime = nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getStartDateTimeLocal().toLocalTime();
         startDatePicker.setValue(startDate);
         startCombo.setValue(startTime.format(timeFormatter).toString());
-        LocalDate endDate = nguyenpeter.c195_pa.MainController.selectedAppointment.getEndTimeLocal().toLocalDate();
-        LocalTime endTime = nguyenpeter.c195_pa.MainController.selectedAppointment.getEndTimeLocal().toLocalTime();
+        LocalDate endDate = nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getEndTimeLocal().toLocalDate();
+        LocalTime endTime = nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getEndTimeLocal().toLocalTime();
         endDatePicker.setValue(endDate);
         endCombo.setValue(endTime.format(timeFormatter).toString());
         contactComboBox.getSelectionModel().selectFirst();
-        contactComboBox.getSelectionModel().select(nguyenpeter.c195_pa.MainController.selectedAppointment.getContactId() - 1);
+        contactComboBox.getSelectionModel().select(nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getContactId() - 1);
         userIdComboBox.getSelectionModel().selectFirst();
-        userIdComboBox.getSelectionModel().select(nguyenpeter.c195_pa.MainController.selectedAppointment.getCustomerId() - 1);
+        userIdComboBox.getSelectionModel().select(nguyenpeter.appointmentscheduler.MainController.selectedAppointment.getCustomerId() - 1);
         customerIdComboBox.getSelectionModel().selectFirst();
         customerIdComboBox.getSelectionModel().select(MainController.selectedAppointment.getCustomerId() - 1);
 

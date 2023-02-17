@@ -1,4 +1,4 @@
-package nguyenpeter.c195_pa;
+package nguyenpeter.appointmentscheduler;
 
 import database.JDBC;
 import javafx.application.Application;
@@ -6,10 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import util.LanguageMain;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * MainApplication is the main class that loads the application

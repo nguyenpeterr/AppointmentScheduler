@@ -1,4 +1,4 @@
-package nguyenpeter.c195_pa;
+package nguyenpeter.appointmentscheduler;
 
 import database.DBUsers;
 import javafx.event.ActionEvent;

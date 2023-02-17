@@ -1,4 +1,4 @@
-package nguyenpeter.c195_pa;
+package nguyenpeter.appointmentscheduler;
 
 import database.DBAppointments;
 import database.DBCustomers;
@@ -18,10 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Appointments;
 import model.Customers;
 import util.TimeZones;
@@ -29,14 +27,9 @@ import util.TimeZones;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.util.ResourceBundle;
-import java.util.logging.Filter;
 
 /**
  * @author Peter Nguyen

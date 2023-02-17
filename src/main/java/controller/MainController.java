@@ -20,8 +20,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import model.Appointments;
 import model.Customers;
-import nguyenpeter.c195_pa.AppointmentController;
-import nguyenpeter.c195_pa.CustomerController;
+import nguyenpeter.appointmentscheduler.AppointmentController;
+import nguyenpeter.appointmentscheduler.CustomerController;
 import util.TimeZones;
 
 import java.io.IOException;

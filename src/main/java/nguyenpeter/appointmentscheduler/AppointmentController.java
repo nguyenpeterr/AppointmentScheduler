@@ -1,4 +1,4 @@
-package nguyenpeter.c195_pa;
+package nguyenpeter.appointmentscheduler;
 
 import database.DBAppointments;
 import database.DBContacts;
@@ -8,13 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Appointments;
 import model.Contacts;
@@ -23,11 +19,9 @@ import model.Users;
 import util.TimeZones;
 import util.Verify;
 
-import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
